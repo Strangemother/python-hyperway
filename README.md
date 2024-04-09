@@ -2,8 +2,8 @@
 
 
 ```py
-from graph import Graph
-from tools import factory as f
+from hyperway.graph import Graph
+from hyperway.tools import factory as f
 
 # Store
 g = Graph(tuple)
@@ -35,7 +35,7 @@ A function is our working code. We can borrow operator functions from the tools:
 
 
 ```py
-from tools import factory as f
+from hyperway.tools import factory as f
 add_10 = f.add_10
 # functools.partial(<built-in function add>, 10.0)
 add_10(1)
@@ -50,8 +50,8 @@ add_10(14)
 Now we can bind two or more functions in an execution chain. Notably it's a minimum of two:
 
 ```py
-from edges import make_edge
-from tools import factory as
+from hyperway.edges import make_edge
+from hyperway.tools import factory as
 
 c = make_edge(f.add_1, f.add_2)
 # <Connection(Unit(func=P_add_1.0), Unit(func=P_add_2.0), name=None)>
@@ -85,10 +85,10 @@ The connection can have a _wire_ function; a function existing between the two c
 
 
 ```py
-from edges import make_edge
-from packer import argspack
+from hyperway.edges import make_edge
+from hyperway.packer import argspack
 
-import tools as t
+import hyperway.tools as t
 f = t.factory
 
 def doubler(v, *a, **kw):
@@ -231,8 +231,8 @@ assert unit_a == unit_a_2  # They are the same
 All Connections are stored within a single `Graph` instance. It has been purposefully designed as a small collection of connections. We can consider the graph as a dictionary register of all associated connections.
 
 ```py
-from graph import Graph, add
-from nodes import as_unit
+from hyperway.graph import Graph, add
+from hyperway.nodes import as_unit
 
 
 g = Graph(tuple)
@@ -253,8 +253,8 @@ The `Stepper` run units and discovers connections through the attached Graph.
 It runs concurrent units and spools the next callables for the next _step_.
 
 ```py
-from graph import Graph
-from tools import factory as f
+from hyperway.graph import Graph
+from hyperway.tools import factory as f
 
 g = Graph(tuple)
 a_connections = g.connect(f.add_10, f.add_20, f.add_30)
