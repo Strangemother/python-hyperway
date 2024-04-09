@@ -1,0 +1,47 @@
+# https://packaging.python.org/en/latest/specifications/declaring-project-metadata/#example
+[tool.portray]
+output_dir = "documentation_website"
+modules = ["hyperway"]
+port = 8001
+
+[project]
+name = "hyperway"
+# version = "0.1a"
+authors = [
+  { name="Strangemother", email="hyperway@strangemother.com" },
+]
+description = "hyperway"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+license = {text='MIT'}
+dynamic = ['version']
+# dependencies
+# dynamic
+# entry-points
+# gui-scripts
+# keywords
+# license
+# maintainers
+# optional-dependencies
+# scripts
+# urls
+
+[tool.setuptools.package-data]
+trim = ["**/*.js", "**/*.css","**/*.html"]
+
+# [project.scripts]
+# trim = 'trim.cli.primary:main'
+# trim-admin = 'trim.cli.primary:main_admin'
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+"Homepage" = "http://github.com/strangemother/hyperway"
+"Bug Tracker" = "http://github.com/strangemother/hyperway/issues"
