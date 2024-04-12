@@ -1,5 +1,9 @@
 # Hyperway
 
+Hyperway is a graph based functional execution library, allowing you to connect functions arbitrarily through a unique API - to mimic a large range of programming paradigms. Use it for procedural, parallel, or even aspect oriented programming. Build B-trees or decision trees, circutry or logic gates; all with a simple _wiring_ methdology.
+
+
+
 
 ```py
 from hyperway.graph import Graph

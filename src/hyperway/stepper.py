@@ -36,6 +36,11 @@ def process_forward(graph, start_node, argspack):
 def expand(items, second):
     res = ()
     for conn in items:
+        if isinstance(conn, (tuple,list)):
+            for c in conn:
+                row = (c, second)
+                res += (row,)
+            continue
         row = (conn, second)
         res += (row,)
 
@@ -75,7 +80,7 @@ def is_merge_node(next_caller):
     r = False
     if hasattr(next_caller, 'merge_node'):
         r = next_caller.merge_node
-    print('next_caller', next_caller, 'is_merge_node', r)
+    # print('next_caller', next_caller, 'is_merge_node', r)
     return r
 
 
@@ -141,7 +146,7 @@ class StepperC(object):
 
         while c < count:
             c += 1
-            print(c)
+            # print(c)
             self.rows = self.call_rows(self.rows)
         # yield from self.rows
         return self.rows
@@ -247,8 +252,8 @@ class StepperC(object):
         if len(items) == len(rows):
             return rows
 
-        print('\nReduction detected.')
-        pp(_args)
+        # print('\nReduction detected.')
+        # pp(_args)
         new_rows = ()
         # For each item, recreate the argspack and restack the row.
         for uniquable, calls in _args.items():
@@ -256,8 +261,8 @@ class StepperC(object):
             for next_caller, akw in calls:
                 akws += (akw,)
 
-            print(f'Caller "{next_caller}" receives stacked call ({len(akws)})')
-            print(akws)
+            # print(f'Caller "{next_caller}" receives stacked call ({len(akws)})')
+            # print(akws)
 
             # concat_flat to reapply the same count of rows _out_, as was given.
             if concat_flat:
@@ -415,7 +420,7 @@ class StepperC(object):
         return self.end_branch(func, akw)
 
     def end_branch(self, func, akw):
-        print(' ... Connections end ...', akw)
+        # print(' ... Connections end ...', akw)
         # A tuple of rows
         if self.stash_ends:
             self.stash[func] += (akw,)

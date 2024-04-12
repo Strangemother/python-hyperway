@@ -16,7 +16,8 @@ def write_graphviz(graph, title, **opts):
         return False
 
     defaults = {
-        'format':'svg',
+        # 'format':'svg',
+        'format':'png',
         # filename='traffic_lights.svg',
         # filename='traffic_lights.gv',
         # node_attr={'class': 'darkmode'},
@@ -30,7 +31,9 @@ def write_graphviz(graph, title, **opts):
     nodes, edges = get_nodes_edges(graph)
 
     # t.attr('node', shape='circle', fixedsize='true', width='0.9')
-    t.attr('node', shape='box', style="rounded", color='#2299FF', fontcolor='#DDD')
+    t.attr('node', shape='box', style="rounded", # fontsize='12',
+        fontname="Arial", color='#2299FF', fontcolor='#DDD')
+
 
     for node, label in nodes:
         t.node(node, label)
@@ -42,6 +45,7 @@ def write_graphviz(graph, title, **opts):
     # t.attr(label=r'PetriNet Model Diagram\n')
                  # r'Extracted from ConceptBase and layed out by Graphviz'))
     t.attr(fontsize='12')
+    # t.attr(bgcolor="#000000")
     t.attr(bgcolor="#00000000")
 
     # t.view()
