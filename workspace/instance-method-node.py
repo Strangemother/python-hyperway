@@ -1,4 +1,12 @@
+"""
+An example of using a method of a class instance, as a node on the graph
 
+    class Foo():
+        def bar(self, v):
+            return v
+
+    g.add(Foo().bar, Foo().bar)
+"""
 from collections import defaultdict
 import operator as op
 from functools import partial
