@@ -20,6 +20,10 @@ class GraphBase(defaultdict):
         return ()
 
 
+def is_graph(u, *others):
+    types = (GraphBase,)+others
+    return isinstance(u, types) or isinstance(u.func, types)
+
 def add(graph, unit, other, name=None, through=None, node_class=None):
     """Build a connection from unit to other, into the given graph.
     return the new connection[s].

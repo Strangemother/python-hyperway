@@ -48,7 +48,7 @@ def run():
     # Ensure the stepper can perform concatenation
     s = g.stepper()
 
-    g.write('simple')
+    g.write('simple', engine='dot')
 
     s.step() # call the doubler, yielding two outbound results
     s.step() # call the collector, storing two results.

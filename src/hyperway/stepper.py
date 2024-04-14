@@ -5,7 +5,7 @@ from .packer import argspack, merge_akws
 from .nodes import is_unit
 from .edges import (Connection, as_connections,
                     is_edge, PartialConnection, get_connections)
-
+from .graph.base import is_graph
 
 def run_stepper(g, unit_a, val):
     """Here we can _run_ the graph, executing the chain of connections
@@ -89,7 +89,7 @@ class StepperC(object):
     """
     concat_aware = False
 
-    def __init__(self, graph):
+    def __init__(self, graph, rows=None):
         self.graph = graph
         self.run = 1
 
@@ -98,7 +98,7 @@ class StepperC(object):
 
         self.start_nodes = None
         self.start_akw = None
-        self.rows = None
+        self.rows = rows
 
     def reset_stash(self):
         self.stash = defaultdict(tuple) # [func] += (akw,)
@@ -311,6 +311,9 @@ class StepperC(object):
         if is_edge(func):
             return self.call_one_connection(func, akw)
 
+        # if is_graph(func, self.graph.__class__):
+        #     return self.call_one_graph(func, akw)
+
         if callable(func):
             return self.call_one_callable(func, akw)
 
@@ -343,6 +346,11 @@ class StepperC(object):
         res_akw = argspack(raw_res)
 
         return expand(a_to_b_conns, res_akw)
+
+    # def call_one_graph(self, func, akw):
+    #     """A Graph or subgraph;
+    #     """
+    #     func.get_connections()
 
     def call_one_callable(self, func, akw):
         """The given callable is an Connect (edge) or a callable function

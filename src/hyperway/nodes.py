@@ -1,16 +1,16 @@
 from .packer import argspack, test_argpack
 from .ident import IDFunc
 
-def as_unit(u, node_class=None):
+def as_unit(u, node_class=None, **node_kwargs):
     if is_unit(u, node_class):
         return u
-    return (node_class or Unit)(u)
+    return (node_class or Unit)(u,**node_kwargs)
 
 
-def as_units(*items, node_class=None):
+def as_units(*items, node_class=None, **node_kwargs):
     r = ()
     for item in items:
-        r += (as_unit(item, node_class=node_class),)
+        r += (as_unit(item, node_class=node_class, **node_kwargs),)
     return r
 
 
@@ -26,8 +26,9 @@ class Unit(IDFunc):
 
     merge_node = False
 
-    def __init__(self, func):
+    def __init__(self, func, **node_kwargs):
         self.func = func
+        self.__dict__.update(node_kwargs)
 
     def __str__(self):
         return self.as_str()

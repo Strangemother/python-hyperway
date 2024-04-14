@@ -21,7 +21,8 @@ def write_graphviz(graph, title, **opts):
         # filename='traffic_lights.svg',
         # filename='traffic_lights.gv',
         # node_attr={'class': 'darkmode'},
-         'engine':'neato'
+         # 'engine':'neato',
+         'engine':'dot',
     }
 
     defaults.update(opts)
@@ -32,6 +33,7 @@ def write_graphviz(graph, title, **opts):
 
     # t.attr('node', shape='circle', fixedsize='true', width='0.9')
     t.attr('node', shape='box', style="rounded", # fontsize='12',
+        arrowsize="0.8",
         fontname="Arial", color='#2299FF', fontcolor='#DDD')
 
 

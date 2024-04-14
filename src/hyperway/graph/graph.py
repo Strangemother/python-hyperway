@@ -2,7 +2,7 @@ from collections import defaultdict
 
 from .base import GraphBase, connect, add, resolve
 from .. import writer
-from ..stepper import StepperC
+# from ..stepper import StepperC
 from ..packer import argspack
 
 
@@ -10,11 +10,31 @@ from ..packer import argspack
 class Graph(GraphBase):
     _stepper_callers = None
     _stepper_args = None
+    _stepper_rows = None
+    _stepper_class = None
+
+    def get_stepper_class(self):
+        if self._stepper_class is None:
+            from ..stepper import StepperC
+            self._stepper_class = StepperC
+        return self._stepper_class
 
     def add_edge(self, edge):
         # id of the _edge_
         self[edge.id()] += (edge, )
         self[edge.a.id()] += (edge, )
+
+    def add_edges(self, edges):
+        for edge in edges:
+            self.add_edge(edge)
+
+    def get_nodes(self):
+        res = set()
+        for edges in self.values():
+            for edge in edges:
+                res.add(edge.a)
+                res.add(edge.b)
+        return tuple(res)
 
     def connect(self, *a, **kw):
         return connect(self, *a, **kw)
@@ -29,8 +49,25 @@ class Graph(GraphBase):
         self._stepper_callers = n
         self._stepper_args = argspack(*a, **kw)
 
+    def stepper_prepare_many(self, *rows):
+        """Given many rows of `node, primivites`,
+        prepare the base rows using the stepper.prepare_many method
+        """
+        res = ()
+        for node, *args in rows:
+            print(node, args)
+            row = (node, argspack(*args),)
+            res += (row,)
+        self._stepper_rows = res
+        # self._stepper_args = argspack(*a, **kw)
+
     def stepper(self, n=None, *a, **kw):
-        stepper = StepperC(self)
+        _StepperC = self.get_stepper_class()
+        if self._stepper_rows is not None:
+            stepper = _StepperC(self, self._stepper_rows)
+            return stepper
+
+        stepper = _StepperC(self)
         n = n or self._stepper_callers
         akw = self._stepper_args
 
