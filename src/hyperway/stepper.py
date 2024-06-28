@@ -142,7 +142,11 @@ class StepperC(object):
             rows = next(s)
         """
         c = 0
-        self.rows = rows or self.rows or expand(self.start_nodes, self.start_akw,)
+        st_nodes = self.start_nodes
+        if st_nodes is None:
+            # Start node must be something....
+            raise Exception('start_nodes is None')
+        self.rows = rows or self.rows or expand(st_nodes, self.start_akw,)
 
         while c < count:
             c += 1
