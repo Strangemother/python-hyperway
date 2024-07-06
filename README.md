@@ -417,7 +417,7 @@ from hyperway.packer import argspack
 from hyperway.stepper import run_stepper
 
 
-g = Graph(tuple)
+g = Graph()
 connections = g.connect(f.add_10, f.add_20, f.add_30)
 
 # run until exhausted
@@ -429,23 +429,23 @@ result = run_stepper(g, connections[0].a, argspack(10))
 When executing node steps, the result from the call is given to the next connected unit. If two nodes call to the same destination node, this causes _two_ calls of the next node:
 
 ```py
-             +4
-     i +2 +3      print
-             +5
+           +4
+i  +2  +3       print
+           +5
 ```
 
 With this layout, the `print` function will be called twice by the `+4` and `+5` node. Two calls occur:
 
 ```py
 
-              10
-     1  3  6      print
-              11
-    ...
-    # Two results
-    print(10)
-    print(11)
-```py
+          10
+ 1  3  6      print
+          11
+
+# Two results
+print(10)
+print(11)
+```
 
 This is because there are two connections _to_ the `print` node, causing two calls.
 
@@ -471,11 +471,12 @@ s.step()
 When processing a print merge-node, one call is executed when events occur through multiple connections during one step:
 
 ```py
-              10
-     1  3  6      print
-              11
+         10
+1  3  6      print
+         11
 
-    print(10, 11) # resultant
+
+print(10, 11) # resultant
 ```
 
 # Topology
@@ -506,14 +507,14 @@ The `Graph` is purposefully terse. Its build to be as minimal as possible for th
 The graph maintains a list of `ID` to `Connection` set.
 
 ```py
-    {
-        ID: (
-                Connection(to=ID2),
-            ),
-        ID2: (
-                Connection(to=ID),
-            )
-    }
+  {
+      ID: (
+              Connection(to=ID2),
+          ),
+      ID2: (
+              Connection(to=ID),
+          )
+  }
 ```
 
 ### Connection
