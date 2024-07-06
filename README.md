@@ -33,30 +33,50 @@ pip install hyperway
 Connect functions, then run your chain:
 
 ```py
-from hyperway.graph import Graph
+import hyperway
 from hyperway.tools import factory as f
 
 # Store
-g = Graph(tuple)
+g = hyperway.Graph()
 
 # Connect
 first_connection = g.add(f.add_10, f.add_20)
-
+# More connections
 many_connections = g.connect(f.add_30, f.add_1, f.add_2, f.add_3)
+# Cross connect
 compound_connection = g.add(many_connections[1].b, f.add_3)
 
-# Setup
+# Prepare to run
 stepper = g.stepper(first_connection.a, 10)
 
 # Run a step
 concurrent_row = stepper.step()
-
 ```
 
-## Functions
+## What's In The Box
+
++ `Graph`: A thing to hold all connections
++ `Unit`: A function on a graph, bound through edges
++ `Edge`: A connection between Units
++ `Stepper`: A graph walking tool
+
+This library aims to simplify graph based execution chains, allowing a developer to use functional graphs without managing the connections.
+
+### Graph
+
+The `Graph` is a fancy `defaultdict` of tuples, used to store connections:
+
+
+```py
+import hyperway
+
+g = hyperway.Graph()
+```
+
+
+### Functions
 
 A function is our working code. We can borrow operator functions from the tools:
-
 
 ```py
 from hyperway.tools import factory as f
@@ -69,13 +89,14 @@ add_10(14)
 ```
 
 
-## Connections (Edges)
+### Connections (Edges)
 
 Now we can bind two or more functions in an execution chain. Notably it's a minimum of two:
 
+Functional:
+
 ```py
 from hyperway.edges import make_edge
-from hyperway.tools import factory as
 
 c = make_edge(f.add_1, f.add_2)
 # <Connection(Unit(func=P_add_1.0), Unit(func=P_add_2.0), name=None)>
@@ -84,28 +105,67 @@ c.pluck(1)
 # 4.0
 ```
 
-We can "pluck" a connection (like plucking a string) for it to run side _a_ (`add_1`) and _b_ (`add_2`) with our input value.
+Methods:
 
-**The answer is `4`**. Because our input `1`, add `1`, add `2`.
+
+```py
+import hyperway
+from hyperway.tools import factory as f
+
+g = hyperway.Graph()
+
+connection = g.add(f.add_1, f.add_2)
+# <Connection(Unit(func=P_add_1.0), Unit(func=P_add_2.0), name=None)>
+```
 
 A Connection will run node _a_ when called:
 
 ```py
->>> c(1) # call A-side `add_1`
+>>> value_part_a = connection(1) # call A-side `add_1`
 2.0
 ```
 
 We can _process_ the second part:
 
 ```py
->>> c.process(2) # call B-side `add_2`
+>>> connection.process(value_part_a) # call B-side `add_2`
 4.0
 ```
 
 
-### Wire Function
+#### Plucking Edges
 
-The connection can have a _wire_ function; a function existing between the two connections, allowing the alteration of the data "through transit" (whilst running through a connection)
+We can "pluck" a connection (like plucking a string) to run it with any arguments.
+
+```py
+from hyperway.tools import factory as f
+from hyperway.edges import make_edge
+
+c = make_edge(f.add_1, f.add_2)
+# Run side _a_ (`add_1`) and _b_ (`add_2`) with our input value.
+
+c.pluck(1)
+# 4.0 == 1 + 1 + 2
+
+c.pluck(10)
+# 13.0 == 10 + 1 + 2
+```
+
+#### Wire Function
+
+The connection can have a _wire_ function; a function existing between the two connections, allowing the alteration of the data through transit (whilst running through a connection)
+
+```py
+from hyperway.tools import factory as f
+from hyperway.edges import make_edge
+
+c = make_edge(f.add_1, f.add_2, through=f.mul_2)
+# <Connection(Unit(func=P_add_1.0), Unit(func=P_add_2.0), through="P_mul_2.0" name=None)>
+
+# Run _a_ and _b_ (`add_1 -> add_2`) with our input value:
+c.pluck(1)  #  4.0 ==  1 + 1 + 2
+c.pluck(10) # 13.0 == 10 + 1 + 2
+```
 
 ---
 
@@ -121,7 +181,7 @@ Fundamentally a wire function exists for topological clarity and may be ignored.
 
 ---
 
-A `make_edge` can accept a function. The wire function receives the values concurrent transmitting through the attached edge:
+`make_edge` can accept the wire function. It receives the concurrent values transmitting through the attached edge:
 
 ```py
 from hyperway.edges import make_edge
@@ -131,6 +191,8 @@ import hyperway.tools as t
 f = t.factory
 
 def doubler(v, *a, **kw):
+    # The wire function `through` _doubles_ the given number.
+    # response with an argpack.
     return argspack(v * 2, **kw)
 
 
@@ -147,11 +209,7 @@ c.pluck(3)
 10.0
 ```
 
-The wire function `through` _doubles_ the given number.
-
-    input(10) + 1 * 2 + 2
-
-This is why a connection has two processing steps:
+The wire function is the reason for a two-step process when executing connections:
 
 ```py
 # Call Node A: (+ 1)
@@ -167,20 +225,23 @@ c.pluck(4)
 12.0
 ```
 
-But usually we won't use with connections directly.
-
-
 #### Self Reference
 
-A Connection node A and node B may be the same node, performing a _loop_ or self-referencing node connection.
+A connection `A -> B` may be the same node, performing a _loop_ or self-referencing node connection. We can use the `as_unit` function, and reference the same unit on the graph:
 
 ```py
+# pre-define the graph node wrapper
 u = as_unit(f.add_2)
-e = make_edge(u,u)
-g = Graph(tuple)
+# Build an loop edge
+e = make_edge(u, u)
+
+g = Graph()
 g.add_edge(e)
+
+# Setup the start from the unit (side A)
 g.stepper(u, 1)
 
+# Call the stepper forever.
 g.step()
 g.step()
 ...
@@ -190,14 +251,14 @@ g.step()
 
 ### Units (Nodes)
 
-A Unit is a wrapper for a connected function. Everything on a graph and a Connection is a Unit:
+A `Unit` is a wrapper for a connected function. Everything on a graph and within a connection, is a `Unit`:
 
 ```py
->>> c = make_edge(f.mul_3, f.add_4)
->>> c.a
-<Unit(func=P_mul_3.0)>
->>> c.b
-<Unit(func=P_add_4.0)>
+c = make_edge(f.mul_3, f.add_4)
+c.a
+# <Unit(func=P_mul_3.0)>
+c.b
+# <Unit(func=P_add_4.0)>
 ```
 
 A Unit has additional methods used by the graph tools, such as the `process` method:
@@ -363,24 +424,28 @@ connections = g.connect(f.add_10, f.add_20, f.add_30)
 result = run_stepper(g, connections[0].a, argspack(10))
 ```
 
-
 ### Result Concatenation
 
 When executing node steps, the result from the call is given to the next connected unit. If two nodes call to the same destination node, this causes _two_ calls of the next node:
 
+```py
              +4
      i +2 +3      print
              +5
+```
 
 With this layout, the `print` function will be called twice by the `+4` and `+5` node. Two calls occur:
 
+```py
 
               10
      1  3  6      print
               11
     ...
+    # Two results
     print(10)
     print(11)
+```py
 
 This is because there are two connections _to_ the `print` node, causing two calls.
 
@@ -405,12 +470,13 @@ s.step()
 
 When processing a print merge-node, one call is executed when events occur through multiple connections during one step:
 
+```py
               10
      1  3  6      print
               11
-    ...
-    print(10, 11)
 
+    print(10, 11) # resultant
+```
 
 # Topology
 
@@ -439,6 +505,7 @@ The `Graph` is purposefully terse. Its build to be as minimal as possible for th
 
 The graph maintains a list of `ID` to `Connection` set.
 
+```py
     {
         ID: (
                 Connection(to=ID2),
@@ -447,6 +514,7 @@ The graph maintains a list of `ID` to `Connection` set.
                 Connection(to=ID),
             )
     }
+```
 
 ### Connection
 
@@ -460,17 +528,21 @@ When executing the connection, input starts through `A`, and returns through `B`
 
 A `Unit` represents a _thing_ on the graph, bound to other units through connections.
 
-    def callable_func(value):
-        return value * 3
+```py
+def callable_func(value):
+    return value * 3
 
-    as_unit(callable_func)
+as_unit(callable_func)
+```
 
 A unit is one reference
 
-    unit = as_unit(callable_func)
-    unit2 = as_unit(callable_func)
+```py
+unit = as_unit(callable_func)
+unit2 = as_unit(callable_func)
 
-    assert unit != unit2
+assert unit != unit2
+```
 
 ### Extras
 
@@ -480,14 +552,15 @@ The `argspack` simplifies the movement of arguments and keyword arguments for a 
 
 we can wrap the result as a pack, always ensuring its _unpackable_ when required.
 
-    akw = argswrap(100)
-    akw.a
-    (100, )
+```py
+akw = argswrap(100)
+akw.a
+(100, )
 
-    akw = argswrap(foo=1)
-    akw.kw
-    { 'foo': 1 }
-
+akw = argswrap(foo=1)
+akw.kw
+{ 'foo': 1 }
+```
 
 # Areas of Interest
 
@@ -495,3 +568,7 @@ we can wrap the result as a pack, always ensuring its _unpackable_ when required
 + https://houseofgraphs.org/
 + https://en.wikipedia.org/wiki/Cyber%E2%80%93physical_system
 + https://en.wikipedia.org/wiki/Signal-flow_graph
+
+# Links
+
++ https://graphviz.org/
