@@ -126,11 +126,17 @@ class Connection(IDFunc):
         return PartialConnection(self)
 
     def as_str(self):
+        through = ' '
+        if self.through:
+            f = self.through
+            n = f.__name__ if hasattr(f, '__name__') else str(f)
+
+            through = f' through="{n}"'
         return (f"{self.__class__.__name__}"
-                f"({self.a}, {self.b}, name={self.name})")
+                f"({self.a}, {self.b},{through} name={self.name})")
 
     def call_through(self, *a, **kw):
-        """Call the though() function with the given args.
+        """Call the through() function with the given args.
         If the through function does not exist, return a argspack.
         """
         if self.through:

@@ -53,7 +53,7 @@ def run():
     la = g.add(collector, na)
     lb = g.add(collector, na)
 
-    # Assign 1,1 along the games.
+    # Assign 1,1 along the legs.
     g.stepper_prepare((la.a, lb.a), 1)
     # g.stepper_prepare(na, 1,1)
 

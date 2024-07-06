@@ -5,7 +5,7 @@ from .. import writer
 # from ..stepper import StepperC
 from ..packer import argspack
 
-
+__all__ = ['Graph']
 
 class Graph(GraphBase):
     _stepper_callers = None
@@ -29,6 +29,11 @@ class Graph(GraphBase):
             self.add_edge(edge)
 
     def get_nodes(self):
+        """Return a tuple of all unique nodes in all connections.
+
+            g.get_nodes()
+            (a, b, c, d, ...)
+        """
         res = set()
         for edges in self.values():
             for edge in edges:
@@ -37,9 +42,28 @@ class Graph(GraphBase):
         return tuple(res)
 
     def connect(self, *a, **kw):
+        """Connect many nodes as a chain of nodes, similar to calling `add`
+        on each connected pair. A given wire` functoin will be applied for
+        all connections.
+
+            g.connect(a, b, c, d, e)
+            g.connect(a, b, c, d, e, through=doubler)
+
+        This function can perform the same as `add` of two nodes:
+
+            g.connect(a, b)
+            g.connect(a, b, through=doubler)
+
+        """
         return connect(self, *a, **kw)
 
     def add(self, *a, **kw):
+        """Bind two nodes. `a -> b` returning a single connection.
+        Optionally provide a wire function `through`:
+
+            g.add(a, b)
+            g.add(a, b, through=doubler)
+        """
         return add(self, *a, **kw)
 
     def resolve(self, n, **kw):

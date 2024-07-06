@@ -6,7 +6,10 @@ from ..nodes import as_unit, as_units
 
 
 class GraphBase(defaultdict):
-    # (tuple)
+
+    def __init__(self, *a, **kw):
+        super().__init__(tuple)
+
     def resolve_node_connections(self, other):
         print('Resolve', other)
         res = self.get(other.id(), None) or ()
@@ -23,6 +26,7 @@ class GraphBase(defaultdict):
 def is_graph(u, *others):
     types = (GraphBase,)+others
     return isinstance(u, types) or isinstance(u.func, types)
+
 
 def add(graph, unit, other, name=None, through=None, node_class=None):
     """Build a connection from unit to other, into the given graph.
