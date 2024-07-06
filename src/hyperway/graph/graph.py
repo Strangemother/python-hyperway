@@ -7,6 +7,7 @@ from ..packer import argspack
 
 __all__ = ['Graph']
 
+
 class Graph(GraphBase):
     _stepper_callers = None
     _stepper_args = None
@@ -20,6 +21,15 @@ class Graph(GraphBase):
         return self._stepper_class
 
     def add_edge(self, edge):
+        """Install a single Edge connection to the graph.
+        This applies the `edge.id` and the `a` node id as references
+        to the given edge
+
+            connection = make_edge(a,b)
+            g.add_edge(connection)
+
+        Alternatively use the `add(a,b)` or `connect(*nodes)` methods.
+        """
         # id of the _edge_
         self[edge.id()] += (edge, )
         self[edge.a.id()] += (edge, )

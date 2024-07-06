@@ -1,6 +1,7 @@
 from .packer import argspack, test_argpack
 from .ident import IDFunc
 
+
 def as_unit(u, node_class=None, **node_kwargs):
     if is_unit(u, node_class):
         return u
@@ -20,6 +21,18 @@ def is_unit(u, node_class=None):
         types += (node_class,)
 
     return isinstance(u, types)
+
+CACHE = {}
+
+def get_edge_func():
+    r = CACHE.get('make_edge')
+    if r:
+        return r
+
+    from .edges import make_edge
+
+    CACHE['make_edge'] = make_edge
+    return make_edge
 
 
 class Unit(IDFunc):
@@ -45,10 +58,8 @@ class Unit(IDFunc):
         """Run the function through the graph, events will propogate into
         the event tree.
         """
-        res = self.process(a, kw)
         # Put the result into the event tree.
-        print('event push', self, res)
-        return res
+        return self.process(a, kw)
 
     def leaf(self, stepper, akw):
         """The stepper hit the tip of a branch and this node was the leaf
@@ -77,8 +88,5 @@ class Unit(IDFunc):
     def process(self, *a, **kw):
         """Run the function without the strings.
         """
-        # print('Process input: ', a, kw)
-        res = self.func(*a, **kw)
-        # print('Process result:', res)
-        return res
+        return self.func(*a, **kw)
 

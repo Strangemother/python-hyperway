@@ -10,6 +10,7 @@ def merge_akws(*akws):
         r.kwargs.update(r.kwargs)
     return r
 
+
 def argpack(result=UNDEFINED, *more, **extra):
     """Given a result from a unit process(), convert to a chainable (a, kw)
     arg set, allowing the expansion of results arbitrarily.
@@ -64,6 +65,7 @@ def argpack(result=UNDEFINED, *more, **extra):
 
 
 argspack = argpack
+
 
 def test_argpack():
 

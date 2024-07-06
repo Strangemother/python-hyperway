@@ -7,15 +7,12 @@ from pprint import pprint as pp
 from hyperway.stepper import run_stepper, StepperC
 from hyperway.graph import Graph
 from hyperway.edges import Connection, as_connections, make_edge, get_connections
-from hyperway.packer import argspack, test_argpack
 from hyperway.graph import add, connect
 from hyperway.nodes import Unit, as_unit
 from hyperway.reader import read_linear_chain, read_tree_chain, flat_graph
 
 # import smoke_tests
-# A bunch of test functions such as add_4
 import hyperway.tools as t
-
 
 primary_graph = Graph(tuple)
 g = primary_graph
@@ -25,7 +22,6 @@ f = t.factory
 
 def main():
     return run()
-
 
 
 def run():

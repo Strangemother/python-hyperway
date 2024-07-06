@@ -83,10 +83,7 @@ class Connection(IDFunc):
         # Call a, return tuple for through caller.
         print('Connection()  ')
         g = _graph or self.on
-        r = self.get_a().process(*a, **kw)
-        return r
-        # return self.pluck(*a, **kw)
-        # return self.b.process(a, kw)
+        return self.get_a().process(*a, **kw)
 
     @property
     def merge_node(self):
@@ -130,8 +127,8 @@ class Connection(IDFunc):
         if self.through:
             f = self.through
             n = f.__name__ if hasattr(f, '__name__') else str(f)
-
             through = f' through="{n}"'
+
         return (f"{self.__class__.__name__}"
                 f"({self.a}, {self.b},{through} name={self.name})")
 

@@ -10,11 +10,35 @@ except ImportError:
 from .reader import get_nodes_edges
 
 
+import os
+from pathlib import Path
+
+def set_graphviz(path):
+    graphviz_bin = Path(path)
+    os.environ["PATH"] += os.pathsep + str(graphviz_bin)
+
+
 def write_graphviz(graph, title, **opts):
+    """
+
+    styles:
+        name               default
+        ---------------------------
+        node_shape         'box'
+        node_style         "rounded"
+        node_arrowsize     "0.8"
+        node_fontname      "Arial"
+        node_color         #2299FF'
+        node_fontcolor     #DDD'
+        direction          'TB' 'LR'
+    """
     if HAS_GRAPHVIZ is False:
         print('graphviz is not installed.')
         return False
 
+    styles = opts.pop('styles', {})
+    direction = opts.pop('direction', 'TB')
+    print(f'{direction=}')
     defaults = {
         # 'format':'svg',
         'format':'png',
@@ -22,20 +46,28 @@ def write_graphviz(graph, title, **opts):
         # filename='traffic_lights.gv',
         # node_attr={'class': 'darkmode'},
          # 'engine':'neato',
-         'engine':'dot',
+        'engine':'dot',
+        'graph_attr':{
+            'rankdir': direction
+        }
     }
 
     defaults.update(opts)
 
     t = graphviz.Digraph(title, **defaults)
+    t.graph_attr['rankdir'] = direction
 
     nodes, edges = get_nodes_edges(graph)
 
     # t.attr('node', shape='circle', fixedsize='true', width='0.9')
-    t.attr('node', shape='box', style="rounded", # fontsize='12',
-        arrowsize="0.8",
-        fontname="Arial", color='#2299FF', fontcolor='#DDD')
-
+    t.attr('node',
+            shape=styles.get('node_shape', 'box'),
+            style=styles.get('node_style', "rounded"), # fontsize='12',
+            arrowsize=styles.get('node_arrowsize', "0.8"),
+            fontname=styles.get('node_fontname', "Arial"),
+            color=styles.get('node_color', '#2299FF'),
+            fontcolor=styles.get('node_fontcolor', '#DDD'),
+        )
 
     for node, label in nodes:
         t.node(node, label)
@@ -43,12 +75,11 @@ def write_graphviz(graph, title, **opts):
     for edge in edges:
         t.edge(*edge)
 
-    t.attr(overlap='false')
+    t.attr(overlap=styles.get('overlap', 'false'))
     # t.attr(label=r'PetriNet Model Diagram\n')
                  # r'Extracted from ConceptBase and layed out by Graphviz'))
-    t.attr(fontsize='12')
-    # t.attr(bgcolor="#000000")
-    t.attr(bgcolor="#00000000")
+    t.attr(fontsize=styles.get('fontsize', '12'))
+    t.attr(bgcolor=styles.get('bgcolor', "#00000000"))
 
     # t.view()
     # t.format = 'svg'

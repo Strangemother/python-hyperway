@@ -40,9 +40,14 @@ def double(v):
     print('! == double', res)
     return res
 
+def com_oper(operator_func, *values):
+    return operator_func(*reversed(values))
 
-def oper(func, *values):
+def oper(func, commute, *values):
     p = partial(func, *values)
+    if commute:
+        p = partial(com_oper, func, *values)
+
     p.__name__  = f"P_{func.__name__}_{values[0]}"
     return p
 
@@ -66,23 +71,41 @@ def subtract(val):
     return r
 
 
-import operator
+import operator as operator_mod
 
 
 class Factory(object):
     """A operational caller for partials, built with parts of the function
     name,
+
+    Define if _commutative_ for the operator values. If true subtract,
+    and mutliply as reversed to ensure the noncommutative values are processed
+    in logical order:
+
+        >>> from hyperway.tools import Factory
+        >>> f = Factory(False)
+        >>> f.sub_1(10)
+        -9.0
+
+        >>> cf = Factory(True)
+        >>> cf.sub_1(10)
+        9.0
     """
+
+    # Define if _commutative_ for the operator values.
+    commute = False
+
+    def __init__(self, commute=False):
+        self.commute = commute
 
     def __getitem__(self, k):
         return self.__getattr__(k)
 
     def __getattr__(self, k):
         op_name, ival, *extra = k.split('_')
-        func = getattr(operator, op_name)
+        operator_func = getattr(operator_mod, op_name)
         val = float(ival)
-        # oper(op.mul, .5)
-        return oper(func, val)
+        return oper(operator_func, self.commute, val)
 
 
 factory = Factory()
