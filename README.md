@@ -1,8 +1,36 @@
+<div align="center">
+
 # Hyperway
 
-Hyperway is a graph based functional execution library, allowing you to connect functions arbitrarily through a unique API. Mimic a large range of programming paradigms such as procedural, parallel, or aspect-oriented-programming. Build B-trees or decision trees, circutry or logic gates; all with a simple _wiring_ methdology.
+Python graph based functional execution library, with a unique API.
 
+[![Upload Python Package](https://github.com/Strangemother/python-hyperway/actions/workflows/python-publish.yml/badge.svg)](https://github.com/Strangemother/python-hyperway/actions/workflows/python-publish.yml)
+![PyPI](https://img.shields.io/pypi/v/hyperway?label=hyperway)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/hyperway)
 
+---
+
+</div>
+
++ [Functions](#functions)
++ [Connections (Edges)](#connections-edges)
++ [Wire Functions](#wire-function)
++ [Units Nodes](#units-nodes)
++ [Graph](#graph)
++ [Stepper](#stepper)
++ [Reference Links](#areas-of-interest)
+
+Hyperway is a graph based functional execution library, allowing you to connect functions arbitrarily through a unique API. Mimic a large range of programming paradigms such as procedural, parallel, or aspect-oriented-programming. Build B-trees or decision trees, circuitry or logic gates; all with a simple _wiring_ methodology.
+
+## Install
+
+```bash
+pip install hyperway
+```
+
+## Example
+
+Connect functions, then run your chain:
 
 ```py
 from hyperway.graph import Graph
@@ -20,16 +48,9 @@ compound_connection = g.add(many_connections[1].b, f.add_3)
 # Setup
 stepper = g.stepper(first_connection.a, 10)
 
-# Run
+# Run a step
 concurrent_row = stepper.step()
-```
 
-Per call "row" result:
-
-```py
-(
-    (<Unit(func=add_20)>, <ArgsPack(*(1,), **{})>),
-)
 ```
 
 ## Functions
@@ -84,8 +105,23 @@ We can _process_ the second part:
 
 ### Wire Function
 
-The connection can have a _wire_ function; a function existing between the two connections, allowing the alteration of the data "through transit" (whilst running through a connection):
+The connection can have a _wire_ function; a function existing between the two connections, allowing the alteration of the data "through transit" (whilst running through a connection)
 
+---
+
+**Why use a wire function?**
+
+It's easy to argue a wire function is a _node_, and you can implement the wire function without this connection tap.
+
++ Wire functions are optional: node to node connections are inherently not optional)
++ Removing a wire function does not remove the edge: Edges are persistent to the graph
++ Wire functions may be inert (e.g. just logging); Nodes cannot be inert as they must be bound to edges.
+
+Fundamentally a wire function exists for topological clarity and may be ignored.
+
+---
+
+A `make_edge` can accept a function. The wire function receives the values concurrent transmitting through the attached edge:
 
 ```py
 from hyperway.edges import make_edge
@@ -294,7 +330,6 @@ stepper.step()
 ```
 
 
-
 We initiated a stepper at our preferred node `stepper = g.stepper(first_connection_first_node, 10)`. Any subsequent `stepper.step()` calls _push_ the stepper to the next execution step.
 
 Each iteration returns the _next_ thing to perform and the values from the previous unit call.
@@ -307,6 +342,26 @@ Each iteration returns the _next_ thing to perform and the values from the previ
 ```
 
 We see one row, with `f.add_30` as the _next_ function to call.
+
+
+### `run_stepper` Function
+
+The stepper can run once (allowing us to loop it), or we can use the built-in `run_stepper` function, to walk the nodes until the chain is complete
+
+```py
+from hyperway.graph import Graph
+from hyperway.tools import factory as f
+
+from hyperway.packer import argspack
+from hyperway.stepper import run_stepper
+
+
+g = Graph(tuple)
+connections = g.connect(f.add_10, f.add_20, f.add_30)
+
+# run until exhausted
+result = run_stepper(g, connections[0].a, argspack(10))
+```
 
 
 ### Result Concatenation
@@ -359,25 +414,22 @@ When processing a print merge-node, one call is executed when events occur throu
 
 # Topology
 
-The _Stepper_ performs much of the work for interacting with Nodes on a graph through Edges.
-
-The Graph is a thin and dumb dictionary, maintaining a list of connections per node.
-
-The Node is also very terse, fundamentally acting as a thin wrapper around the user given function, and exposes a few methods for _on-graph_ executions.
-
-Edges are the primary focus of this version, where a single `Connection` is bound to two nodes, and maintains a wire-function.
++ [Graph](#graph-1): The Graph is a thin and dumb dictionary, maintaining a list of connections per node.
++ [Node](#units-and-nodes): The Node is also very terse, fundamentally acting as a thin wrapper around the user given function, and exposes a few methods for _on-graph_ executions.
++ [Edges](#connection): Edges or Connections are the primary focus of this version, where a single `Connection` is bound to two nodes, and maintains a wire-function.
++ Stepper: The _Stepper_ performs much of the work for interacting with Nodes on a graph through Edges.
 
 ## Breakdown.
 
-We push _Node to Node_ Connections into the Graph dictionary. The Connection knows A, B, and potentially a Wire function.
+We push _Node to Node_ Connections into the `Graph` dictionary. The Connection knows `A`, `B`, and potentially a Wire function.
 
-When _running_ the graph we use a Stepper to processes each node step during iteration, collecting _results_ of each call, and the next executions to perform.
+When _running_ the graph we use a `Stepper` to processes each node step during iteration, collecting _results_ of each call, and the next executions to perform.
 
 ---
 
-We _walk_ through the graph using a Stepper. Upon a step we call any rows of waiting callables. This may be the users first input and will yield _next callers_ and _the result_.
+We _walk_ through the graph using a `Stepper`. Upon a step we call any rows of waiting callables. This may be the users first input and will yield _next callers_ and _the result_.
 
-The Stepper should call each _next caller_ with the given _result_. Each _caller_ will return _next callers_ and a _result_ for the Stepper to call again.
+The `Stepper` should call each _next caller_ with the given _result_. Each _caller_ will return _next callers_ and a _result_ for the `Stepper` to call again.
 
 In each iteration the callable resolves one or more connections. If no connections return for a node, The execution chain is considered complete.
 
