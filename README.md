@@ -95,7 +95,7 @@ Now we can bind two or more functions in an execution chain. Notably it's a mini
 from hyperway.edges import make_edge
 
 c = make_edge(f.add_1, f.add_2)
-# <Connection(Unit(func=P_add_1.0), Unit(func=P_add_2.0), name=None)>
+# <Connection>
 
 c.pluck(1)
 # 4.0
@@ -111,7 +111,7 @@ from hyperway.tools import factory as f
 g = hyperway.Graph()
 
 connection = g.add(f.add_1, f.add_2)
-# <Connection(Unit(func=P_add_1.0), Unit(func=P_add_2.0), name=None)>
+# <Connection>
 ```
 
 </td></tbody></table>
