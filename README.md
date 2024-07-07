@@ -79,7 +79,7 @@ g = hyperway.Graph()
 
 ## Connections (Edges)
 
-Now we can bind two or more functions in an execution chain. Notably it's a minimum of two:
+Bind functions in an execution chain. Notably it's a minimum of two:
 
 ![connection diagram of two nodes with an optional wire function](./docs/images/connection.png)
 
@@ -446,7 +446,12 @@ result = run_stepper(g, connections[0].a, argspack(10))
 
 ### Result Concatenation
 
-When executing node steps, the result from the call is given to the next connected unit. If two nodes call to the same destination node, this causes _two_ calls of the next node:
+When executing node steps, the result from the call is given to the next connected unit.
+
+![stepper classic path movement](./docs/images/stepper-classic-path.png)
+
+
+If two nodes call to the same destination node, this causes _two_ calls of the next node:
 
 ```py
            +4
@@ -469,9 +474,12 @@ print(11)
 
 This is because there are two connections _to_ the `print` node, causing two calls.
 
----
+#### Merge Node
 
-We can change this and action _one_ call to the print, with two results.
+Use merge nodes to action _one_ call to a node, with two results.
+
+![stepper merge node](./docs/images/stepper-merge-node.png)
+
 
 1. Set `merge_node=True` on target node
 2. Flag `concat_aware=True` on the stepper
