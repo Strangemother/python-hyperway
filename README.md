@@ -478,7 +478,7 @@ This is because there are two connections _to_ the `print` node, causing two cal
 
 Use merge nodes to action _one_ call to a node, with two results.
 
-![stepper merge node](./docs/images/stepper-merge-node.png)
+![stepper merge node](./docs/images/stepper-merge.png)
 
 
 1. Set `merge_node=True` on target node
