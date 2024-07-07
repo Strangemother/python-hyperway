@@ -346,7 +346,7 @@ unit_a_2 = as_unit(unit_a) # unit_a is already a Unit
 assert unit_a == unit_a_2  # They are the same
 ```
 
-### Graph
+## Graph
 
 All Connections are stored within a single `Graph` instance. It has been purposefully designed as a small collection of connections. We can consider the graph as a dictionary register of all associated connections.
 
@@ -478,11 +478,11 @@ This is because there are two connections _to_ the `print` node, causing two cal
 
 Use merge nodes to action _one_ call to a node, with two results.
 
-![stepper merge node](./docs/images/stepper-merge.png)
-
-
 1. Set `merge_node=True` on target node
 2. Flag `concat_aware=True` on the stepper
+
+![stepper merge node](./docs/images/stepper-merge.png)
+
 
 ```py
 g = Graph()
