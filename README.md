@@ -509,6 +509,8 @@ print(10, 11) # resultant
 
 # Topology
 
+![stepper classic path movement](./docs/images/stepper-value-fork.png)
+
 + [Graph](#graph-1): The Graph is a thin and dumb dictionary, maintaining a list of connections per node.
 + [Node](#units-and-nodes): The Node is also very terse, fundamentally acting as a thin wrapper around the user given function, and exposes a few methods for _on-graph_ executions.
 + [Edges](#connection): Edges or Connections are the primary focus of this version, where a single `Connection` is bound to two nodes, and maintains a wire-function.
