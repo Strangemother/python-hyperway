@@ -93,6 +93,8 @@ add_10(14)
 
 Now we can bind two or more functions in an execution chain. Notably it's a minimum of two:
 
+![connection diagram of two nodes with an optional wire function](./docs/images/connection.png)
+
 Functional:
 
 ```py
