@@ -53,7 +53,9 @@ stepper = g.stepper(first_connection.a, 10)
 concurrent_row = stepper.step()
 ```
 
-## What's In The Box
+# What's In The Box
+
+> The `Unit` (or node) is a function connected to other nodes through a `Connection`.  The `Graph` maintains a register of all connections.
 
 + `Graph`: A thing to hold all connections
 + `Unit`: A function on a graph, bound through edges
@@ -62,7 +64,8 @@ concurrent_row = stepper.step()
 
 This library aims to simplify graph based execution chains, allowing a developer to use functional graphs without managing the connections.
 
-### Graph
+
+## Graph
 
 The `Graph` is a fancy `defaultdict` of tuples, used to store connections:
 
@@ -74,28 +77,19 @@ g = hyperway.Graph()
 ```
 
 
-### Functions
-
-A function is our working code. We can borrow operator functions from the tools:
-
-```py
-from hyperway.tools import factory as f
-add_10 = f.add_10
-# functools.partial(<built-in function add>, 10.0)
-add_10(1)
-# 11.0
-add_10(14)
-# 24.0
-```
-
-
-### Connections (Edges)
+## Connections (Edges)
 
 Now we can bind two or more functions in an execution chain. Notably it's a minimum of two:
 
 ![connection diagram of two nodes with an optional wire function](./docs/images/connection.png)
 
-Functional:
+
+<table>
+<thead><tr>
+  <th align="left">Functional</th>
+  <th align="left">Methods</th>
+</tr></thead>
+<tbody><tr valign="top"><td>
 
 ```py
 from hyperway.edges import make_edge
@@ -107,7 +101,7 @@ c.pluck(1)
 # 4.0
 ```
 
-Methods:
+</td><td>
 
 
 ```py
@@ -119,6 +113,9 @@ g = hyperway.Graph()
 connection = g.add(f.add_1, f.add_2)
 # <Connection(Unit(func=P_add_1.0), Unit(func=P_add_2.0), name=None)>
 ```
+
+</td></tbody></table>
+
 
 A Connection will run node _a_ when called:
 
@@ -133,7 +130,6 @@ We can _process_ the second part:
 >>> connection.process(value_part_a) # call B-side `add_2`
 4.0
 ```
-
 
 #### Plucking Edges
 
@@ -229,7 +225,12 @@ c.pluck(4)
 
 #### Self Reference
 
-A connection `A -> B` may be the same node, performing a _loop_ or self-referencing node connection. We can use the `as_unit` function, and reference the same unit on the graph:
+A connection `A -> B` may be the same node, performing a _loop_ or self-referencing node connection.
+
+![self referencing connection](./docs/images/self-reference.png)
+
+
+We can use the `as_unit` function, and reference the same unit on the graph:
 
 ```py
 # pre-define the graph node wrapper
@@ -251,9 +252,26 @@ g.step()
 ```
 
 
-### Units (Nodes)
 
-A `Unit` is a wrapper for a connected function. Everything on a graph and within a connection, is a `Unit`:
+## Functions
+
+A function is our working code. We can borrow operator functions from the tools:
+
+```py
+from hyperway.tools import factory as f
+add_10 = f.add_10
+# functools.partial(<built-in function add>, 10.0)
+add_10(1)
+# 11.0
+add_10(14)
+# 24.0
+```
+
+
+## Units (Nodes)
+
+
+The `Unit` (or node) is a function connected to other nodes through a `Connection`. A `Unit` is a wrapper for a connected function. Everything on a graph (and within a connection) is a `Unit`:
 
 ```py
 c = make_edge(f.mul_3, f.add_4)
@@ -347,12 +365,12 @@ connection = add(g, unit_a, unit_b)
 Under the hood, The graph is just a `defaultdict` and doesn't do much.
 
 
-### Stepper
+## Stepper
 
-The `Unit` (or node) is a function connected to other nodes through a `Connection`. The `Graph` maintains a register of all connections.
+The `Stepper` run units and discovers connections through the attached Graph. It runs concurrent units and spools the next callables for the next _step_.
 
-The `Stepper` run units and discovers connections through the attached Graph.
-It runs concurrent units and spools the next callables for the next _step_.
+![self referencing connection](./docs/images/stepper.png)
+
 
 ```py
 from hyperway.graph import Graph
@@ -488,7 +506,7 @@ print(10, 11) # resultant
 + [Edges](#connection): Edges or Connections are the primary focus of this version, where a single `Connection` is bound to two nodes, and maintains a wire-function.
 + Stepper: The _Stepper_ performs much of the work for interacting with Nodes on a graph through Edges.
 
-## Breakdown.
+## Breakdown
 
 We push _Node to Node_ Connections into the `Graph` dictionary. The Connection knows `A`, `B`, and potentially a Wire function.
 
@@ -509,14 +527,14 @@ The `Graph` is purposefully terse. Its build to be as minimal as possible for th
 The graph maintains a list of `ID` to `Connection` set.
 
 ```py
-  {
-      ID: (
-              Connection(to=ID2),
-          ),
-      ID2: (
-              Connection(to=ID),
-          )
-  }
+{
+  ID: (
+        Connection(to=ID2),
+    ),
+  ID2: (
+        Connection(to=ID),
+    )
+}
 ```
 
 ### Connection
