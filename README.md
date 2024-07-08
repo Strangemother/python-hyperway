@@ -1,4 +1,3 @@
-![hyperway logo](./docs/images/logo.png)
 
 <div align="center">
 
@@ -11,17 +10,16 @@ Python graph based functional execution library, with a unique API.
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/hyperway)
 
 
+![hyperway logo](./docs/images/logo.png)
 
 ---
 
 </div>
 
-+ [Functions](#functions)
-+ [Connections (Edges)](#connections-edges)
-+ [Wire Functions](#wire-function)
-+ [Units Nodes](#units-nodes)
 + [Graph](#graph)
 + [Stepper](#stepper)
++ [Units Nodes](#units-nodes)  [Functions](#functions)
++ [Connections (Edges)](#connections-edges) [Wire Functions](#wire-function)
 + [Reference Links](#areas-of-interest)
 
 Hyperway is a graph based functional execution library, allowing you to connect functions arbitrarily through a unique API. Mimic a large range of programming paradigms such as procedural, parallel, or aspect-oriented-programming. Build B-trees or decision trees, circuitry or logic gates; all with a simple _wiring_ methodology.
