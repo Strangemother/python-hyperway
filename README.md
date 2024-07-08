@@ -567,12 +567,10 @@ g.connect(join, f.add_1)
 # connect another function
 g.connect(join, f.sub_1)
 
-g.write('triple-split', direction='LR')
+g.write('double-double-split', direction='LR')
 ```
 
-
-![triple split with two exit nodes](./docs/images/triple-split-2.gv.png)
-
+![double split with two exit nodes](./docs/images/double-double-split.png)
 
 > [!NOTE]
 > The result is a product of the node count and may result exponential paths if unmanaged. Hyperway can **and will** execute this forever.
@@ -600,10 +598,10 @@ g.connect(split, f.add_5, join)
 g.connect(join, f.add_1)
 g.connect(join, f.sub_1)
 g.connect(join, f.sub_2)
-g.write('double-double-split', direction='LR')
+g.write('triple-split', direction='LR')
 ```
 
-![double split with two exit nodes](./docs/images/double-double.gv.png)
+![triple split with three exit nodes](./docs/images/triple-split-3.gv.png)
 
 
 #### Order of Operation
