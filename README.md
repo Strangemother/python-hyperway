@@ -309,7 +309,9 @@ c.pluck(4)
 We can create a unit before insertion, to allow references to an _existing_ node.
 For example we can close a loop or a linear chain of function calls.
 
-Linear (not closed.)
+### Linear (not closed.)
+
+Generally when inserting functions, a new reference is created. This allows us to use the same function at different points in a chain:
 
 ![3 nodes linear chain](./docs/images/3-nodes.png)
 
@@ -325,10 +327,13 @@ _ = make_edge(c, a)
 
 ```
 
-Loop (closed)
+### Loop (closed)
 
-![3 nodes loop](./docs/images/3-nodes-loop.png)
+Closing a path produces a loop. To close a path we can reuse the same `Unit` at both ends of our path.
 
+![3 nodes loop](./docs/images/3-node-loop.png)
+
+To ensure node `C` is reused when applied, we pre-convert it to a `Unit`:
 
 ```py
 a = as_unit(f.add_1) # sticky reference.
@@ -341,7 +346,13 @@ _ = make_edge(b, c)
 _ = make_edge(c, a)
 ```
 
-This is because `a` will not generate new Units upon (2) inserts. Nodes `b` and `c` do create new nodes.
+
+### `Unit(my_func)` is not `Unit(my_func)`!
+
+> [!IMPORTANT]
+> A `Unit` is unique, even when using the same function:
+> `Unit(my_func)` != `Unit(my_func)`
+
 
 If you create a Unit using the same function, this will produce two unique units:
 
@@ -352,7 +363,6 @@ assert unit_a != unit_a_2  # Not the same.
 ```
 
 Attempting to recast a `Unit`, will return the same `Unit`:
-
 
 ```py
 unit_a = as_unit(f.add_2)
