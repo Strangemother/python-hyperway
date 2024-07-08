@@ -445,12 +445,12 @@ connections = g.connect(f.add_10, f.add_20, f.add_30)
 result = run_stepper(g, connections[0].a, argspack(10))
 ```
 
-### Result Concatenation
+# Results
 
+The value of the stepper is concurrent. When a path ends, the value is stored in the `stepper.stash`.
 When executing node steps, the result from the call is given to the next connected unit.
 
 ![stepper classic path movement](./docs/images/stepper-classic-path.png)
-
 
 If two nodes call to the same destination node, this causes _two_ calls of the next node:
 
@@ -475,7 +475,8 @@ print(11)
 
 This is because there are two connections _to_ the `print` node, causing two calls.
 
-#### Merge Node
+
+## Result Concatenation (Merge Nodes)
 
 Use merge nodes to action _one_ call to a node, with two results.
 
@@ -504,9 +505,83 @@ When processing a print merge-node, one call is executed when events occur throu
 1  3  6      print
          11
 
-
 print(10, 11) # resultant
 ```
+
+## Results Explode!
+
+> [!IMPORTANT]
+> Every _fork_ within the graph will yield a new path.
+
+A _path_ defines the flow of a `stepper` through a single processing chain. A function connected to more than one function will _fork_ the stepper and produce a result per connection.
+
+For example a graph with a a split path will yield two results:
+
+```py
+from hyperway import Graph, as_units
+from hyperway.tools import factory as f
+
+g = Graph()
+
+split, join = as_units(f.add_2, f.add_2)
+
+cs = g.connect(f.add_1, split)
+g.connect(split, f.add_3, join)
+g.connect(split, f.add_4, join)
+g.connect(join, f.add_1)
+```
+
+![stepper classic path movement](./docs/images/stepper-value-2-fork-wires.png)
+
+Creating in two exits nodes will double the result count:
+
+```py
+from hyperway import Graph, as_units
+from hyperway.tools import factory as f
+
+g = Graph()
+
+split, join = as_units(f.add_2, f.add_2)
+
+cs = g.connect(f.add_1, split)
+g.connect(split, f.add_3, join)
+g.connect(split, f.add_4, join)
+g.connect(join, f.add_1)
+
+g.connect(join, f.sub_1)
+```
+
+![stepper classic path movement](./docs/images/stepper-value-4-fork-wires.png)
+
+The result is a product of the node count and may result exponential paths if unmanaged.
+
+> [!NOTE]
+> Hyperway can **and will** execute this forever.
+
+```py
+from hyperway import Graph, as_unit
+
+g = Graph()
+
+split = as_unit(f.add_2, name='split')
+join_a = as_unit(f.add_2)
+
+# sum([1,2,3]) accepts an array - so we merge the args for the response.
+join = as_unit(lambda *x: sum(x) name='sum')
+
+cs = g.connect(f.add_1, split)
+g.connect(split, f.add_3, join)
+g.connect(split, f.add_4, join)
+g.connect(split, f.add_5, join)
+
+g.connect(join, f.add_1)
+g.connect(join, f.sub_1)
+g.connect(join, f.sub_2)
+```
+
+_Wire functions have been removed for clarity_
+
+![stepper classic path movement](./docs/images/stepper-value-9-fork.png)
 
 
 #### Order of Operation
