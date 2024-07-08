@@ -515,6 +515,8 @@ print(10, 11) # resultant
 
 A _path_ defines the flow of a `stepper` through a single processing chain. A function connected to more than one function will _fork_ the stepper and produce a result per connection.
 
+![stepper classic path movement](./docs/images/stepper-value-2-fork-wires.png)
+
 For example a graph with a a split path will yield two results:
 
 ```py
@@ -531,11 +533,25 @@ g.connect(split, f.add_4, join)
 g.connect(join, f.add_1)
 ```
 
-![stepper classic path movement](./docs/images/stepper-value-2-fork-wires.png)
-
-Creating in two exits nodes will double the result count:
+If [graphviz](https://github.com/xflr6/graphviz) is installed, The graph can be rendered with `graph.write()`:
 
 ```py
+# Continued from above
+g.write('double-split', direction='LR')
+```
+
+![double split](./docs/images/double-split.gv.png)
+
+---
+
+Connecting nodes will grow the result count. For example creating in two exits nodes will double the result count
+
+![stepper classic path movement](./docs/images/stepper-value-4-fork-wires.png)
+
+To model this, we can extend the _above_ code with an extra connection: `g.connect(join, f.sub_1)`:
+
+```py
+# same as above
 from hyperway import Graph, as_units
 from hyperway.tools import factory as f
 
@@ -548,15 +564,22 @@ g.connect(split, f.add_3, join)
 g.connect(split, f.add_4, join)
 g.connect(join, f.add_1)
 
+# connect another function
 g.connect(join, f.sub_1)
+
+g.write('triple-split', direction='LR')
 ```
 
-![stepper classic path movement](./docs/images/stepper-value-4-fork-wires.png)
 
-The result is a product of the node count and may result exponential paths if unmanaged.
+![triple split with two exit nodes](./docs/images/triple-split-2.gv.png)
+
 
 > [!NOTE]
-> Hyperway can **and will** execute this forever.
+> The result is a product of the node count and may result exponential paths if unmanaged. Hyperway can **and will** execute this forever.
+
+_Wire functions have been removed for clarity_
+
+![stepper classic path movement](./docs/images/stepper-value-9-fork.png)
 
 ```py
 from hyperway import Graph, as_unit
@@ -577,11 +600,10 @@ g.connect(split, f.add_5, join)
 g.connect(join, f.add_1)
 g.connect(join, f.sub_1)
 g.connect(join, f.sub_2)
+g.write('triple-split', direction='LR')
 ```
 
-_Wire functions have been removed for clarity_
-
-![stepper classic path movement](./docs/images/stepper-value-9-fork.png)
+![triple split with three exit nodes](./docs/images/triple-split.gv.png)
 
 
 #### Order of Operation
