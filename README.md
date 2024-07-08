@@ -309,45 +309,7 @@ c.pluck(4)
 We can create a unit before insertion, to allow references to an _existing_ node.
 For example we can close a loop or a linear chain of function calls.
 
-### Linear (not closed.)
-
-Generally when inserting functions, a new reference is created. This allows us to use the same function at different points in a chain:
-
-![3 nodes linear chain](./docs/images/3-nodes.png)
-
-```py
-a = f.add_1
-b = f.add_2
-c = f.add_3
-
-# a -> b -> c | done.
-connection_1 = make_edge(a, b)
-_ = make_edge(b, c)
-_ = make_edge(c, a)
-
-```
-
-### Loop (closed)
-
-Closing a path produces a loop. To close a path we can reuse the same `Unit` at both ends of our path.
-
-![3 nodes loop](./docs/images/3-node-loop.png)
-
-To ensure node `C` is reused when applied, we pre-convert it to a `Unit`:
-
-```py
-a = as_unit(f.add_1) # sticky reference.
-b = f.add_2
-c = f.add_3
-
-# a -> b -> c -> a ... forever
-connection_1 = make_edge(a, b)
-_ = make_edge(b, c)
-_ = make_edge(c, a)
-```
-
-
-### `Unit(my_func)` is not `Unit(my_func)`!
+### Very Unique `Unit`
 
 > [!IMPORTANT]
 > A `Unit` is unique, even when using the same function:
@@ -370,18 +332,54 @@ unit_a_2 = as_unit(unit_a) # unit_a is already a Unit
 assert unit_a == unit_a_2  # They are the same
 ```
 
+### Linear (not closed)
+
+Generally when inserting functions, a new reference is created. This allows us to use the same function at different points in a chain:
+
+![3 nodes linear chain](./docs/images/3-nodes.png)
+
+```py
+a = f.add_1
+b = f.add_2
+c = f.add_2
+
+# a -> b -> c | done.
+connection_1 = make_edge(a, b)
+_ = make_edge(b, c)
+_ = make_edge(c, a)
+
+```
+
+### Loop (closed)
+
+Closing a path produces a loop. To close a path we can reuse the same `Unit` at both ends of our path.
+
+![3 nodes loop](./docs/images/3-node-loop.png)
+
+To ensure a node is reused when applied, we pre-convert it to a `Unit`:
+
+```py
+a = as_unit(f.add_1) # sticky reference.
+b = f.add_2
+c = f.add_2
+
+# a -> b -> c -> a ... forever
+connection_1 = make_edge(a, b)
+_ = make_edge(b, c)
+_ = make_edge(c, a)
+```
+
+
 ## Graph
 
 All Connections are stored within a single `Graph` instance. It has been purposefully designed as a small collection of connections. We can consider the graph as a dictionary register of all associated connections.
 
 ```py
 from hyperway.graph import Graph, add
-from hyperway.nodes import as_unit
+from hyperway.nodes import as_units
 
-
-g = Graph(tuple)
-unit_a = as_unit(f.add_2)
-unit_b = as_unit(f.mul_2)
+g = Graph()
+unit_a, unit_b = as_unit(f.add_2, f.mul_2)
 
 connection = add(g, unit_a, unit_b)
 ```
@@ -395,12 +393,11 @@ The `Stepper` run units and discovers connections through the attached Graph. It
 
 ![self referencing connection](./docs/images/stepper.png)
 
-
 ```py
 from hyperway.graph import Graph
 from hyperway.tools import factory as f
 
-g = Graph(tuple)
+g = Graph()
 a_connections = g.connect(f.add_10, f.add_20, f.add_30)
 b_connections = g.connect(f.add_1, f.add_2, f.add_3)
 c_connection = g.add(b_connections[1].b, f.add_3)
