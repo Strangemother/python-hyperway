@@ -53,6 +53,14 @@ stepper = g.stepper(first_connection.a, 10)
 concurrent_row = stepper.step()
 ```
 
+Render with graphviz:
+
+```py
+g.write('intro-example', directory='renders', direction='LR')
+```
+
+![connection diagram](./docs/images/intro-example.gv.png)
+
 # What's In The Box
 
 > The `Unit` (or node) is a function connected to other nodes through a `Connection`.  The `Graph` maintains a register of all connections.
