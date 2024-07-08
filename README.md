@@ -600,10 +600,10 @@ g.connect(split, f.add_5, join)
 g.connect(join, f.add_1)
 g.connect(join, f.sub_1)
 g.connect(join, f.sub_2)
-g.write('triple-split', direction='LR')
+g.write('double-double-split', direction='LR')
 ```
 
-![triple split with three exit nodes](./docs/images/triple-split.gv.png)
+![double split with two exit nodes](./docs/images/double-double.gv.png)
 
 
 #### Order of Operation
