@@ -311,6 +311,8 @@ For example we can close a loop or a linear chain of function calls.
 
 Linear (not closed.)
 
+![3 nodes linear chain](./docs/images/3-nodes.png)
+
 ```py
 a = f.add_1
 b = f.add_2
@@ -324,6 +326,9 @@ _ = make_edge(c, a)
 ```
 
 Loop (closed)
+
+![3 nodes loop](./docs/images/3-nodes-loop.png)
+
 
 ```py
 a = as_unit(f.add_1) # sticky reference.
@@ -581,7 +586,8 @@ g.write('double-double-split', direction='LR')
 ![double split with two exit nodes](./docs/images/double-double-split.png)
 
 > [!NOTE]
-> The result is a product of the node count and may result exponential paths if unmanaged. Hyperway can **and will** execute this forever.
+> The count of results is a _product_ of the node count - and may result exponential paths if unmanaged.
+> Hyperway can **and will** execute this forever.
 
 _Wire functions have been removed for clarity_
 
