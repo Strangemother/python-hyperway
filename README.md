@@ -155,14 +155,13 @@ The connection can have a _wire_ function; a function existing between the two c
 
 ```py
 from hyperway.tools import factory as f
-from hyperway.edges import make_edge
+from hyperway.edges import make_edge, wire
 
-c = make_edge(f.add_1, f.add_2, through=f.mul_2)
+c = make_edge(f.add_1, f.add_2, through=wire(f.mul_2))
 # <Connection(Unit(func=P_add_1.0), Unit(func=P_add_2.0), through="P_mul_2.0" name=None)>
 
-# Run _a_ and _b_ (`add_1 -> add_2`) with our input value:
-c.pluck(1)  #  4.0 ==  1 + 1 + 2
-c.pluck(10) # 13.0 == 10 + 1 + 2
+assert c.pluck(1) == 10 # (1 + 1) * 2 + 2 == 6
+assert c.pluck(10) == 24 # (10 + 1) * 2 + 2 == 24
 ```
 
 ---
@@ -217,8 +216,11 @@ c(4)
 # Call Wire + B: (double then + 2)
 c.process(5.0)
 12.0
+```
 
-# Or a single pluck()
+Or a single `pluck()`:
+
+```py
 c.pluck(4)
 12.0
 ```
@@ -250,7 +252,6 @@ g.step()
 ...
 # 3, 5, 7, 9, 11, ...
 ```
-
 
 
 ## Functions
@@ -507,6 +508,34 @@ When processing a print merge-node, one call is executed when events occur throu
 print(10, 11) # resultant
 ```
 
+
+#### Order of Operation
+
+Hyperway is left-associative, meaning the order of precedence for operations occurs through sequential evaluation (from left to right). Each operation is executed as it is encountered, without regard to the traditional precedence of operators.
+
+Therefore PEMDAS/BODMAS will not function as expected - graph chains execute linearly.
+
+Standard:
+
+    1 + 1 * 2 + 2 == 5
+    10 + 1 * 2 + 2 == 24
+
+Hyperway left-association:
+
+    ( (1 + 1) * 2) + 2 == 6
+    ( (10 + 1) * 2) + 2 == 24
+
+
+```py
+from hyperway.tools import factory as f
+from hyperway.edges import make_edge, wire
+
+c = make_edge(f.add_1, f.add_2, through=wire(f.mul_2))
+
+assert c.pluck(1) == 10 # (1 + 1) * 2 + 2 == 6
+assert c.pluck(10) == 24 # (10 + 1) * 2 + 2 == 24
+```
+
 # Topology
 
 ![stepper classic path movement](./docs/images/stepper-value-fork.png)
@@ -599,6 +628,8 @@ akw.kw
 + https://houseofgraphs.org/
 + https://en.wikipedia.org/wiki/Cyber%E2%80%93physical_system
 + https://en.wikipedia.org/wiki/Signal-flow_graph
++ https://resources.wolframcloud.com/FunctionRepository/resources/HypergraphPlot
++ https://www.lancaster.ac.uk/stor-i-student-sites/katie-howgate/2021/04/29/hypergraphs-not-just-a-cool-name/
 
 # Links
 
