@@ -37,8 +37,9 @@ def get_nodes_edges(graph):
             ia = str(connection.a.id())
             ib = str(connection.b.id())
             edges.add( (ia, ib), )
-            nodes.add((ia, connection.a.func.__name__))
-            nodes.add((ib, connection.b.func.__name__))
+
+            nodes.add((ia, connection.a.get_name()))
+            nodes.add((ib, connection.b.get_name()))
 
     return nodes, edges
 
