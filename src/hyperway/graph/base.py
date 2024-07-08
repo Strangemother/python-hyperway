@@ -46,7 +46,7 @@ def connect(graph, *nodes, through=None, node_class=None):
     _pairs = pairs(_units)
 
     for a, b in _pairs:
-        print('Bridging', a, b, f"{through=}")
+        # print('Bridging', a, b, f"{through=}")
         c = add(graph, a, b, through=through, node_class=node_class)
         res += (c,)
     return res

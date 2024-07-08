@@ -20,7 +20,7 @@ def process_forward(graph, start_node, argspack):
     print('\n---Run from A', start_node, argspack, '\n---\n')
     """
     This runs a _Stepper_, the unit to process a vertical stack in a forward
-    bar process. Each function execution throughthe condition is waited through
+    bar process. Each function execution through the condition is waited through
     a forever stepper.
 
     A each _node_ resolves _connections_, the connection is partial called

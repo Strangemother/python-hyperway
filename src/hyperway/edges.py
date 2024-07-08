@@ -55,7 +55,8 @@ def get_connections(graph, unit):
         print(f'.. returning A nodes of B nodes from the origin: {unit}')
 
     if res is None:
-        print(f'NO Connections for Unit "{unit}"')
+        print(f' C(0) "{unit}"')
+        # print(f'NO Connections for Unit "{unit}"')
 
     return res
 
@@ -90,7 +91,7 @@ class Connection(IDFunc):
         """If A is a merge node.
         """
         return self.get_a().merge_node
-
+#
     def stepper_call(self, akw, stepper=None, **meta):
         """This function is called explicitly by the stepper to process
         this connection side A, returning the result for A.
@@ -177,7 +178,7 @@ class Connection(IDFunc):
 
     def process(self, *a, **kw):
         akw = self.call_through(*a, **kw)
-        print("Though result", akw)
+        # print("Though result", akw)
         return self.b.process(*akw.args, **akw.kwargs)
 
 
