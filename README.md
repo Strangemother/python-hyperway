@@ -518,7 +518,7 @@ Therefore PEMDAS/BODMAS will not function as expected - graph chains execute lin
 Standard:
 
     1 + 1 * 2 + 2 == 5
-    10 + 1 * 2 + 2 == 24
+    10 + 1 * 2 + 2 == 14
 
 Hyperway left-association:
 
@@ -532,8 +532,8 @@ from hyperway.edges import make_edge, wire
 
 c = make_edge(f.add_1, f.add_2, through=wire(f.mul_2))
 
-assert c.pluck(1) == 10 # (1 + 1) * 2 + 2 == 6
-assert c.pluck(10) == 24 # (10 + 1) * 2 + 2 == 24
+assert c.pluck(1) == 10 # (1 + 1) * 2 + 2
+assert c.pluck(10) == 24 # (10 + 1) * 2 + 2
 ```
 
 # Topology
