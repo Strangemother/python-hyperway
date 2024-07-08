@@ -38,6 +38,7 @@ def get_edge_func():
 class Unit(IDFunc):
 
     merge_node = False
+    name = None
 
     def __init__(self, func, **node_kwargs):
         self.func = func
@@ -50,9 +51,13 @@ class Unit(IDFunc):
         return f"<{self.as_str()}>"
 
     def as_str(self):
-        f = self.func
-        n = f.__name__ if hasattr(f, '__name__') else str(f)
+        n = self.get_name()
         return f"{self.__class__.__name__}(func={n})"
+
+    def get_name(self):
+        f = self.func
+        n = self.name or (f.__name__ if hasattr(f, '__name__') else str(f))
+        return n
 
     def input(self, a, kw):
         """Run the function through the graph, events will propogate into
@@ -90,3 +95,11 @@ class Unit(IDFunc):
         """
         return self.func(*a, **kw)
 
+
+class Nodes(Unit):
+
+    def process(self, *a, **kw):
+        """Run the function without the strings.
+        """
+
+        return self.func(*a, **kw)
