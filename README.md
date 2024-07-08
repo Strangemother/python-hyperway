@@ -614,22 +614,36 @@ g.write('triple-split', direction='LR')
 
 #### Order of Operation
 
-Hyperway is left-associative, meaning the order of precedence for operations occurs through sequential evaluation (from left to right). Each operation is executed as it is encountered, without regard to the traditional precedence of operators.
+> [!IMPORTANT]
+> Hyperway is left-associative, Therefore PEMDAS/BODMAS will not function as expected - graph chains execute linearly.
 
-Therefore PEMDAS/BODMAS will not function as expected - graph chains execute linearly.
+The order of precedence for operations occurs through sequential evaluation (from left to right) similar to C++. Each operation is executed as it is encountered, without regard to the traditional precedence of operators.
 
-Standard:
-
-    1 + 1 * 2 + 2 == 5
-    10 + 1 * 2 + 2 == 14
-
-Hyperway left-association:
-
-    ( (1 + 1) * 2) + 2 == 6
-    ( (10 + 1) * 2) + 2 == 24
-
+<table>
+<thead><tr>
+  <th align="left">Standard order precedence</th>
+  <th align="left">Hyperway left-association</th>
+</tr></thead>
+<tbody><tr valign="top"><td>
 
 ```py
+# BODMAS computes * first
+ 1 + 1 * 2 + 2 == 5
+10 + 1 * 2 + 2 == 14
+```
+
+</td><td>
+
+```py
+# left-to-right computes linearly
+( (1 + 1)  * 2) + 2 == 6
+( (10 + 1) * 2) + 2 == 24
+```
+
+</td></tbody></table>
+
+```py
+# example sequential evaluation
 from hyperway.tools import factory as f
 from hyperway.edges import make_edge, wire
 
