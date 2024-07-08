@@ -95,7 +95,7 @@ Bind functions in an execution chain. Notably it's a minimum of two:
 <table>
 <thead><tr>
   <th align="left">Functional</th>
-  <th align="left">Methods</th>
+  <th align="left">Hyperway Graph</th>
 </tr></thead>
 <tbody><tr valign="top"><td>
 
@@ -104,9 +104,6 @@ from hyperway.edges import make_edge
 
 c = make_edge(f.add_1, f.add_2)
 # <Connection>
-
-c.pluck(1)
-# 4.0
 ```
 
 </td><td>
@@ -125,21 +122,24 @@ connection = g.add(f.add_1, f.add_2)
 </td></tbody></table>
 
 
-A Connection will run node _a_ when called:
+> [!IMPORTANT]
+> A `Connection` runs in two processing steps, due to a potential _wire_ function. Use `pluck()` to run both steps.
+
+A standard call will run node `a`:
 
 ```py
 >>> value_part_a = connection(1) # call A-side `add_1`
 2.0
 ```
 
-We can _process_ the second part:
+Then process the second part `b` (providing the value from the first call):
 
 ```py
 >>> connection.process(value_part_a) # call B-side `add_2`
 4.0
 ```
 
-#### Plucking Edges
+### Plucking Edges
 
 We can "pluck" a connection (like plucking a string) to run it with any arguments.
 
@@ -157,7 +157,7 @@ c.pluck(10)
 # 13.0 == 10 + 1 + 2
 ```
 
-#### Wire Function
+### Wire Function
 
 The connection can have a _wire_ function; a function existing between the two connections, allowing the alteration of the data through transit (whilst running through a connection)
 
