@@ -17,11 +17,9 @@ Python graph based functional execution library, with a unique API.
 ![PyPI](https://img.shields.io/pypi/v/hyperway?label=hyperway)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/hyperway)
 
----
 
 </div>
 
-## Quick Reference
 
 + [Graph](#graph)
 + [Stepper](#stepper)
