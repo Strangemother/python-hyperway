@@ -651,9 +651,9 @@ g.write('triple-split', direction='LR')
 
 The order of precedence for operations occurs through sequential evaluation (from left to right) similar to C. Each operation is executed as it is encountered, without regard to the traditional precedence of operators.
 
-+ (IBM z/OS Precedence and associativity)[ibm-order-precedence]
-+ (lagrammar.net)[lag]
-+ (Complexity in left-associative grammar)[complexity-in-lag]
++ [IBM z/OS Precedence and associativity][ibm-order-precedence]
++ [lagrammar.net][lag]
++ [Complexity in left-associative grammar][complexity-in-lag]
 
 
 <table>
