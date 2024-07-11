@@ -1,11 +1,13 @@
 
 <div align="center">
 
-![hyperway logo](./docs/images/logo-800.png)
+# Hyperway
 
 <br>
+---
 
-# Hyperway
+![hyperway logo](./docs/images/logo-800.png)
+
 
 Python graph based functional execution library, with a unique API.
 
@@ -15,7 +17,6 @@ Python graph based functional execution library, with a unique API.
 
 
 
----
 
 </div>
 
