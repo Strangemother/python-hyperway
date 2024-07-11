@@ -166,10 +166,13 @@ c.pluck(10)
 
 ### Wire Function
 
+An optional wire function exists between two nodes
+
 ![connection diagram of two nodes with a wire function](./docs/images/connection-with-wire.png)
 
 
-The connection can have a _wire_ function; a function existing between the two connections, allowing the alteration of the data through transit (whilst running through a connection)
+The [Connection](#connections-edges) can have a function existing between its connected [Units](#units-nodes), allowing the alteration of the data through transit (whilst running through a connection):
+
 
 ```py
 from hyperway.tools import factory as f
@@ -177,14 +180,20 @@ from hyperway.edges import make_edge, wire
 
 c = make_edge(f.add_1, f.add_2, through=wire(f.mul_2))
 # <Connection(Unit(func=P_add_1.0), Unit(func=P_add_2.0), through="P_mul_2.0" name=None)>
+```
 
+When using the connection side A (the `f.add_1` function), the wire function `wire(f.mul_2)` can inspect the values as they move to `f.add_2`.
+
+It's important to note Hyperway is _[left-associative](#order-of-operation)_. The order of operation computes linearly:
+
+```py
 assert c.pluck(1) == 10 # (1 + 1) * 2 + 2 == 6
 assert c.pluck(10) == 24 # (10 + 1) * 2 + 2 == 24
 ```
 
 ---
 
-**Why use a wire function?**
+#### Why use a wire function?
 
 It's easy to argue a wire function is a _node_, and you can implement the wire function without this connection tap.
 
@@ -640,7 +649,12 @@ g.write('triple-split', direction='LR')
 > [!IMPORTANT]
 > Hyperway is left-associative, Therefore PEMDAS/BODMAS will not function as expected - graph chains execute linearly.
 
-The order of precedence for operations occurs through sequential evaluation (from left to right) similar to C++. Each operation is executed as it is encountered, without regard to the traditional precedence of operators.
+The order of precedence for operations occurs through sequential evaluation (from left to right) similar to C. Each operation is executed as it is encountered, without regard to the traditional precedence of operators.
+
++ (IBM z/OS Precedence and associativity)[ibm-order-precedence]
++ (lagrammar.net)[lag]
++ (Complexity in left-associative grammar)[complexity-in-lag]
+
 
 <table>
 <thead><tr>
@@ -780,3 +794,9 @@ akw.kw
 # Links
 
 + https://graphviz.org/
+
+# References
+
+[ibm-order-precedence]: https://www.ibm.com/docs/en/zos/3.1.0?topic=section-precedence-associativity
+[lag]: https://lagrammar.net/monographs/1999/slides/pdf/chapter-10.pdf
+[complexity-in-lag]: https://www.researchgate.net/publication/222342088_Complexity_in_left-associative_grammar
