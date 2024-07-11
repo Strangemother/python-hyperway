@@ -68,13 +68,14 @@ g.write('intro-example', directory='renders', direction='LR')
 
 ![connection diagram](./docs/images/intro-example.gv.png)
 
-# What's In The Box
+# Contents
 
-> The `Unit` (or node) is a function connected to other nodes through a `Connection`.  The `Graph` maintains a register of all connections.
+> [!TIP]
+> **TL;DR:** The `Unit` (or node) is a function connected to other nodes through `Connections`. The `Stepper` walks the `Graph` of all connections.
 
 + `Graph`: A thing to hold all connections
 + `Unit`: A function on a graph, bound through edges
-+ `Edge`: A connection between Units
++ `Connection`: A connection between Units
 + `Stepper`: A graph walking tool
 
 This library aims to simplify graph based execution chains, allowing a developer to use functional graphs without managing the connections.
