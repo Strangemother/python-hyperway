@@ -10,7 +10,7 @@ Python graph based functional execution library, with a unique API.
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/hyperway)
 
 
-![hyperway logo](./docs/images/logo.png)
+![hyperway logo](./docs/images/logo-800.png)
 
 ---
 
@@ -18,8 +18,8 @@ Python graph based functional execution library, with a unique API.
 
 + [Graph](#graph)
 + [Stepper](#stepper)
-+ [Units Nodes](#units-nodes)  [Functions](#functions)
-+ [Connections (Edges)](#connections-edges) [Wire Functions](#wire-function)
++ [Units Nodes](#units-nodes) | [Functions](#functions)
++ [Connections (Edges)](#connections-edges) | [Wire Functions](#wire-function)
 + [Reference Links](#areas-of-interest)
 
 Hyperway is a graph based functional execution library, allowing you to connect functions arbitrarily through a unique API. Mimic a large range of programming paradigms such as procedural, parallel, or aspect-oriented-programming. Build B-trees or decision trees, circuitry or logic gates; all with a simple _wiring_ methodology.
@@ -762,6 +762,12 @@ akw.kw
 + https://en.wikipedia.org/wiki/Signal-flow_graph
 + https://resources.wolframcloud.com/FunctionRepository/resources/HypergraphPlot
 + https://www.lancaster.ac.uk/stor-i-student-sites/katie-howgate/2021/04/29/hypergraphs-not-just-a-cool-name/
+
+# Futher Reading
+
++ https://docs.dgl.ai/en/2.0.x/notebooks/sparse/hgnn.html | https://github.com/iMoonLab/DeepHypergraph/blob/main/README.md
++ https://distill.pub/2021/gnn-intro/
++ https://renzoangles.net/gdm/
 
 # Links
 
