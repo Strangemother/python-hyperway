@@ -70,15 +70,24 @@ g.write('intro-example', directory='renders', direction='LR')
 
 # Getting Started
 
+This library aims to simplify graph based execution chains, allowing a developer to use functional graphs without managing the connections.
+
 > [!TIP]
 > **TL;DR:** The `Unit` (or node) is a function connected to other nodes through `Connections`. The `Stepper` walks the `Graph` of all connections.
 
-+ `Graph`: A thing to hold all connections
-+ `Unit`: A function on a graph, bound through edges
-+ `Connection`: A connection between Units
-+ `Stepper`: A graph walking tool
 
-This library aims to simplify graph based execution chains, allowing a developer to use functional graphs without managing the connections.
+## Key
+
+The Hyperway API aims to simplify standard graph-theory terminology and allows developers to extend the base library with custom or preferred terms, such as `class Vertex(Unit): pass`.
+
+A fast breakdown of the Hyperway components, and their conventional siblings:
+
+| Hyperway | Graph Theory | Description |
+| --- | --- | --- |
+| `Graph` | Graph, or Tree | A flat dictionary to hold all connections |
+| `Unit` | Node, Point, or Vertex | A function on a graph, bound through edges |
+| `Connection` | Edge, link, or Line | A connection between Units |
+| `Stepper` | Walker, or Agent | A graph walking tool |
 
 
 ## Graph
@@ -100,21 +109,7 @@ Bind functions in an execution chain. Notably it's a minimum of two:
 ![connection diagram of two nodes with an optional wire function](./docs/images/connection.png)
 
 
-<table>
-<thead><tr>
-  <th align="left">Functional</th>
-  <th align="left">Hyperway Graph</th>
-</tr></thead>
-<tbody><tr valign="top"><td>
-
-```py
-from hyperway.edges import make_edge
-
-c = make_edge(f.add_1, f.add_2)
-# <Connection>
-```
-
-</td><td>
+  Hyperway
 
 ```py
 import hyperway
@@ -126,7 +121,15 @@ connection = g.add(f.add_1, f.add_2)
 # <Connection>
 ```
 
-</td></tbody></table>
+Functional
+
+```py
+from hyperway.edges import make_edge
+
+c = make_edge(f.add_1, f.add_2)
+# <Connection>
+```
+
 
 
 > [!IMPORTANT]
