@@ -7,7 +7,7 @@
 
 <br>
 
-<div style="display: hidden">
+<div style="display: none">
 
 # Hyperway
 
