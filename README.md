@@ -21,9 +21,11 @@ Python graph based functional execution library, with a unique API.
 
 </div>
 
+## Quick Reference
+
 + [Graph](#graph)
 + [Stepper](#stepper)
-+ [Units Nodes](#units-nodes) | [Functions](#functions)
++ [Units (Nodes)](#units-nodes) | [Functions](#functions)
 + [Connections (Edges)](#connections-edges) | [Wire Functions](#wire-function)
 + [Reference Links](#areas-of-interest)
 
