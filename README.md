@@ -7,11 +7,6 @@
 
 <br>
 
-<div style="display: none">
-
-# Hyperway
-
-</div>
 
 Python graph based functional execution library, with a unique API.
 
