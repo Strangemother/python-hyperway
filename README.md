@@ -94,7 +94,6 @@ A fast breakdown of the Hyperway components, and their conventional siblings:
 
 The `Graph` is a fancy `defaultdict` of tuples, used to store connections:
 
-
 ```py
 import hyperway
 
@@ -109,7 +108,7 @@ Bind functions in an execution chain. Notably it's a minimum of two:
 ![connection diagram of two nodes with an optional wire function](./docs/images/connection.png)
 
 
-  Hyperway
+Hyperway
 
 ```py
 import hyperway
@@ -121,7 +120,7 @@ connection = g.add(f.add_1, f.add_2)
 # <Connection>
 ```
 
-Functional
+Or Functional
 
 ```py
 from hyperway.edges import make_edge
@@ -130,14 +129,17 @@ c = make_edge(f.add_1, f.add_2)
 # <Connection>
 ```
 
+### Run a Connection
 
+We can _run_ a connection, calling the chain of two nodes. Generally a `Connection` isn't used outside a graph unless we're playing with it.
 
 > [!IMPORTANT]
-> A `Connection` runs in two processing steps, due to a potential _wire_ function. Use `pluck()` to run both steps.
+> A `Connection` has two processing steps due to a potential _wire_ function. Consider using `pluck()` to run both steps.
 
-A standard call will run node `a`:
+A standard call to a connection will run node `a` (the left side):
 
 ```py
+# connection = make_edge(f.add_1, f.add_2)
 >>> value_part_a = connection(1) # call A-side `add_1`
 2.0
 ```
@@ -148,6 +150,8 @@ Then process the second part `b` (providing the value from the first call):
 >>> connection.process(value_part_a) # call B-side `add_2`
 4.0
 ```
+
+Alternatively use the `pluck()` method.
 
 ### Plucking Edges
 
@@ -166,6 +170,9 @@ c.pluck(1)
 c.pluck(10)
 # 13.0 == 10 + 1 + 2
 ```
+
+The `pluck()` executes both nodes and the optional wire function, in the expected order. Fundamentally a connection is self-contained and doesn't require a parent graph.
+
 
 ### Wire Function
 
