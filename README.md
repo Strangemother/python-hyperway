@@ -1,13 +1,15 @@
 
 <div align="center">
 
-# Hyperway
-
 <br>
----
+
 
 ![hyperway logo](./docs/images/logo-800.png)
 
+
+<br>
+
+# Hyperway
 
 Python graph based functional execution library, with a unique API.
 
@@ -15,8 +17,7 @@ Python graph based functional execution library, with a unique API.
 ![PyPI](https://img.shields.io/pypi/v/hyperway?label=hyperway)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/hyperway)
 
-
-
+---
 
 </div>
 
