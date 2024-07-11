@@ -68,7 +68,7 @@ g.write('intro-example', directory='renders', direction='LR')
 
 ![connection diagram](./docs/images/intro-example.gv.png)
 
-# Contents
+# Getting Started
 
 > [!TIP]
 > **TL;DR:** The `Unit` (or node) is a function connected to other nodes through `Connections`. The `Stepper` walks the `Graph` of all connections.
@@ -115,7 +115,6 @@ c = make_edge(f.add_1, f.add_2)
 ```
 
 </td><td>
-
 
 ```py
 import hyperway
@@ -166,6 +165,9 @@ c.pluck(10)
 ```
 
 ### Wire Function
+
+![connection diagram of two nodes with a wire function](./docs/images/connection-with-wire.png)
+
 
 The connection can have a _wire_ function; a function existing between the two connections, allowing the alteration of the data through transit (whilst running through a connection)
 
