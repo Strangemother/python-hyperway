@@ -3,15 +3,15 @@
 
 <br>
 
-
 ![hyperway logo](./docs/images/logo-800.png)
-
-![two node Loop connection](./docs/images/2-nodes-loop.png)
-
 
 <br>
 
+<div style="display: hidden">
+
 # Hyperway
+
+</div>
 
 Python graph based functional execution library, with a unique API.
 
