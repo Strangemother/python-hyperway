@@ -19,14 +19,13 @@ Python graph based functional execution library, with a unique API.
 
 </div>
 
-
-Hyperway is a graph based functional execution library, allowing you to connect functions arbitrarily through a unique API. Mimic a large range of programming paradigms such as procedural, parallel, or aspect-oriented-programming. Build B-trees or decision trees, circuitry or logic gates; all with a simple _wiring_ methodology.
-
 + [Graph](#graph)
 + [Stepper](#stepper)
 + [Units (Nodes)](#units-nodes) | [Functions](#functions)
 + [Connections (Edges)](#connections-edges) | [Wire Functions](#wire-function)
 + [Reference Links](#areas-of-interest)
+
+Hyperway is a graph based functional execution library, allowing you to connect functions arbitrarily through a unique API. Mimic a large range of programming paradigms such as procedural, parallel, or aspect-oriented-programming. Build B-trees or decision trees, circuitry or logic gates; all with a simple _wiring_ methodology.
 
 
 ## Install
@@ -37,7 +36,7 @@ pip install hyperway
 
 ## Example
 
-Connect functions, then run your chain:
+Connect functions, run the chain:
 
 ```py
 import hyperway
@@ -76,11 +75,11 @@ This library aims to simplify graph based execution chains, allowing a developer
 > **TL;DR:** The `Unit` (or node) is a function connected to other nodes through `Connections`. The `Stepper` walks the `Graph` of all connections.
 
 
-## Key
+**Key**
 
 The Hyperway API aims to simplify standard graph-theory terminology and allows developers to extend the base library with custom or preferred terms, such as `class Vertex(Unit): pass`.
 
-A fast breakdown of the Hyperway components, and their conventional siblings:
+Hyperway components, and their conventional siblings:
 
 | Hyperway | Graph Theory | Description |
 | --- | --- | --- |
@@ -103,10 +102,24 @@ g = hyperway.Graph()
 
 ## Connections (Edges)
 
++ [Create](#create)
++ [Run](#run-a-connection)
++ [Pluck](#plucking)
++ [Wire Function](#wire-function)
++ [Self Reference](#self-reference)
+
 Bind functions in an execution chain. Notably it's a minimum of two:
 
 ![connection diagram of two nodes with an optional wire function](./docs/images/connection.png)
 
+```py
+from hyperway.edges import make_edge
+
+c = make_edge(f.add_1, f.add_2)
+# <Connection>
+```
+
+### Create
 
 Hyperway
 
@@ -153,9 +166,9 @@ Then process the second part `b` (providing the value from the first call):
 
 Alternatively use the `pluck()` method.
 
-### Plucking Edges
+### Plucking
 
-We can "pluck" a connection (like plucking a string) to run it with any arguments.
+We can "pluck" a connection (like plucking a string) to run a command with any arguments:
 
 ```py
 from hyperway.tools import factory as f
@@ -164,11 +177,8 @@ from hyperway.edges import make_edge
 c = make_edge(f.add_1, f.add_2)
 # Run side _a_ (`add_1`) and _b_ (`add_2`) with our input value.
 
-c.pluck(1)
-# 4.0 == 1 + 1 + 2
-
-c.pluck(10)
-# 13.0 == 10 + 1 + 2
+c.pluck(1)    # 4.0 == 1 + 1 + 2
+c.pluck(10)   # 13.0 == 10 + 1 + 2
 ```
 
 The `pluck()` executes both nodes and the optional wire function, in the expected order. Fundamentally a connection is self-contained and doesn't require a parent graph.
@@ -233,14 +243,9 @@ def doubler(v, *a, **kw):
 c = make_edge(f.add_1, f.add_2, through=doubler)
 # <Connection(Unit(func=P_add_1.0), Unit(func=P_add_2.0), name=None)>
 
-c.pluck(1)
-6.0
-
-c.pluck(2)
-8.0
-
-c.pluck(3)
-10.0
+c.pluck(1)  # 6.0
+c.pluck(2)  # 8.0
+c.pluck(3)  # 10.0
 ```
 
 The wire function is the reason for a two-step process when executing connections:
