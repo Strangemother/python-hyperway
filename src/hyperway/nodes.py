@@ -24,6 +24,12 @@ def is_unit(u, node_class=None):
 
 CACHE = {}
 
+class UnsetSentinal:
+    pass
+
+UNSET = UnsetSentinal()
+
+
 def get_edge_func():
     r = CACHE.get('make_edge')
     if r:
@@ -39,6 +45,7 @@ class Unit(IDFunc):
 
     merge_node = False
     name = None
+    sentinal = UNSET
 
     def __init__(self, func, **node_kwargs):
         self.func = func
@@ -93,7 +100,8 @@ class Unit(IDFunc):
     def process(self, *a, **kw):
         """Run the function without the strings.
         """
-        return self.func(*a, **kw)
+        is_nully = len(a) == 1 and a[0] is self.sentinal
+        return self.func(*(() if is_nully else a), **kw)
 
 
 class Nodes(Unit):
@@ -101,5 +109,4 @@ class Nodes(Unit):
     def process(self, *a, **kw):
         """Run the function without the strings.
         """
-
         return self.func(*a, **kw)
