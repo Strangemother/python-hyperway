@@ -34,6 +34,10 @@ Hyperway is a graph based functional execution library, allowing you to connect 
 pip install hyperway
 ```
 
+> [!NOTICE]
+> This project is very new and I'm still putting together better docs, tests, examples, a website, and all the bits in-between. Until then these [other libraries](#other-libraries) are awesome.
+
+
 ## Example
 
 Connect functions, run the chain:
@@ -314,7 +318,10 @@ add_10(14)
 ## Units (Nodes)
 
 
-The `Unit` (or node) is a function connected to other nodes through a `Connection`. A `Unit` is a wrapper for a connected function. Everything on a graph (and within a connection) is a `Unit`:
+The `Unit` (or node) is a function connected to other nodes through a `Connection`. A `Unit` is a wrapper for a any python function. Everything in the graph (and in a Connection) is a `Unit`.
+
+
+When we create a new connection, it automatically wraps the given functions as `Unit` types:
 
 ```py
 c = make_edge(f.mul_3, f.add_4)
@@ -332,7 +339,7 @@ A Unit has additional methods used by the graph tools, such as the `process` met
 5.0
 ```
 
-A new unit is unique, ensuring each new addition to the graph is will insert as a new node, allowing you to use the many times:
+A new unit is very unique. Creating a Connection with the same function for both sides `a` and `b`, will insert two new nodes:
 
 ```py
 c = make_edge(f.add_4, f.add_4)
@@ -340,8 +347,7 @@ c.pluck(4)
 12.0
 ```
 
-We can create a unit before insertion, to allow references to an _existing_ node.
-For example we can close a loop or a linear chain of function calls.
+We can cast a function as a `Unit` before insertion, allowing the re-reference to _existing_ nodes.
 
 ### Very Unique `Unit`
 
@@ -366,6 +372,10 @@ unit_a_2 = as_unit(unit_a) # unit_a is already a Unit
 assert unit_a == unit_a_2  # They are the same
 ```
 
+---
+
+With this we create a linear chain of function calls, or close a loop that will run forever.
+
 ### Linear (not closed)
 
 Generally when inserting functions, a new reference is created. This allows us to use the same function at different points in a chain:
@@ -383,6 +393,7 @@ _ = make_edge(b, c)
 _ = make_edge(c, a)
 
 ```
+
 
 ### Loop (closed)
 
@@ -465,7 +476,6 @@ stepper.step()
 
 ```
 
-
 We initiated a stepper at our preferred node `stepper = g.stepper(first_connection_first_node, 10)`. Any subsequent `stepper.step()` calls _push_ the stepper to the next execution step.
 
 Each iteration returns the _next_ thing to perform and the values from the previous unit call.
@@ -539,7 +549,6 @@ Use merge nodes to action _one_ call to a node, with two results.
 
 ![stepper merge node](./docs/images/stepper-merge.png)
 
-
 ```py
 g = Graph()
 u = as_unit(print)
@@ -561,6 +570,7 @@ When processing a print merge-node, one call is executed when events occur throu
 
 print(10, 11) # resultant
 ```
+
 
 ## Results Explode!
 
@@ -791,6 +801,33 @@ akw.kw
 { 'foo': 1 }
 ```
 
+
+---
+
+# Project Goal
+
+Although many existing libraries cater to graph theory, they often require a deep understanding of complex terminology and concepts. As an engineer without formal training in graph theory, these libraries are challenging.
+**Hyperway** is the result of few years of research aimed at developing a simplified functional graph-based execution library with a minimal set of core features.
+
+I'm slowly updating it to include the more advanced [future features](docs/future.md), such as hyper-edges and connection-decisions, bridging the gap between academic graph theory and practical application, providing developers with a low-level runtime that facilitates functional execution without the need for specialized knowledge.
+
+The core components of Hyperway were developed through more than 40 rewrites and refinements, leading to a robust framework that supports both procedural and parallel functionality with the same homogeneous interface.
+
+
+**Lessons Learned**
+
+Each restart was a lesson in what _not-to-do_. I have fundamentally 25 restart/rewrites. Roughly three of them I'd consider "complete" enough to function within a range of distinct cases, such as "electronic circuit", "logic gates", "function chains" and a bunch of other variants.
+
+1. API/Libraries Servers/Websites/Render-loops - bin-em
+   First version was an all-singing socketed executor. Which was crap to maintain.
+2. Let's try plugging-up _Devices_ and _pipes_
+   It works, But then I also have plugin functions, `on` method, mixins and all sorts of 'library' bits pushing around objects. It's too limited.
+3. The same thing; but with a "system" running a super-loop of futures
+   Sure it works, but now we have an asyncio execution machine, with a bunch of mixins, structures classes, and a specific _run_ function.
+   Entities are too classy, with a large unwanted method stack - more simpler is required
+---
+
+
 # Areas of Interest
 
 + https://graphclasses.org/
@@ -802,16 +839,27 @@ akw.kw
 
 # Futher Reading
 
++ (TensorFlow: Introduction to Graph and `tf.function`)[https://www.tensorflow.org/guide/intro_to_graphs]
++ (Wiki: Extract, transform, load)[https://en.wikipedia.org/wiki/Extract,_transform,_load]
 + https://docs.dgl.ai/en/2.0.x/notebooks/sparse/hgnn.html | https://github.com/iMoonLab/DeepHypergraph/blob/main/README.md
 + https://distill.pub/2021/gnn-intro/
 + https://renzoangles.net/gdm/
+
+# Other Libraries
+
++ (Graphtik)[https://graphtik.readthedocs.io/en/latest/]
++ (iGraph)[https://python.igraph.org/en/stable/index.html#]
++ (graph-tool)[https://graph-tool.skewed.de/]
++ (pyDot)[https://github.com/pydot/pydot]
++ (FreExGraph)[https://github.com/FreeYourSoul/FreExGraph]
++ (NetworkX)[https://networkx.org/documentation/latest/index.html]
+
 
 # Links
 
 + https://graphviz.org/
 
-# References
-
 [ibm-order-precedence]: https://www.ibm.com/docs/en/zos/3.1.0?topic=section-precedence-associativity
 [lag]: https://lagrammar.net/monographs/1999/slides/pdf/chapter-10.pdf
 [complexity-in-lag]: https://www.researchgate.net/publication/222342088_Complexity_in_left-associative_grammar
+
