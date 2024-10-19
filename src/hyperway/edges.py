@@ -91,7 +91,7 @@ class Connection(IDFunc):
         """If A is a merge node.
         """
         return self.get_a().merge_node
-#
+
     def stepper_call(self, akw, stepper=None, **meta):
         """This function is called explicitly by the stepper to process
         this connection side A, returning the result for A.
@@ -143,18 +143,18 @@ class Connection(IDFunc):
         return argspack(*a, **kw)
 
     def get_a(self, graph=None):
-        g = graph or self.on
-        if g is None:
-            return self.a
-        resolve = self.get_resolver()
-        return resolve(self.a, g)
+        return self.get_node_key('a', graph)
 
     def get_b(self, graph=None):
+        return self.get_node_key('b', graph)
+
+    def get_node_key(self, key, graph=None):
         g = graph or self.on
+        n = getattr(self, key)
         if g is None:
-            return self.b
+            return n
         resolve = self.get_resolver()
-        return resolve(self.b, g)
+        return resolve(n, g)
 
     def get_resolver(self):
         if self._resolver is None:
@@ -172,8 +172,12 @@ class Connection(IDFunc):
 
             add(divider, divider, through=argpack)
         """
+
+        """
+        ISSUE 01: Functional Return Sentinal
+        """
         res = self.get_a().process(*a, **kw)
-        print('pluck res A:', res)
+        # print('pluck res A:', res)
         return self.process(res)
 
     def process(self, *a, **kw):
