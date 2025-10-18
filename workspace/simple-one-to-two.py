@@ -40,7 +40,7 @@ def run():
 
     du = as_unit(doubler)
     e = g.add(du, collector)
-    e2 = g.add(du, collector)
+    # e2 = g.add(du, collector)
 
     g.stepper_prepare(du, 4)
     # g.stepper_prepare(na, 1,1)
@@ -50,8 +50,8 @@ def run():
 
     g.write('simple', engine='dot')
 
-    s.step() # call the doubler, yielding two outbound results
-    s.step() # call the collector, storing two results.
+    # s.step() # call the doubler, yielding two outbound results
+    # s.step() # call the collector, storing two results.
     pp(dict(s.stash))
     return g, s
 

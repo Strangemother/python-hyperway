@@ -33,7 +33,7 @@ def process_forward(graph, start_node, argspack):
     return stepper_c(graph, start_node, argspack)
 
 
-def expand(items, second):
+def expand_tuple(items, second):
     res = ()
     for conn in items:
         if isinstance(conn, (tuple,list)):
@@ -46,6 +46,32 @@ def expand(items, second):
 
     return res
 
+
+def expand_list(items, second):
+    """Alternative expand implementation using a list accumulator.
+
+    Builds rows with list append/extend and converts to a tuple at the end.
+    The return shape matches the original expand().
+    """
+    res_list = []
+    for conn in items:
+        if isinstance(conn, (tuple, list)):
+            res_list.extend((c, second) for c in conn)
+        else:
+            res_list.append((conn, second))
+    return tuple(res_list)
+
+
+expand = expand_tuple  # Choose which expand implementation to use
+
+def set_global_expand(expand_func):
+    """Set the global expand function used by the StepperC class.
+
+    Args:
+        expand_func: A function that matches the signature of expand_list/expand_tuple.
+    """
+    global expand
+    expand = expand_func    
 
 def stepper_c(graph, start_node, argspack):
     stepper = StepperC(graph)

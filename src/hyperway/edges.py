@@ -10,7 +10,6 @@ def make_edge(a, b, name=None, through=None, node_class=None):
             name=name, through=through)
     return c
 
-
 def is_edge(unit):
     return isinstance(unit, Connection)
 
