@@ -93,7 +93,7 @@ def main():
         >>>
     """
     # return chain_example_add_func() # == 39
-    chain_example_chain_func() # == 39
+    return chain_example_chain_func() # == 39
 
     # smoke_tests.main()
     # main_b()

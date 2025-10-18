@@ -28,6 +28,10 @@ dynamic = ['version']
 # license
 # maintainers
 # optional-dependencies
+[project.optional-dependencies]
+dev = [
+  "pytest",
+]
 # scripts
 # urls
 
