@@ -14,38 +14,7 @@ import unittest
 from hyperway.generator import fully_connected
 from hyperway.nodes import Unit, as_unit
 from hyperway.edges import Connection
-
-
-# Module-level helper functions used across multiple tests
-def noop():
-    """No-op function that returns None."""
-    return None
-
-
-def return_n(n):
-    """Create a function that returns n.
-    
-    Args:
-        n: The value to return
-        
-    Returns:
-        A function that returns n
-    """
-    def returner():
-        return n
-    return returner
-
-
-def passthrough(v):
-    """Return value as-is (passthrough/identity function)."""
-    return v
-
-
-def add_n(n):
-    """Create a function that adds n to a value."""
-    def adder(v):
-        return v + n
-    return adder
+from tiny_tools import return_n , add_n, noop
 
 
 class TestFullyConnectedBasics(unittest.TestCase):

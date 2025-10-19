@@ -32,28 +32,23 @@ from hyperway.stepper import (
 )
 
 
-# Module-level helper functions used across multiple tests
-def passthrough(v):
-    """Return value as-is (passthrough/identity function)."""
-    return v
-
-
 def multiply_by_2(v):
     """Multiply a value by 2."""
     return v * 2
 
 
-def add_n(n):
-    """Create a function that adds n to a value."""
-    def adder(v):
-        return v + n
-    return adder
+def merger(*args):
+    return sum(args)
 
+assert merger(1,2,3) == 6
 
-def noop():
-    """No-op function that does nothing."""
-    pass
+# Create a custom expand function
+def custom_expand(items, second):
+    return (('custom', second),)
 
+assert custom_expand({}, 42) == (('custom', 42),)
+
+from tiny_tools import add_n, passthrough, noop
 
 class TestExpandFunctions(unittest.TestCase):
     """Test the expand functions that create row tuples."""
@@ -125,10 +120,6 @@ class TestExpandFunctions(unittest.TestCase):
         from hyperway import stepper
         original_expand = stepper.expand
         
-        # Create a custom expand function
-        def custom_expand(items, second):
-            return (('custom', second),)
-        
         set_global_expand(custom_expand)
         
         # Verify it changed
@@ -178,10 +169,7 @@ class TestHelperFunctions(unittest.TestCase):
 
     def test_is_merge_node_false(self):
         """Test is_merge_node returns False for regular callables."""
-        def regular_func():
-            pass
-        
-        self.assertFalse(is_merge_node(regular_func))
+        self.assertFalse(is_merge_node(noop))
 
     def test_is_merge_node_true(self):
         """Test is_merge_node returns True when merge_node attribute is set."""
@@ -258,10 +246,7 @@ class TestRowConcat(unittest.TestCase):
     def test_row_concat_with_merge_node(self):
         """Test row_concat with a merge node that combines args."""
         g = Graph()
-        
-        def merger(*args):
-            return sum(args)
-        
+                
         merge_unit = as_unit(merger)
         merge_unit.merge_node = True
         
@@ -336,7 +321,7 @@ class TestCallOneMethods(unittest.TestCase):
         self.assertIsInstance(result, tuple)
         self.assertGreater(len(result), 0)
 
-    def test_call_one_fallthrough(self):
+    def test_call_one_fallthrough_2(self):
         """Test call_one_fallthrough for non-callable objects."""
         g = Graph()
         stepper = StepperC(g)

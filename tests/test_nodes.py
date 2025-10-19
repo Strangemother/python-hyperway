@@ -22,6 +22,11 @@ from hyperway.nodes import (
 )
 from hyperway.packer import argspack
 
+class CallableNoName:
+    def __call__(self, *a, **kw):
+        return "x"
+
+assert CallableNoName()() == "x"
 
 class TestGetEdgeFunc(unittest.TestCase):
     """Test get_edge_func() caching behavior."""
@@ -106,9 +111,7 @@ class TestUnitNamingAndStr(unittest.TestCase):
         self.assertIn("Unit(func=Custom)", str(u))
 
     def test_name_from_non_callable_repr(self):
-        class CallableNoName:
-            def __call__(self, *a, **kw):
-                return "x"
+        
 
         obj = CallableNoName()
         u = as_unit(obj)

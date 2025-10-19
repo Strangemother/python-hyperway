@@ -6,20 +6,23 @@ port = 8001
 
 [project]
 name = "hyperway"
-# version = "0.1a"
+version = "1.0.0"
 authors = [
   { name="Strangemother", email="hyperway@strangemother.com" },
 ]
-description = "hyperway"
+description = "A functional graph execution engine - execute computational graphs with clean, composable node connections"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 license = {text='MIT'}
-dynamic = ['version']
+# dynamic = ['version']
 # dependencies
 # dynamic
 # entry-points

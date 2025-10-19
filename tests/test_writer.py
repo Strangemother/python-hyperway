@@ -15,32 +15,64 @@ from hyperway.writer import set_graphviz, write_graphviz, HAS_GRAPHVIZ
 from hyperway.graph import Graph
 from hyperway.tools import factory as f
 
+from tiny_tools import delete_sys_module
+
+import sys
+
+# @unittest.skip('Demonstration of module restoration in teardown')
+class TestTestGraphvizImportErrorTearDown(unittest.TestCase):
+    """Test the TestGraphvizImportError class 
+    to ensure the teardown works as intended.
+    """
+    def setUp(self):
+        """Save the original module."""
+        from hyperway import writer 
+        self.original_module = sys.modules.get('hyperway.writer')
+        # the delete it to flag a new import
+        delete_sys_module('hyperway.writer')
+        assert 'hyperway.writer' not in sys.modules
+
+    def tearDown(self):
+        """Restore the original module."""
+        sys.modules['hyperway.writer'] = self.original_module
+        assert 'hyperway.writer' in sys.modules
+
+    def test_teardown_restores_module(self):
+        """Ensure that the teardown restores the original module."""
+        assert 'hyperway.writer' not in sys.modules
+        
+        # run the other test class module teardown
+        TestGraphvizImportError().tearDown()
+        # because we deleted it in setUp, 
+        # it should be restored now
+        restored_module = sys.modules.get('hyperway.writer')
+        self.assertIsNotNone(restored_module)
+        # Teardown should restore the original module
+
 
 class TestGraphvizImportError(unittest.TestCase):
     """Test handling of missing graphviz module."""
-    
+    original_writer = None
     def setUp(self):
         """Save the original module state."""
         import sys
         # Save the original writer module if it exists
         self.original_writer = sys.modules.get('hyperway.writer')
-        
+    
     def tearDown(self):
         """Restore the original module state."""
         import sys
-        import importlib
         
         # Remove the test-modified module
-        if 'hyperway.writer' in sys.modules:
-            del sys.modules['hyperway.writer']
+        delete_sys_module('hyperway.writer')
         
         # Restore or reimport the original
         if self.original_writer:
             sys.modules['hyperway.writer'] = self.original_writer
         else:
-            # Reimport fresh
+            # Reimport fresh - this branch handles case where module wasn't loaded before
             import hyperway.writer
-    
+
     @patch('sys.stderr.write')
     @patch('builtins.print')
     def test_graphviz_import_error_writes_to_stderr_better(self, mock_print, mock_stderr_write):

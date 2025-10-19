@@ -14,12 +14,8 @@ from hyperway.nodes import as_unit
 from hyperway.packer import argspack, ArgsPack
 from hyperway.graph import Graph
 
-# Reusable test functions to reduce redundancy
-def add_n(n):
-    """Create a function that adds n to its input."""
-    def adder(v):
-        return v + n
-    return adder
+from tiny_tools import passthrough, return_n , add_n, noop, doubler
+
 
 # Pre-create commonly used addition functions
 add_one = add_n(1)
@@ -28,32 +24,22 @@ add_five = add_n(5)
 add_ten = add_n(10)
 add_twenty = add_n(20)
 
-def passthrough(v=None):
-    """Standard passthrough function - returns input or None."""
-    return v
-
 # Aliases for backward compatibility and readability
 func_a = passthrough
 func_b = passthrough
 
 def func_c(v=None):
     """Standard test function C - returns 3 or v+3."""
-    return 3 if v is None else v + 3
+    if v is None:
+        v = 0
+    return add_n(3)(v)
 
-def return_n(n):
-    """Create a function that returns n."""
-    def returner():
-        return n
-    return returner
+assert func_c() == 3
+assert func_c(7) == 10
 
 # Pre-create commonly used return functions
 func_d = return_n(4)
 simple_func = return_n(1)
-
-
-def doubler(v, *args, **kwargs):
-    """Wire function that doubles the value."""
-    return argspack(v * 2, **kwargs)
 
 
 class TestMakeEdge(unittest.TestCase):
@@ -813,14 +799,12 @@ class TestConnectionEdgeCases(unittest.TestCase):
         representation should include the wire function's name for
         better debugging and visualization.
         """
-        def my_wire_function(v, *args, **kwargs):
-            return argspack(v * 2, **kwargs)
         
-        edge = make_edge(func_a, func_b, through=my_wire_function)
+        edge = make_edge(func_a, func_b, through=doubler)
         
         # String should include wire function name
         result = str(edge)
-        self.assertIn("my_wire_function", result)
+        self.assertIn("doubler", result)
         self.assertIn("through", result)
 
 

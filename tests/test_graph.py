@@ -19,6 +19,8 @@ from hyperway.nodes import as_unit, Unit
 from hyperway.packer import argspack
 from hyperway.stepper import StepperC
 
+from tiny_tools import add_n 
+from tiny_tools import pass_attribute_error
 
 # Reusable test functions to reduce redundancy
 def func_a(v=None):
@@ -27,23 +29,27 @@ def func_a(v=None):
         return None
     return v
 
+assert func_a() is None
+assert func_a(None) is None
+assert func_a(5) == 5
 
 def func_b(v=None):
     """Standard test function B - returns None or passes through value."""
-    if v is None:
-        return None
-    return v
+    return func_a(v)
+
+assert func_b() is None
+assert func_b(1) == 1
 
 
-def func_c():
-    """Standard test function C - returns 3."""
-    return 3
+func_c = add_n(3)
 
 
 def wire_func(v, *args, **kwargs):
     """Wire function that doubles the value."""
     return argspack(v * 2, **kwargs)
 
+assert wire_func(4).args[0] == 8
+assert wire_func(7, foo=200).kwargs['foo'] == 200
 
 class TestGraphBasics(unittest.TestCase):
     """Test basic Graph functionality."""
@@ -252,11 +258,7 @@ class TestGraphResolve(unittest.TestCase):
         # GraphBase doesn't have resolve_node by default,
         # but resolve calls it. This tests the delegation.
         # Just verify resolve doesn't crash
-        try:
-            result = g.resolve(unit)
-        except AttributeError:
-            # Expected - resolve_node not implemented in base
-            pass
+        pass_attribute_error(g.resolve, unit)
 
 
 class TestGraphStepperPrepare(unittest.TestCase):
@@ -579,11 +581,12 @@ class TestUndirectedGraphResolve(unittest.TestCase):
         
         # Just verify it doesn't crash
         # (resolve_node is not implemented in base)
-        try:
-            ug.resolve(unit)
-        except AttributeError:
-            # Expected - resolve_node not implemented
-            pass
+        # try:
+        #     ug.resolve(unit)
+        # except AttributeError:
+        #     # Expected - resolve_node not implemented
+        #     pass
+        pass_attribute_error(ug.resolve, unit)
 
 
 class TestGraphBaseUtilities(unittest.TestCase):

@@ -17,6 +17,21 @@ from hyperway.tools import factory as f
 from hyperway.edges import make_edge
 from hyperway.packer import argspack
 
+def wire_with_kwargs(v, *a, **kw):
+    """Wire function that modifies value but preserves kwargs."""
+    # Add a new kwarg and preserve existing ones
+    kw['transformed'] = True
+    return argspack(v + 5, **kw)
+
+
+def node_with_kwargs(v, transformed=False):
+    """Node that uses keyword arguments."""
+    if transformed:
+        return v * 10
+    return v
+
+assert node_with_kwargs(3, transformed=True) == 30
+assert node_with_kwargs(3, transformed=False) == 3
 
 class TestWireFunc(unittest.TestCase):
     """Validate that wire functions (through functions) properly transform data between nodes.
@@ -78,17 +93,6 @@ class TestWireFunc(unittest.TestCase):
 
     def test_wire_function_preserves_kwargs(self):
         """Test that wire functions can preserve and pass through keyword arguments."""
-        def wire_with_kwargs(v, *a, **kw):
-            """Wire function that modifies value but preserves kwargs."""
-            # Add a new kwarg and preserve existing ones
-            kw['transformed'] = True
-            return argspack(v + 5, **kw)
-        
-        def node_with_kwargs(v, transformed=False):
-            """Node that uses keyword arguments."""
-            if transformed:
-                return v * 10
-            return v
         
         connection = make_edge(
             f.add_1, 

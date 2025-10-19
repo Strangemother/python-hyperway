@@ -255,8 +255,6 @@ class TestStepperIterator(unittest.TestCase):
 
     def test_multiple_steps_execution(self):
         """Test calling step multiple times sequentially."""
-        def add(v):
-            return v + 5
         
         n1 = as_unit(multiply_by_2)
         self.graph.add(n1, add_n(5))
