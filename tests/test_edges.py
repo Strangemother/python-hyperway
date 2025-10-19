@@ -15,13 +15,26 @@ from hyperway.packer import argspack, ArgsPack
 from hyperway.graph import Graph
 
 # Reusable test functions to reduce redundancy
-def func_a(v=None):
-    """Standard test function A - returns input or None."""
+def add_n(n):
+    """Create a function that adds n to its input."""
+    def adder(v):
+        return v + n
+    return adder
+
+# Pre-create commonly used addition functions
+add_one = add_n(1)
+add_two = add_n(2)
+add_five = add_n(5)
+add_ten = add_n(10)
+add_twenty = add_n(20)
+
+def passthrough(v=None):
+    """Standard passthrough function - returns input or None."""
     return v
 
-def func_b(v=None):
-    """Standard test function B - returns input or None."""
-    return v
+# Aliases for backward compatibility and readability
+func_a = passthrough
+func_b = passthrough
 
 def func_c(v=None):
     """Standard test function C - returns 3 or v+3."""
@@ -34,26 +47,6 @@ def func_d():
 def simple_func():
     """Simple test function - returns 1."""
     return 1
-
-def add_one(v):
-    """Add one to value."""
-    return v + 1
-
-def add_two(v):
-    """Add two to value."""
-    return v + 2
-
-def add_five(v):
-    """Add five to value."""
-    return v + 5
-
-def add_ten(v):
-    """Add ten to value."""
-    return v + 10
-
-def add_twenty(v):
-    """Add twenty to value."""
-    return v + 20
 
 
 def doubler(v, *args, **kwargs):
@@ -512,9 +505,6 @@ class TestAsConnections(unittest.TestCase):
         connections from that node in the graph and include them
         in the result. This enables flexible graph construction.
         """
-        def func_c():
-            return 3
-        
         g = Graph()
         # Create shared unit_a with multiple outgoing edges
         unit_a = as_unit(func_a)
@@ -791,9 +781,6 @@ class TestConnectionEdgeCases(unittest.TestCase):
         automatically wrap it as a Unit and look up its connections via
         the graph.get() method (line 43 - the else branch).
         """
-        def func_c():
-            return 3
-        
         g = Graph()
         # Create a shared unit and add edges
         unit_a = as_unit(func_a)

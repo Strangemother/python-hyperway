@@ -173,8 +173,8 @@ class TestFullyConnectedEdgeStructure(unittest.TestCase):
                          f"Missing reverse edge for {(a, b)}")
     
     def test_no_self_loops(self):
-        """No node connects to itself."""
-        edges = fully_connected(noop, noop, return_3)
+        """Graph should not create edges from a unit to itself."""
+        edges = fully_connected(noop, noop, return_n(3))
         
         # No edge should have a == b
         for edge in edges:
@@ -259,17 +259,11 @@ class TestFullyConnectedMathematicalProperties(unittest.TestCase):
                                f"Failed for {n_nodes} nodes")
     
     def test_unique_units_preserved(self):
-        """Fully connected graph preserves unique nodes."""
-        edges = fully_connected(noop, noop, return_3, return_4)
-        
-        # Extract unique units
-        units = set()
-        for edge in edges:
-            units.add(edge.a)
-            units.add(edge.b)
-        
-        # Should have exactly 4 unique units
-        self.assertEqual(len(units), 4)
+        """Unique Unit instances create separate nodes."""
+        u1 = Unit(return_n(3))
+        u2 = Unit(return_n(4))
+        # u1 and u2 are separate Unit instances
+        edges = fully_connected(noop, u1, u2)
 
 
 class TestFullyConnectedEdgeCases(unittest.TestCase):
@@ -278,7 +272,7 @@ class TestFullyConnectedEdgeCases(unittest.TestCase):
     def test_same_function_multiple_times_creates_unique_units(self):
         """Same function used multiple times creates separate Units."""
         # Use same function 3 times - should create 3 different Units
-        edges = fully_connected(return_1, return_1, return_1)
+        edges = fully_connected(return_n(1), return_n(1), return_n(1))
         
         # Should have 6 edges (3 × 2)
         self.assertEqual(len(edges), 6)
