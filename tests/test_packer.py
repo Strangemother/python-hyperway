@@ -99,6 +99,43 @@ class TestArgsPackCreation(unittest.TestCase):
         self.assertEqual(akw.args, tuple(a))
         self.assertEqual(akw.kwargs, d)
 
+    def test_argpack_list_with_tuple_and_dict(self):
+        """Test the specific code path: list containing [tuple, dict].
+        
+        This tests the condition:
+            if isinstance(result, (tuple, list,)):
+                if isinstance(result[0], (list, tuple,)):
+                    if isinstance(result[1], (dict, )):
+        """
+        args_tuple = (100, 200, 300)
+        kwargs_dict = {'alpha': 'beta', 'gamma': 42}
+        
+        # Use a list as the outer container (not a tuple)
+        list_container = [args_tuple, kwargs_dict]
+        
+        akw = argpack(list_container)
+        
+        # Should unpack the tuple and dict correctly
+        self.assertEqual(akw.args, args_tuple)
+        self.assertEqual(akw.kwargs, kwargs_dict)
+
+    def test_argpack_list_with_list_and_dict(self):
+        """Test the code path with list containing [list, dict].
+        
+        This ensures both outer list and inner list trigger the unpacking.
+        """
+        args_list = [5, 10, 15]
+        kwargs_dict = {'option': 'value'}
+        
+        # Both outer and inner are lists
+        list_container = [args_list, kwargs_dict]
+        
+        akw = argpack(list_container)
+        
+        # Inner list should be converted to tuple
+        self.assertEqual(akw.args, tuple(args_list))
+        self.assertEqual(akw.kwargs, kwargs_dict)
+
 
 class TestArgsPackProperties(unittest.TestCase):
     """Test ArgsPack property accessors."""
