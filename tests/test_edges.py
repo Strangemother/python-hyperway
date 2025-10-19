@@ -40,13 +40,15 @@ def func_c(v=None):
     """Standard test function C - returns 3 or v+3."""
     return 3 if v is None else v + 3
 
-def func_d():
-    """Standard test function D - returns 4."""
-    return 4
+def return_n(n):
+    """Create a function that returns n."""
+    def returner():
+        return n
+    return returner
 
-def simple_func():
-    """Simple test function - returns 1."""
-    return 1
+# Pre-create commonly used return functions
+func_d = return_n(4)
+simple_func = return_n(1)
 
 
 def doubler(v, *args, **kwargs):
