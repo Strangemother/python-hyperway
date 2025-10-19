@@ -732,5 +732,95 @@ class TestUndirectedGraphResolve(unittest.TestCase):
             pass
 
 
+class TestGraphBaseUtilities(unittest.TestCase):
+    """Test utility functions from hyperway.graph.base module."""
+    
+    def test_is_graph_with_graph_instance(self):
+        """is_graph returns True for Graph instances."""
+        from hyperway.graph.base import is_graph
+        
+        g = Graph()
+        
+        # Should identify Graph instance
+        self.assertTrue(is_graph(g))
+    
+    def test_is_graph_with_custom_type(self):
+        """is_graph returns True for custom graph types passed as others."""
+        from hyperway.graph.base import is_graph, GraphBase
+        
+        class CustomGraph(GraphBase):
+            pass
+        
+        cg = CustomGraph()
+        
+        # Should identify custom graph when passed in others
+        self.assertTrue(is_graph(cg, CustomGraph))
+    
+    def test_is_graph_with_func_attribute(self):
+        """is_graph returns True when object.func is a graph instance.
+        
+        This tests line 28 - the isinstance(u.func, types) branch.
+        Some objects wrap graph instances in a .func attribute.
+        """
+        from hyperway.graph.base import is_graph, GraphBase
+        
+        # Create a wrapper object with .func attribute
+        class GraphWrapper:
+            def __init__(self, graph):
+                self.func = graph
+        
+        g = Graph()
+        wrapper = GraphWrapper(g)
+        
+        # Should identify graph through .func attribute
+        self.assertTrue(is_graph(wrapper))
+    
+    def test_is_graph_returns_false_for_non_graph(self):
+        """is_graph returns False for non-graph objects."""
+        from hyperway.graph.base import is_graph
+        
+        # Regular objects should not be graphs
+        self.assertFalse(is_graph("string"))
+        self.assertFalse(is_graph(42))
+        self.assertFalse(is_graph([]))
+        
+        # Object without .func should not trigger attribute error
+        class PlainObject:
+            pass
+        
+        self.assertFalse(is_graph(PlainObject()))
+    
+    def test_pairwise_function(self):
+        """pairwise creates sliding window pairs from an iterable.
+        
+        This tests lines 65-67 - the pairwise() utility function.
+        Given [1, 2, 3, 4], returns [(1,2), (2,3), (3,4)]
+        """
+        from hyperway.graph.base import pairwise
+        
+        # Test with list
+        result = list(pairwise([1, 2, 3, 4]))
+        expected = [(1, 2), (2, 3), (3, 4)]
+        self.assertEqual(result, expected)
+        
+        # Test with string
+        result = list(pairwise("ABCD"))
+        expected = [('A', 'B'), ('B', 'C'), ('C', 'D')]
+        self.assertEqual(result, expected)
+        
+        # Test with empty iterable
+        result = list(pairwise([]))
+        self.assertEqual(result, [])
+        
+        # Test with single element
+        result = list(pairwise([1]))
+        self.assertEqual(result, [])
+        
+        # Test with two elements
+        result = list(pairwise([1, 2]))
+        expected = [(1, 2)]
+        self.assertEqual(result, expected)
+
+
 if __name__ == '__main__':
     unittest.main()

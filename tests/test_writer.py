@@ -16,6 +16,70 @@ from hyperway.graph import Graph
 from hyperway.tools import factory as f
 
 
+class TestGraphvizImportError(unittest.TestCase):
+    """Test handling of missing graphviz module."""
+    
+    def setUp(self):
+        """Save the original module state."""
+        import sys
+        # Save the original writer module if it exists
+        self.original_writer = sys.modules.get('hyperway.writer')
+        
+    def tearDown(self):
+        """Restore the original module state."""
+        import sys
+        import importlib
+        
+        # Remove the test-modified module
+        if 'hyperway.writer' in sys.modules:
+            del sys.modules['hyperway.writer']
+        
+        # Restore or reimport the original
+        if self.original_writer:
+            sys.modules['hyperway.writer'] = self.original_writer
+        else:
+            # Reimport fresh
+            import hyperway.writer
+    
+    @patch('sys.stderr.write')
+    @patch('builtins.print')
+    def test_graphviz_import_error_writes_to_stderr_better(self, mock_print, mock_stderr_write):
+        """When graphviz import fails, error message is written to stderr."""
+        import sys
+        import importlib
+        import builtins
+        
+        # Remove writer module from sys.modules to force reimport
+        if 'hyperway.writer' in sys.modules:
+            del sys.modules['hyperway.writer']
+        
+        # Save the original import function
+        original_import = builtins.__import__
+        
+        # Mock graphviz to raise ImportError during import
+        with patch('sys.modules', sys.modules.copy()):
+            sys.modules['graphviz'] = None  # Mark as not available
+            
+            with patch('builtins.__import__', side_effect=lambda name, *args, **kwargs: 
+                       (_ for _ in ()).throw(ImportError("Mocked: graphviz not installed")) 
+                       if name == 'graphviz' 
+                       else original_import(name, *args, **kwargs)):
+                
+                # Import the module - should trigger the except block
+                import hyperway.writer
+                
+                # Verify stderr.write was called with error message
+                mock_stderr_write.assert_called()
+                stderr_call_args = str(mock_stderr_write.call_args)
+                self.assertIn('No graphviz installed', stderr_call_args)
+                
+                # Verify print was also called
+                mock_print.assert_called()
+                
+                # Verify HAS_GRAPHVIZ is False
+                self.assertFalse(hyperway.writer.HAS_GRAPHVIZ)
+
+
 class TestSetGraphviz(unittest.TestCase):
     """Validate set_graphviz PATH manipulation."""
 

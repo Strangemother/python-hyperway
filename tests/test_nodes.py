@@ -9,6 +9,7 @@ These tests validate core node behaviors:
 """
 
 import unittest
+from unittest.mock import patch
 
 from hyperway.nodes import (
     as_unit,
@@ -16,8 +17,36 @@ from hyperway.nodes import (
     is_unit,
     Unit,
     Nodes,
+    get_edge_func,
+    CACHE,
 )
 from hyperway.packer import argspack
+
+
+class TestGetEdgeFunc(unittest.TestCase):
+    """Test get_edge_func() caching behavior."""
+    
+    def test_returns_cached_make_edge(self):
+        """get_edge_func() returns cached make_edge when available."""
+        mock_func = lambda: "cached"
+        
+        with patch.dict(CACHE, {'make_edge': mock_func}):
+            result = get_edge_func()
+            self.assertEqual(result, mock_func)
+    
+    def test_imports_and_caches_when_not_cached(self):
+        """get_edge_func() imports make_edge and caches it when not present."""
+        with patch.dict(CACHE, {}, clear=True):
+            result = get_edge_func()
+            
+            # Should have imported and cached make_edge
+            self.assertIn('make_edge', CACHE)
+            self.assertEqual(CACHE['make_edge'], result)
+            
+            # Should be the actual make_edge function from edges module
+            from hyperway.edges import make_edge
+            self.assertEqual(result, make_edge)
+
 
 
 def no_arg_func():

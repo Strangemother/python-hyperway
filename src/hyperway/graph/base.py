@@ -25,7 +25,7 @@ class GraphBase(defaultdict):
 
 def is_graph(u, *others):
     types = (GraphBase,)+others
-    return isinstance(u, types) or isinstance(u.func, types)
+    return isinstance(u, types) or (hasattr(u, 'func') and isinstance(u.func, types))
 
 
 def add(graph, unit, other, name=None, through=None, node_class=None):

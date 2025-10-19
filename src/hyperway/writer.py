@@ -3,8 +3,12 @@
 try:
     import graphviz
     HAS_GRAPHVIZ = True
+    print('Successfully imported graphviz for writing graphviz files.')
 except ImportError:
-    print('No Graphviz -')
+    import sys
+    _error_string = 'No graphviz installed, cannot write graphviz files.\n'
+    sys.stderr.write(_error_string)
+    print(_error_string)
     HAS_GRAPHVIZ = False
 
 from .reader import get_nodes_edges
@@ -13,6 +17,7 @@ from .reader import get_nodes_edges
 import os
 from pathlib import Path
 
+
 def set_graphviz(path):
     graphviz_bin = Path(path)
     os.environ["PATH"] += os.pathsep + str(graphviz_bin)
@@ -20,7 +25,6 @@ def set_graphviz(path):
 
 def write_graphviz(graph, title, **opts):
     """
-
     styles:
         name               default
         ---------------------------
