@@ -40,6 +40,7 @@ def get_connections(graph, unit):
     # print('xx - Get for', unit)
     if hasattr(unit, 'get_connections'):
         # Is an edge.
+        print('Using unit.get_connections')
         res = unit.get_connections(graph)
     else:
         res = graph.get(as_unit(unit).id(), None)
@@ -75,6 +76,7 @@ class Connection(IDFunc):
         self.b = b
         self.through = through
         self.on = on
+        self._resolver = None
 
     def __str__(self):
         return self.as_str()
@@ -160,7 +162,7 @@ class Connection(IDFunc):
 
     def get_resolver(self):
         if self._resolver is None:
-            from graph import resolve
+            from .graph.base import resolve
             self._resolver = resolve
         return self._resolver
 

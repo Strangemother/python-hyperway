@@ -81,9 +81,16 @@ def put(graph, edge):
 
 
 def resolve(node, graph):
-    """Given the node (ID), return the Unit from the graph
+    """Given the node (ID), return the Unit from the graph.
+    
+    This is a standalone resolver that checks if the graph has a custom
+    resolve_node method. If not, it returns the node as-is.
     """
-    ## Currently this function wouldn't work. as units aren't stored in a
-    #generic graph.
-    return graph.resolve_node(node)
+    # Check if graph has a resolve_node method (avoid circular dependency)
+    if hasattr(graph, 'resolve_node'):
+        # Use the graph's custom resolver
+        return graph.resolve_node(node)
+    
+    # Fallback: nodes are not stored separately, return as-is
+    return node
 

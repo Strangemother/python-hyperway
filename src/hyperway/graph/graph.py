@@ -79,6 +79,23 @@ class Graph(GraphBase):
     def resolve(self, n, **kw):
         return resolve(n, self, **kw)
 
+    def resolve_node(self, node):
+        """Resolve a node reference, returning the node itself.
+        
+        In the current graph structure, nodes (Units) are not stored separately
+        from edges, so resolution simply returns the node. This method exists
+        to support the resolve() function in graph.base for potential future
+        implementations where nodes might be aliased or transformed.
+        
+        Args:
+            node: A Unit instance to resolve
+            
+        Returns:
+            The resolved node (currently just the input node itself)
+        """
+        # Currently nodes are not stored separately, so just return the node
+        return node
+
     def stepper_prepare(self, n=None, *a, **kw):
         self._stepper_callers = n
         self._stepper_args = argspack(*a, **kw)
