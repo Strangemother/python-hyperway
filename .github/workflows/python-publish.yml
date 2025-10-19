@@ -90,6 +90,24 @@ jobs:
       - name: Run tests and generate coverage
         run: tox -e py312
       
+      - name: Debug - Check coverage file paths
+        run: |
+          echo "=== Checking coverage.xml paths ==="
+          if [ -f coverage.xml ]; then
+            echo "Coverage file exists"
+            echo "Source path in coverage.xml:"
+            grep -A 1 "<sources>" coverage.xml
+            echo ""
+            echo "Sample file paths (first 5):"
+            grep -o 'filename="[^"]*"' coverage.xml | head -5
+            echo ""
+            echo "Actual source files in src/:"
+            ls -la src/hyperway/*.py | head -3
+          else
+            echo "ERROR: coverage.xml not found!"
+            exit 1
+          fi
+      
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v3
         env:
