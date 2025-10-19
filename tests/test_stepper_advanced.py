@@ -227,11 +227,9 @@ class TestRowConcat(unittest.TestCase):
         """Test row_concat with no duplicate nodes."""
         g = Graph()
         
-        def func_a(v):
-            return v + 1
+        func_a = lambda v: v
         
-        def func_b(v):
-            return v + 2
+        func_b = lambda v: v
         
         ua = as_unit(func_a)
         ub = as_unit(func_b)
@@ -359,8 +357,7 @@ class TestCallOneMethods(unittest.TestCase):
         def func_a(v):
             return v * 2
         
-        def func_b(v):
-            return v + 1
+        func_b = lambda v: v
         
         def func_c(v):
             return v + 2
@@ -412,8 +409,7 @@ class TestCallOneMethods(unittest.TestCase):
         def func_a(v):
             return v * 2
         
-        def func_b(v):
-            return v + 1
+        func_b = lambda v: v
         
         ua = as_unit(func_a)
         ub = as_unit(func_b)
@@ -476,8 +472,7 @@ class TestCallOneMethods(unittest.TestCase):
         def func_a(v):
             return v * 2
         
-        def func_b(v):
-            return v + 1
+        func_b = lambda v: v
         
         ua = as_unit(func_a)
         ub = as_unit(func_b)

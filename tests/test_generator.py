@@ -27,8 +27,7 @@ class TestFullyConnectedBasics(unittest.TestCase):
     
     def test_single_node_returns_empty_tuple(self):
         """fully_connected with one node has no edges."""
-        def func_a():
-            return 1
+        func_a = lambda: None
         
         result = fully_connected(func_a)
         # Single node cannot connect to itself, so no edges
@@ -36,11 +35,9 @@ class TestFullyConnectedBasics(unittest.TestCase):
     
     def test_two_nodes_creates_bidirectional_edges(self):
         """fully_connected with two nodes creates A→B and B→A."""
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         edges = fully_connected(func_a, func_b)
         
@@ -54,11 +51,9 @@ class TestFullyConnectedBasics(unittest.TestCase):
     
     def test_three_nodes_creates_six_edges(self):
         """fully_connected with three nodes creates 6 edges (3×2)."""
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         def func_c():
             return 3
@@ -78,11 +73,9 @@ class TestFullyConnectedNodeWrapping(unittest.TestCase):
     
     def test_callable_nodes_wrapped_as_units(self):
         """Callables are wrapped as Unit objects."""
-        def func_a(v):
-            return v + 1
+        func_a = lambda v: v
         
-        def func_b(v):
-            return v + 2
+        func_b = lambda v: v
         
         edges = fully_connected(func_a, func_b)
         
@@ -101,11 +94,9 @@ class TestFullyConnectedNodeWrapping(unittest.TestCase):
     
     def test_unit_objects_used_directly(self):
         """Pre-wrapped Unit objects are used directly."""
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         unit_a = as_unit(func_a)
         unit_b = as_unit(func_b)
@@ -124,11 +115,9 @@ class TestFullyConnectedNodeWrapping(unittest.TestCase):
     
     def test_mixed_units_and_callables(self):
         """Mix of Units and callables works correctly."""
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         unit_a = as_unit(func_a)
         # func_b is just a callable
@@ -172,11 +161,9 @@ class TestFullyConnectedEdgeStructure(unittest.TestCase):
     
     def test_bidirectional_connections_exist(self):
         """For every A→B edge, there's a B→A edge."""
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         def func_c():
             return 3
@@ -193,11 +180,9 @@ class TestFullyConnectedEdgeStructure(unittest.TestCase):
     
     def test_no_self_loops(self):
         """No node connects to itself."""
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         def func_c():
             return 3
@@ -215,11 +200,9 @@ class TestFullyConnectedWithKwargs(unittest.TestCase):
     
     def test_merge_node_kwarg_applied(self):
         """node_kwargs are passed to as_units."""
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         edges = fully_connected(func_a, func_b, merge_node=True)
         
@@ -235,11 +218,9 @@ class TestFullyConnectedWithKwargs(unittest.TestCase):
     
     def test_sentinal_kwarg_applied(self):
         """sentinal kwarg is passed to as_units."""
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         custom_sentinal = object()
         edges = fully_connected(func_a, func_b, sentinal=custom_sentinal)
@@ -256,11 +237,9 @@ class TestFullyConnectedWithKwargs(unittest.TestCase):
     
     def test_multiple_kwargs_applied(self):
         """Multiple kwargs are all applied to units."""
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         custom_sentinal = "CUSTOM"
         edges = fully_connected(
@@ -306,11 +285,9 @@ class TestFullyConnectedMathematicalProperties(unittest.TestCase):
     
     def test_unique_units_preserved(self):
         """Fully connected graph preserves unique nodes."""
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         def func_c():
             return 3
@@ -356,11 +333,9 @@ class TestFullyConnectedEdgeCases(unittest.TestCase):
     
     def test_returns_tuple_type(self):
         """Result is always a tuple, not list or other iterable."""
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         result = fully_connected(func_a, func_b)
         
@@ -390,11 +365,9 @@ class TestFullyConnectedIntegration(unittest.TestCase):
         """Edges from fully_connected work with Graph.add_edges."""
         from hyperway.graph import Graph
         
-        def func_a(v):
-            return v + 1
+        func_a = lambda v: v
         
-        def func_b(v):
-            return v + 2
+        func_b = lambda v: v
         
         g = Graph()
         edges = fully_connected(func_a, func_b)

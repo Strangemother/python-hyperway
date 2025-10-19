@@ -41,11 +41,9 @@ class TestGraphAddEdge(unittest.TestCase):
         """add_edge adds a connection to the graph."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         edge = make_edge(func_a, func_b)
         g.add_edge(edge)
@@ -58,11 +56,9 @@ class TestGraphAddEdge(unittest.TestCase):
         """add_edge stores edge by its id."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         edge = make_edge(func_a, func_b)
         edge_id = edge.id()
@@ -76,11 +72,9 @@ class TestGraphAddEdge(unittest.TestCase):
         """add_edge stores edge by node A's id."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         edge = make_edge(func_a, func_b)
         node_a_id = edge.a.id()
@@ -98,11 +92,9 @@ class TestGraphAddEdges(unittest.TestCase):
         """add_edges adds multiple edges."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         def func_c():
             return 3
@@ -120,11 +112,9 @@ class TestGraphAddEdges(unittest.TestCase):
         """add_edges works with tuple of edges."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         edges = (make_edge(func_a, func_b),)
         g.add_edges(edges)
@@ -146,11 +136,9 @@ class TestGraphGetNodes(unittest.TestCase):
         """get_nodes returns all unique nodes."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         def func_c():
             return 3
@@ -182,11 +170,9 @@ class TestGraphGetNodes(unittest.TestCase):
         """get_nodes includes both edge.a and edge.b."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         edge = make_edge(func_a, func_b)
         g.add_edge(edge)
@@ -205,11 +191,9 @@ class TestGraphConnect(unittest.TestCase):
         """connect creates chain for two nodes."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         connections = g.connect(func_a, func_b)
         
@@ -221,11 +205,9 @@ class TestGraphConnect(unittest.TestCase):
         """connect creates chain for three nodes (a→b, b→c)."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         def func_c():
             return 3
@@ -239,11 +221,9 @@ class TestGraphConnect(unittest.TestCase):
         """connect accepts through parameter for wire function."""
         g = Graph()
         
-        def func_a(v):
-            return v + 1
+        func_a = lambda v: v
         
-        def func_b(v):
-            return v + 2
+        func_b = lambda v: v
         
         def wire(v, *args, **kwargs):
             return argspack(v * 2, **kwargs)
@@ -262,11 +242,9 @@ class TestGraphAdd(unittest.TestCase):
         """add creates a single edge between two nodes."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         connection = g.add(func_a, func_b)
         
@@ -276,11 +254,9 @@ class TestGraphAdd(unittest.TestCase):
         """add accepts through parameter for wire function."""
         g = Graph()
         
-        def func_a(v):
-            return v + 1
+        func_a = lambda v: v
         
-        def func_b(v):
-            return v + 2
+        func_b = lambda v: v
         
         def wire(v, *args, **kwargs):
             return argspack(v * 2, **kwargs)
@@ -294,11 +270,9 @@ class TestGraphAdd(unittest.TestCase):
         """add stores the connection in the graph."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         connection = g.add(func_a, func_b)
         
@@ -313,8 +287,7 @@ class TestGraphResolve(unittest.TestCase):
         """resolve delegates to resolve_node method."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
         unit = as_unit(func_a)
         
@@ -335,8 +308,7 @@ class TestGraphStepperPrepare(unittest.TestCase):
         """stepper_prepare stores the starting node."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
         unit = as_unit(func_a)
         
@@ -348,8 +320,7 @@ class TestGraphStepperPrepare(unittest.TestCase):
         """stepper_prepare stores arguments as ArgsPack."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
         unit = as_unit(func_a)
         
@@ -363,8 +334,7 @@ class TestGraphStepperPrepare(unittest.TestCase):
         """stepper_prepare works with no arguments."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
         unit = as_unit(func_a)
         
@@ -383,11 +353,9 @@ class TestGraphStepperPrepareMany(unittest.TestCase):
         """stepper_prepare_many stores multiple (node, args) rows."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         unit_a = as_unit(func_a)
         unit_b = as_unit(func_b)
@@ -405,8 +373,7 @@ class TestGraphStepperPrepareMany(unittest.TestCase):
         """stepper_prepare_many wraps args in ArgsPacks."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
         unit = as_unit(func_a)
         
@@ -426,8 +393,7 @@ class TestGraphStepper(unittest.TestCase):
         """stepper returns a StepperC instance."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
         unit = as_unit(func_a)
         g.stepper_prepare(unit, 10)
@@ -442,11 +408,9 @@ class TestGraphStepper(unittest.TestCase):
         """stepper works with a simple connection."""
         g = Graph()
         
-        def func_a(v):
-            return v + 1
+        func_a = lambda v: v
         
-        def func_b(v):
-            return v + 2
+        func_b = lambda v: v
         
         # Create a connection
         g.connect(func_a, func_b)
@@ -467,8 +431,7 @@ class TestGraphStepper(unittest.TestCase):
         """stepper can be called with node and args directly."""
         g = Graph()
         
-        def func_a(v):
-            return v + 1
+        func_a = lambda v: v
         
         unit = as_unit(func_a)
         
@@ -482,8 +445,7 @@ class TestGraphStepper(unittest.TestCase):
         """stepper uses rows from stepper_prepare_many."""
         g = Graph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
         unit = as_unit(func_a)
         
@@ -600,11 +562,9 @@ class TestUndirectedGraphAddEdge(unittest.TestCase):
         """add_edge stores edge in both FORWARD and BACKWARD graphs."""
         ug = UndirectedGraph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         edge = make_edge(func_a, func_b)
         ug.add_edge(edge)
@@ -622,11 +582,9 @@ class TestUndirectedGraphConnect(unittest.TestCase):
         """connect creates edges in both FORWARD and BACKWARD graphs."""
         ug = UndirectedGraph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         result = ug.connect(func_a, func_b)
         
@@ -639,11 +597,9 @@ class TestUndirectedGraphConnect(unittest.TestCase):
         """connect with three nodes creates edges in both directions."""
         ug = UndirectedGraph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         def func_c():
             return 3
@@ -659,11 +615,9 @@ class TestUndirectedGraphConnect(unittest.TestCase):
         """connect reverses node order for BACKWARD graph."""
         ug = UndirectedGraph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         def func_c():
             return 3
@@ -699,11 +653,9 @@ class TestUndirectedGraphAdd(unittest.TestCase):
         """add creates a connection."""
         ug = UndirectedGraph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
-        def func_b():
-            return 2
+        func_b = lambda: None
         
         result = ug.add(func_a, func_b)
         
@@ -718,8 +670,7 @@ class TestUndirectedGraphResolve(unittest.TestCase):
         """resolve calls base resolve function."""
         ug = UndirectedGraph()
         
-        def func_a():
-            return 1
+        func_a = lambda: None
         
         unit = as_unit(func_a)
         
