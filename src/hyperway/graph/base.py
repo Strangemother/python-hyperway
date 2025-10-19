@@ -16,7 +16,6 @@ class GraphBase(defaultdict):
         if len(res) == 0:
             print('no res', other)
             return self.resolve_node_to_nowhere(other)
-
         return res
 
     def resolve_node_to_nowhere(self, other):

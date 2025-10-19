@@ -92,8 +92,7 @@ class Connection(IDFunc):
 
     @property
     def merge_node(self):
-        """If A is a merge node.
-        """
+        """If A is a merge node."""
         return self.get_a().merge_node
 
     def stepper_call(self, akw, stepper=None, **meta):
@@ -180,7 +179,6 @@ class Connection(IDFunc):
         ISSUE 01: Functional Return Sentinal
         """
         res = self.get_a().process(*a, **kw)
-        # print('pluck res A:', res)
         return self.process(res)
 
     def process(self, *a, **kw):
@@ -235,7 +233,6 @@ class PartialConnection(IDFunc):
         Call upon self.process with the given argspack. This will call the
         wire function, and then the B function, returning B result.
         """
-        # wire_raw_res =
         return self.process(*akw.a,**akw.kw)
 
     def process(self, *a, **kw):
@@ -243,7 +240,6 @@ class PartialConnection(IDFunc):
         B function.
         """
         pr = self.parent_connection
-        # Call Connection.process
         return pr.process(*a, **kw)
 
     def graph_next_process_caller(self, _graph=None):

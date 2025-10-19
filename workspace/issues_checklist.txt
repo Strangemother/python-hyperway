@@ -1,0 +1,114 @@
+SonarCloud Issues Checklist - 137 total issues
+============================================================
+
+[ ] docs/info.html
+    (2 issues)
+
+[ ] src/hyperway/edges.py
+    Lines: 90, 99, 110, 232, 250
+
+[ ] src/hyperway/graph/base.py
+    Lines: 22
+
+[ ] src/hyperway/graph/graph.py
+    (4 issues)
+
+[ ] src/hyperway/packer.py
+    Lines: 73
+
+[ ] src/hyperway/reader.py
+    Lines: 8, 19, 20, 131, 138, 147
+
+[ ] src/hyperway/stepper.py
+    Lines: 99, 150, 194, 201, 305, 314, 364, 372, 400, 428
+
+[ ] src/hyperway/tools.py
+    Lines: 105
+
+[ ] src/hyperway/view.html
+    Lines: 14
+
+[ ] src/hyperway/writer.py
+    Lines: 69, 88, 93
+
+[ ] tests/test_condition.py
+    (2 issues)
+
+[ ] tests/test_edges.py
+    (3 issues)
+
+[ ] tests/test_generator.py
+    (2 issues)
+
+[ ] tests/test_graph.py
+    (1 issues)
+
+[ ] tests/test_reader.py
+    (2 issues)
+
+[ ] tests/test_stepper.py
+    (6 issues)
+
+[ ] tests/test_stepper_advanced.py
+    (6 issues)
+
+[ ] tests/test_tools.py
+    (8 issues)
+
+[ ] tests/test_wire_func.py
+    (8 issues)
+
+[ ] tests/test_writer.py
+    (4 issues)
+
+[ ] workspace/arrows.py
+    (5 issues)
+
+[ ] workspace/bench_expand.py
+    (1 issues)
+
+[ ] workspace/double-split.py
+    (3 issues)
+
+[ ] workspace/functional-add.py
+    (3 issues)
+
+[ ] workspace/gates/nand-gate.py
+    (1 issues)
+
+[ ] workspace/hyperedge.py
+    (5 issues)
+
+[ ] workspace/instance-method-node.py
+    (2 issues)
+
+[ ] workspace/merge-node.py
+    (3 issues)
+
+[ ] workspace/render-image.py
+    (4 issues)
+
+[ ] workspace/run.py
+    (12 issues)
+
+[ ] workspace/run_2.py
+    (3 issues)
+
+[ ] workspace/run_3.py
+    (2 issues)
+
+[ ] workspace/sentinal.py
+    (1 issues)
+
+[ ] workspace/simple-one-to-two.py
+    (3 issues)
+
+[ ] workspace/triple-split-2.py
+    (3 issues)
+
+[ ] workspace/triple-split-3.py
+    (4 issues)
+
+[ ] workspace/triple-split.py
+    (3 issues)
+

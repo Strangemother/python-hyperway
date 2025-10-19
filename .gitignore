@@ -135,3 +135,4 @@ dmypy.json
 .pyre/
 local.md
 django-trim/.pypirc
+workspace/.sonarcloud.token

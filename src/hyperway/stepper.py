@@ -96,7 +96,7 @@ def set_global_expand(expand_func):
 def stepper_c(graph, start_node, argspack):
     stepper = StepperC(graph)
     res = stepper.start(start_node, akw=argspack)
-    # res = stepper.step_one(start_node, akw=argspack)
+
     return stepper, res
 
 
@@ -147,7 +147,7 @@ class StepperC(object):
         self.rows = rows
 
     def reset_stash(self):
-        self.stash = defaultdict(tuple) # [func] += (akw,)
+        self.stash = defaultdict(tuple) 
 
     def prepare(self, *funcs, akw):
         """Prepare the stepper with the start nodes and the initial argument
@@ -190,15 +190,13 @@ class StepperC(object):
         c = 0
         st_nodes = self.start_nodes
         if st_nodes is None:
-            # Start node must be something....
+            # Start node must be something...
             raise Exception('start_nodes is None')
         self.rows = rows or self.rows or expand(st_nodes, self.start_akw,)
 
         while c < count:
             c += 1
-            # print(c)
             self.rows = self.call_rows(self.rows)
-        # yield from self.rows
         return self.rows
 
     def start(self, *funcs, akw):
@@ -302,8 +300,6 @@ class StepperC(object):
         if len(items) == len(rows):
             return rows
 
-        # print('\nReduction detected.')
-        # pp(_args)
         new_rows = ()
         # For each item, recreate the argspack and restack the row.
         for uniquable, calls in _args.items():
@@ -311,10 +307,8 @@ class StepperC(object):
             for next_caller, akw in calls:
                 akws += (akw,)
 
-            # print(f'Caller "{next_caller}" receives stacked call ({len(akws)})')
-            # print(akws)
-
-            # concat_flat to reapply the same count of rows _out_, as was given.
+            # concat_flat to reapply the same count of rows _out_, 
+            # as was given.
             if concat_flat:
                 # Then reiterate, applying each caller with the new args
                 for next_caller, _ in calls:
@@ -361,6 +355,7 @@ class StepperC(object):
         if is_edge(func):
             return self.call_one_connection(func, akw)
 
+        ## Future implementation consideration:
         # if is_graph(func, self.graph.__class__):
         #     return self.call_one_graph(func, akw)
 
@@ -397,11 +392,6 @@ class StepperC(object):
 
         return expand(a_to_b_conns, res_akw)
 
-    # def call_one_graph(self, func, akw):
-    #     """A Graph or subgraph;
-    #     """
-    #     func.get_connections()
-
     def call_one_callable(self, func, akw):
         """The given callable is an Connect (edge) or a callable function
         (such as the raw function).
@@ -425,7 +415,6 @@ class StepperC(object):
         returning the B node raw result.
         """
         wire_raw_res = partial_conn.stepper_call(akw, stepper=self)
-        # w_to_b_conns = get_connections(self.graph, partial_conn)
         b_conns = get_connections(self.graph, partial_conn.b)
 
         # The raw wire result here, is the wire -> B result (as the

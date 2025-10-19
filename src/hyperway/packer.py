@@ -15,7 +15,6 @@ def argpack(result=UNDEFINED, *more, **extra):
     """Given a result from a unit process(), convert to a chainable (a, kw)
     arg set, allowing the expansion of results arbitrarily.
 
-
         akw = argpack(  argpack(a, b, c=d, e=f)  )
         akw = argpack(a, b, c=d, e=f)
         akw = argpack(a)
@@ -45,9 +44,7 @@ def argpack(result=UNDEFINED, *more, **extra):
 
         akw = some_function(1)
         # ( (), {} )  # tuple ( tuple, dict )
-
     """
-
     if isinstance(result, ArgsPack):
         return result
 
@@ -71,13 +68,11 @@ def test_argpack():
 
     a = (1,3,4,5)
     d = dict(foo=3, bar=4)
-
-    ## Test argpack accepts argpack
+    
     v = argpack(argpack(a, **d))
     assert a == v.args[0]
     assert d == v.kwargs
 
-    # packable format.
     v = argpack( (a, d) )
     assert a == v.args
     assert d == v.kwargs
