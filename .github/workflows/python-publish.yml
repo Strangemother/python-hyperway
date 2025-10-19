@@ -92,6 +92,12 @@ jobs:
         with:
           python-version: '3.12'
       
+      - name: Install Graphviz
+        run: |
+          wget https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/14.0.1/ubuntu_25.04_graphviz-14.0.1-cmake.deb -O /tmp/graphviz-14.0.1.deb
+          sudo dpkg -i /tmp/graphviz-14.0.1.deb
+          dot -V
+      
       - name: Install tox
         run: |
           python -m pip install --upgrade pip
