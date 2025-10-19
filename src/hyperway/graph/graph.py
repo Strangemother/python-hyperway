@@ -138,6 +138,10 @@ class UndirectedGraph(object):
             return self.graphs[k]
         return super().__getattr__(k)
 
+    def __getitem__(self, k):
+        """Allow subscript access to FORWARD/BACKWARD graphs."""
+        return self.graphs[k]
+
     def connect(self, *nodes, **kw):
         fa = connect(self[FORWARD], *nodes, **kw)
         ba = connect(self[BACKWARD], *reversed(nodes), **kw)
