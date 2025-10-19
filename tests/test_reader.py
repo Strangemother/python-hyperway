@@ -124,6 +124,3 @@ class TestReaderTreeChain(unittest.TestCase):
         row_without = reader.conn_b_chain(g, c, with_through=False)
         self.assertEqual(row_without, (b,))
 
-
-if __name__ == "__main__":
-    unittest.main()

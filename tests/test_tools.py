@@ -366,5 +366,3 @@ class TestFactoryDocstringExamples(unittest.TestCase):
         self.assertEqual(result, 9.0)
 
 
-if __name__ == '__main__':
-    unittest.main()

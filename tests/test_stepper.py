@@ -410,6 +410,3 @@ class TestStepperDocumentationExample(unittest.TestCase):
         # Verify stepper has stash (even if empty, should be a defaultdict)
         self.assertIsInstance(stepper.stash, defaultdict)
 
-
-if __name__ == "__main__":
-    unittest.main()

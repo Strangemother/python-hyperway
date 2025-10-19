@@ -670,6 +670,3 @@ class TestGraphBaseUtilities(unittest.TestCase):
         expected = [(1, 2)]
         self.assertEqual(result, expected)
 
-
-if __name__ == '__main__':
-    unittest.main()

@@ -220,6 +220,3 @@ class TestUnitInput(unittest.TestCase):
         
         self.assertEqual(result, 20)
 
-
-if __name__ == "__main__":
-    unittest.main()

@@ -31,5 +31,3 @@ class TestIDFunc(unittest.TestCase):
         self.assertEqual(obj.id(), id(obj))
 
 
-if __name__ == '__main__':
-    unittest.main()

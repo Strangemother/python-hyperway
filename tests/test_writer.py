@@ -256,5 +256,3 @@ class TestGraphvizImport(unittest.TestCase):
         self.assertIsInstance(HAS_GRAPHVIZ, bool)
 
 
-if __name__ == '__main__':
-    unittest.main()

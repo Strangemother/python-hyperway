@@ -901,6 +901,3 @@ class TestPartialConnectionEdgeCases(unittest.TestCase):
         node_b_with_graph = edge.get_node_key('b', graph=g)
         self.assertEqual(node_b_with_graph, edge.b)
 
-
-if __name__ == '__main__':
-    unittest.main()

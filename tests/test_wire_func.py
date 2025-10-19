@@ -183,5 +183,3 @@ class TestWireFuncEdgeCases(unittest.TestCase):
         self.assertEqual(connection.pluck(15), 34)
 
 
-if __name__ == "__main__":
-    unittest.main()

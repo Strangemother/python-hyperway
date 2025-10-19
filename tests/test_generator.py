@@ -396,6 +396,3 @@ class TestFullyConnectedIntegration(unittest.TestCase):
             # Result depends on which edge, but should work
             self.assertIsNotNone(result)
 
-
-if __name__ == '__main__':
-    unittest.main()

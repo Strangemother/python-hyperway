@@ -748,7 +748,3 @@ class TestStepperDunderIter(unittest.TestCase):
         # Result should be a generator from StepperIterator.__next__
         # The __iter__ method returns next(self.iterator()), which yields a generator
         self.assertIsNotNone(result)
-
-
-if __name__ == '__main__':
-    unittest.main()
