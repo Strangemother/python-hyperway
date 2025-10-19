@@ -360,6 +360,35 @@ class TestArgsPackEdgeCases(unittest.TestCase):
         # Should treat the whole thing as one argument
         self.assertEqual(akw.args, (not_packable,))
 
+    def test_argpack_tuple_with_tuple_and_non_dict(self):
+        """Test branch where result[0] is tuple/list but result[1] is NOT dict.
+        
+        This covers the false branch of: if isinstance(result[1], (dict, ))
+        Line 60->64 in coverage report.
+        """
+        # First element is a tuple, but second is NOT a dict
+        not_packable = ((1, 2, 3), 'not-a-dict')
+        
+        akw = argpack(not_packable)
+        
+        # Should NOT unpack, treat whole thing as single argument
+        self.assertEqual(akw.args, (not_packable,))
+        self.assertEqual(akw.kwargs, {})
+
+    def test_argpack_list_with_list_and_non_dict(self):
+        """Test branch where result[0] is list but result[1] is NOT dict.
+        
+        Another variant covering the same false branch.
+        """
+        # Both elements exist, first is list, second is not dict
+        not_packable = [[10, 20], 42]
+        
+        akw = argpack(not_packable)
+        
+        # Should NOT unpack
+        self.assertEqual(akw.args, (not_packable,))
+        self.assertEqual(akw.kwargs, {})
+
 
 class TestArgsPackDocumentationExamples(unittest.TestCase):
     """Test examples from the argpack docstring."""
