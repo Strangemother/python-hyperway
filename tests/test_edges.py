@@ -21,6 +21,45 @@ def func_b(v=None):
     """Standard test function B - returns input or None."""
     return v
 
+def func_c(v=None):
+    """Standard test function C - returns 3 or v+3."""
+    return 3 if v is None else v + 3
+
+def func_d():
+    """Standard test function D - returns 4."""
+    return 4
+
+def simple_func():
+    """Simple test function - returns 1."""
+    return 1
+
+def add_one(v):
+    """Add one to value."""
+    return v + 1
+
+def add_two(v):
+    """Add two to value."""
+    return v + 2
+
+def add_five(v):
+    """Add five to value."""
+    return v + 5
+
+def add_ten(v):
+    """Add ten to value."""
+    return v + 10
+
+def add_twenty(v):
+    """Add twenty to value."""
+    return v + 20
+
+
+def doubler(v, *args, **kwargs):
+    """Wire function that doubles the value."""
+    from hyperway.packer import argspack
+    return argspack(v * 2, **kwargs)
+
+
 class TestMakeEdge(unittest.TestCase):
     """Test make_edge function - creates Connection between two nodes."""
     
@@ -87,14 +126,11 @@ class TestIsEdge(unittest.TestCase):
         Regular functions, Units, and other objects should not be
         identified as edges.
         """
-        def func():
-            return 1
-        
         # Function should not be an edge
-        self.assertFalse(is_edge(func))
+        self.assertFalse(is_edge(simple_func))
         
         # Unit should not be an edge
-        unit = as_unit(func)
+        unit = as_unit(simple_func)
         self.assertFalse(is_edge(unit))
         
         # Random objects should not be edges
@@ -166,12 +202,6 @@ class TestConnectionPluck(unittest.TestCase):
         It runs: input -> A -> [wire] -> B -> output
         This is crucial for development and testing individual connections.
         """
-        def add_one(v):
-            return v + 1
-        
-        def add_two(v):
-            return v + 2
-        
         edge = make_edge(add_one, add_two)
         
         # Pluck should execute: 10 -> add_one(10)=11 -> add_two(11)=13
@@ -188,16 +218,6 @@ class TestConnectionPluck(unittest.TestCase):
         3. Execute node B with wire's output
         """
         from hyperway.packer import argspack
-        
-        def add_one(v):
-            return v + 1
-        
-        def add_two(v):
-            return v + 2
-        
-        def doubler(v, *args, **kwargs):
-            # Wire function doubles the value
-            return argspack(v * 2, **kwargs)
         
         edge = make_edge(add_one, add_two, through=doubler)
         
@@ -286,12 +306,6 @@ class TestConnectionStepperCall(unittest.TestCase):
         """
         from hyperway.packer import argspack
         
-        def add_ten(v):
-            return v + 10
-        
-        def add_twenty(v):
-            return v + 20
-        
         edge = make_edge(add_ten, add_twenty)
         akw = argspack(5)
         
@@ -334,12 +348,6 @@ class TestConnectionHalfCall(unittest.TestCase):
         """
         from hyperway.packer import argspack, ArgsPack
         from hyperway.edges import PartialConnection
-        
-        def add_five(v):
-            return v + 5
-        
-        def add_ten(v):
-            return v + 10
         
         edge = make_edge(add_five, add_ten)
         akw = argspack(10)
@@ -416,15 +424,6 @@ class TestPartialConnectionExecution(unittest.TestCase):
         """
         from hyperway.packer import argspack
         
-        def add_one(v):
-            return v + 1
-        
-        def add_two(v):
-            return v + 2
-        
-        def doubler(v, *args, **kwargs):
-            return argspack(v * 2, **kwargs)
-        
         edge = make_edge(add_one, add_two, through=doubler)
         akw = argspack(10)
         
@@ -444,12 +443,6 @@ class TestPartialConnectionExecution(unittest.TestCase):
         the wire function followed by node B.
         """
         from hyperway.packer import argspack
-        
-        def add_five(v):
-            return v + 5
-        
-        def add_ten(v):
-            return v + 10
         
         edge = make_edge(add_five, add_ten)
         akw = argspack(10)
@@ -515,9 +508,7 @@ class TestAsConnections(unittest.TestCase):
         connections and nodes in the input list.
         """
         from hyperway.graph import Graph
-        from hyperway.edges import as_connections        
-        def func_c():
-            return 3
+        from hyperway.edges import as_connections
         
         g = Graph()
         edge1 = g.add(func_a, func_b)
@@ -567,12 +558,6 @@ class TestConnectionCall(unittest.TestCase):
         execute only node A and return A's result. This is used internally
         by the stepper for graph execution.
         """
-        def add_ten(v):
-            return v + 10
-        
-        def add_twenty(v):
-            return v + 20
-        
         edge = make_edge(add_ten, add_twenty)
         
         # Calling the connection should execute node A only
@@ -610,15 +595,6 @@ class TestPartialConnectionCall(unittest.TestCase):
         This provides a direct way to complete the second half of an edge.
         """
         from hyperway.packer import argspack
-        
-        def add_five(v):
-            return v + 5
-        
-        def add_ten(v):
-            return v + 10
-        
-        def doubler(v, *args, **kwargs):
-            return argspack(v * 2, **kwargs)
         
         edge = make_edge(add_five, add_ten, through=doubler)
         akw = argspack(10)
@@ -665,12 +641,7 @@ class TestPartialConnectionGetConnections(unittest.TestCase):
         This allows the stepper to continue traversing the graph.
         """
         from hyperway.graph import Graph
-        from hyperway.packer import argspack        
-        def func_c():
-            return 3
-        
-        def func_d():
-            return 4
+        from hyperway.packer import argspack
         
         g = Graph()
         # Create shared unit_b with multiple outgoing edges
@@ -728,9 +699,7 @@ class TestGetConnections(unittest.TestCase):
         edges where the given node is the source (A).
         """
         from hyperway.graph import Graph
-        from hyperway.edges import get_connections        
-        def func_c(v):
-            return v + 3
+        from hyperway.edges import get_connections
         
         g = Graph()
         # Explicitly create and reuse the same Unit instance
@@ -760,9 +729,7 @@ class TestGetConnections(unittest.TestCase):
         This allows the stepper to traverse: edge -> edge.b -> next_edges
         """
         from hyperway.graph import Graph
-        from hyperway.edges import get_connections        
-        def func_c(v):
-            return v + 3
+        from hyperway.edges import get_connections
         
         g = Graph()
         # Explicitly share unit_b across multiple connections
@@ -792,9 +759,7 @@ class TestGetConnectionsIfBranch(unittest.TestCase):
         call unit.get_connections(graph) instead of using graph.get().
         """
         from hyperway.graph import Graph
-        from hyperway.edges import get_connections, PartialConnection        
-        def func_c():
-            return 3
+        from hyperway.edges import get_connections, PartialConnection
         
         g = Graph()
         # Create a chain with shared unit_b
