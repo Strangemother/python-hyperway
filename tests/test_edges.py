@@ -9,8 +9,10 @@ Connection, PartialConnection classes.
 import unittest
 from unittest.mock import patch, MagicMock
 
-from hyperway.edges import make_edge, is_edge, Connection
+from hyperway.edges import make_edge, is_edge, Connection, PartialConnection, as_connections, get_connections
 from hyperway.nodes import as_unit
+from hyperway.packer import argspack, ArgsPack
+from hyperway.graph import Graph
 
 # Reusable test functions to reduce redundancy
 def func_a(v=None):
@@ -56,7 +58,6 @@ def add_twenty(v):
 
 def doubler(v, *args, **kwargs):
     """Wire function that doubles the value."""
-    from hyperway.packer import argspack
     return argspack(v * 2, **kwargs)
 
 
@@ -97,7 +98,6 @@ class TestMakeEdge(unittest.TestCase):
         between node A and node B. This is crucial for data transformation
         in the graph execution pipeline.
         """
-        from hyperway.packer import argspack
         
         wire_function = lambda v, *args, **kwargs: argspack(v * 2, **kwargs)
         
@@ -217,7 +217,6 @@ class TestConnectionPluck(unittest.TestCase):
         2. Pass A's result through the wire function
         3. Execute node B with wire's output
         """
-        from hyperway.packer import argspack
         
         edge = make_edge(add_one, add_two, through=doubler)
         
@@ -235,7 +234,6 @@ class TestConnectionCallThrough(unittest.TestCase):
         The wire function transforms data between nodes. call_through
         should execute it and return an ArgsPack with the result.
         """
-        from hyperway.packer import argspack, ArgsPack        
         def wire(v, *args, **kwargs):
             return argspack(v * 3, **kwargs)
         
@@ -255,7 +253,6 @@ class TestConnectionCallThrough(unittest.TestCase):
         If no wire function exists, call_through should wrap the inputs
         in an ArgsPack and return them unchanged.
         """
-        from hyperway.packer import ArgsPack        
         edge = make_edge(func_a, func_b)  # No wire function
         
         result = edge.call_through(10, 20, key='value')
@@ -304,7 +301,6 @@ class TestConnectionStepperCall(unittest.TestCase):
         This is called by the stepper during graph execution.
         It should execute only node A (not the wire or B) and return A's result.
         """
-        from hyperway.packer import argspack
         
         edge = make_edge(add_ten, add_twenty)
         akw = argspack(5)
@@ -321,7 +317,6 @@ class TestConnectionStepperCall(unittest.TestCase):
         The stepper passes data via ArgsPack which can contain both
         args and kwargs. stepper_call should unpack these correctly.
         """
-        from hyperway.packer import argspack
         
         def func_with_kwargs(a, b=0):
             return a + b       
@@ -346,8 +341,6 @@ class TestConnectionHalfCall(unittest.TestCase):
         2. Return a PartialConnection (for wire->B execution)
         3. Return an ArgsPack with A's result
         """
-        from hyperway.packer import argspack, ArgsPack
-        from hyperway.edges import PartialConnection
         
         edge = make_edge(add_five, add_ten)
         akw = argspack(10)
@@ -368,8 +361,6 @@ class TestConnectionHalfCall(unittest.TestCase):
         The PartialConnection returned by half_call should reference
         the original Connection so it can execute the wire->B portion later.
         """
-        from hyperway.packer import argspack
-        from hyperway.edges import PartialConnection        
         edge = make_edge(func_a, func_b)
         akw = argspack(10)
         
@@ -387,7 +378,6 @@ class TestPartialConnectionBasics(unittest.TestCase):
         PartialConnection represents the wire->B portion of an edge.
         The .b property should return node B from the parent Connection.
         """
-        from hyperway.packer import argspack        
         edge = make_edge(func_a, func_b)
         akw = argspack(10)
         
@@ -403,7 +393,6 @@ class TestPartialConnectionBasics(unittest.TestCase):
         PartialConnection.merge_node should check node B
         (since it represents the second half of the edge).
         """
-        from hyperway.packer import argspack        
         edge = make_edge(func_a, func_b)
         edge.b.merge_node = True
         
@@ -422,7 +411,6 @@ class TestPartialConnectionExecution(unittest.TestCase):
         The PartialConnection represents the second half of edge execution.
         It should apply the wire function and then execute node B.
         """
-        from hyperway.packer import argspack
         
         edge = make_edge(add_one, add_two, through=doubler)
         akw = argspack(10)
@@ -442,7 +430,6 @@ class TestPartialConnectionExecution(unittest.TestCase):
         It should take an ArgsPack (containing A's result) and execute
         the wire function followed by node B.
         """
-        from hyperway.packer import argspack
         
         edge = make_edge(add_five, add_ten)
         akw = argspack(10)
@@ -467,7 +454,6 @@ class TestPartialConnectionStringRepresentation(unittest.TestCase):
         String representation should indicate this is a PartialConnection
         and show which node B it connects to.
         """
-        from hyperway.packer import argspack        
         edge = make_edge(func_a, func_b)
         akw = argspack()
         
@@ -484,7 +470,6 @@ class TestPartialConnectionStringRepresentation(unittest.TestCase):
         
         Repr should provide a clear representation for debugging.
         """
-        from hyperway.packer import argspack        
         edge = make_edge(func_a, func_b)
         akw = argspack()
         
@@ -507,8 +492,6 @@ class TestAsConnections(unittest.TestCase):
         should return them as-is without modification. This allows mixing
         connections and nodes in the input list.
         """
-        from hyperway.graph import Graph
-        from hyperway.edges import as_connections
         
         g = Graph()
         edge1 = g.add(func_a, func_b)
@@ -529,8 +512,6 @@ class TestAsConnections(unittest.TestCase):
         connections from that node in the graph and include them
         in the result. This enables flexible graph construction.
         """
-        from hyperway.graph import Graph
-        from hyperway.edges import as_connections        
         def func_c():
             return 3
         
@@ -594,7 +575,6 @@ class TestPartialConnectionCall(unittest.TestCase):
         the wire function (if present) and then node B, returning B's result.
         This provides a direct way to complete the second half of an edge.
         """
-        from hyperway.packer import argspack
         
         edge = make_edge(add_five, add_ten, through=doubler)
         akw = argspack(10)
@@ -614,7 +594,6 @@ class TestPartialConnectionCall(unittest.TestCase):
         The __call__ method should pass through both positional and
         keyword arguments to the wire->B pipeline.
         """
-        from hyperway.packer import argspack        
         def func_with_kwargs(a, b=0):
             return a + b
         
@@ -640,8 +619,6 @@ class TestPartialConnectionGetConnections(unittest.TestCase):
         all connections that start from the parent connection's B node.
         This allows the stepper to continue traversing the graph.
         """
-        from hyperway.graph import Graph
-        from hyperway.packer import argspack
         
         g = Graph()
         # Create shared unit_b with multiple outgoing edges
@@ -670,8 +647,6 @@ class TestPartialConnectionGetConnections(unittest.TestCase):
         When the B node has no outgoing connections (it's a leaf in the graph),
         get_connections should return an empty tuple.
         """
-        from hyperway.graph import Graph
-        from hyperway.packer import argspack        
         g = Graph()
         edge = g.add(func_a, func_b)
         
@@ -698,8 +673,6 @@ class TestGetConnections(unittest.TestCase):
         The graph stores edges by node ID, so get_connections looks up
         edges where the given node is the source (A).
         """
-        from hyperway.graph import Graph
-        from hyperway.edges import get_connections
         
         g = Graph()
         # Explicitly create and reuse the same Unit instance
@@ -728,8 +701,6 @@ class TestGetConnections(unittest.TestCase):
         2. Return a tuple of the A nodes of those connections
         This allows the stepper to traverse: edge -> edge.b -> next_edges
         """
-        from hyperway.graph import Graph
-        from hyperway.edges import get_connections
         
         g = Graph()
         # Explicitly share unit_b across multiple connections
@@ -758,8 +729,6 @@ class TestGetConnectionsIfBranch(unittest.TestCase):
         get_connections function, it should take the if branch (line 42) and
         call unit.get_connections(graph) instead of using graph.get().
         """
-        from hyperway.graph import Graph
-        from hyperway.edges import get_connections, PartialConnection
         
         g = Graph()
         # Create a chain with shared unit_b
@@ -768,7 +737,6 @@ class TestGetConnectionsIfBranch(unittest.TestCase):
         edge2 = g.add(unit_b, func_c)
         
         # Create a PartialConnection from edge1
-        from hyperway.packer import argspack
         akw = argspack()
         partial, _ = edge1.half_call(akw)
         
@@ -795,8 +763,6 @@ class TestGetConnectionsElseBranch(unittest.TestCase):
         use graph.get() to look up connections by the Unit's ID. This tests
         line 43: the else branch where hasattr(unit, 'get_connections') is False.
         """
-        from hyperway.graph import Graph
-        from hyperway.edges import get_connections        
         g = Graph()
         # Create a unit and add it to graph
         unit_a = as_unit(func_a)
@@ -825,8 +791,6 @@ class TestConnectionEdgeCases(unittest.TestCase):
         automatically wrap it as a Unit and look up its connections via
         the graph.get() method (line 43 - the else branch).
         """
-        from hyperway.graph import Graph
-        from hyperway.edges import get_connections        
         def func_c():
             return 3
         
@@ -860,7 +824,6 @@ class TestConnectionEdgeCases(unittest.TestCase):
         representation should include the wire function's name for
         better debugging and visualization.
         """
-        from hyperway.packer import argspack        
         def my_wire_function(v, *args, **kwargs):
             return argspack(v * 2, **kwargs)
         
@@ -870,6 +833,7 @@ class TestConnectionEdgeCases(unittest.TestCase):
         result = str(edge)
         self.assertIn("my_wire_function", result)
         self.assertIn("through", result)
+
 
 class TestPartialConnectionEdgeCases(unittest.TestCase):
     """Test PartialConnection edge cases and alternative code paths."""
@@ -881,7 +845,6 @@ class TestPartialConnectionEdgeCases(unittest.TestCase):
         node when traversing the graph. For a PartialConnection, it
         should return self.node (which may be None if not explicitly set).
         """
-        from hyperway.packer import argspack        
         edge = make_edge(func_a, func_b)
         akw = argspack()
         
@@ -895,7 +858,6 @@ class TestPartialConnectionEdgeCases(unittest.TestCase):
         self.assertIsNone(result)
         
         # Test with explicit node parameter
-        from hyperway.edges import PartialConnection
         unit_a = as_unit(func_a)
         partial_with_node = PartialConnection(edge, node=unit_a)
         result_with_node = partial_with_node.graph_next_process_caller()
@@ -912,7 +874,6 @@ class TestPartialConnectionEdgeCases(unittest.TestCase):
         The resolve() function checks if the graph has resolve_node() and
         uses it, otherwise returns the node as-is.
         """
-        from hyperway.graph import Graph        
         g = Graph()
         edge = g.add(func_a, func_b)
         
@@ -939,6 +900,7 @@ class TestPartialConnectionEdgeCases(unittest.TestCase):
         # Second call should use cached resolver (doesn't re-import)
         node_b_with_graph = edge.get_node_key('b', graph=g)
         self.assertEqual(node_b_with_graph, edge.b)
+
 
 if __name__ == '__main__':
     unittest.main()
