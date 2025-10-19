@@ -8,9 +8,15 @@
 
 name: Upload Python Package
 
-# Trigger on workflow dispatch (manual trigger) or when a release is published
+# Trigger on workflow dispatch (manual trigger), pushes to main, PRs, or when a release is published
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
   release:
     types: [published]
 
@@ -20,6 +26,8 @@ permissions:
 jobs:
   release-build:
     runs-on: ubuntu-latest
+    # Only run on releases, not on regular pushes/PRs
+    if: github.event_name == 'release'
 
     steps:
       - uses: actions/checkout@v4
@@ -42,6 +50,8 @@ jobs:
 
   pypi-publish:
     runs-on: ubuntu-latest
+    # Only run on releases, not on regular pushes/PRs
+    if: github.event_name == 'release'
     needs:
       - release-build
     permissions:
