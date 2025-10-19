@@ -46,17 +46,13 @@ def expand_tuple(items, second):
     if items is None:
         # No connections - return empty rows (end of branch)
         return ()
-    
     res = ()
     for conn in items:
         if isinstance(conn, (tuple,list)):
             for c in conn:
-                row = (c, second)
-                res += (row,)
+                res += ((c, second),)
             continue
-        row = (conn, second)
-        res += (row,)
-
+        res += ((conn, second),)
     return res
 
 

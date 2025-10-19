@@ -13,7 +13,7 @@
 [![PyPI](https://img.shields.io/pypi/v/hyperway?label=hyperway)](https://pypi.org/project/hyperway/)
 ![License](https://img.shields.io/pypi/l/hyperway)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/hyperway)](https://pypi.org/project/hyperway/)
-![coverage](https://img.shields.io/codecov/c/github/Strangemother/python-hyperway?logo=codecov&logoColor=white)
+[![Sonar Coverage](https://img.shields.io/sonar/coverage/Strangemother_python-hyperway?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=Strangemother_python-hyperway)
 
 # Hyperway
 

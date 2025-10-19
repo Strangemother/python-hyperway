@@ -85,8 +85,8 @@ class Connection(IDFunc):
         return f"<{self.as_str()}>"
 
     def __call__(self, *a, _graph=None, **kw):
-        # Call a, return tuple for through caller.
-        print('Connection()  ')
+        """Call this connection, returning the result of B.
+        This will call A, then the through function (if any), then B."""
         g = _graph or self.on
         return self.get_a().process(*a, **kw)
 
@@ -105,7 +105,6 @@ class Connection(IDFunc):
         Call upon self.process with the given argspack. This will call the
         wire function, and then the B function, returning B result.
         """
-        # wire_raw_res =
         return self.get_a().process(*akw.a,**akw.kw)
 
     def half_call(self, akw, stepper=None, **meta):
@@ -186,7 +185,6 @@ class Connection(IDFunc):
 
     def process(self, *a, **kw):
         akw = self.call_through(*a, **kw)
-        # print("Though result", akw)
         return self.b.process(*akw.args, **akw.kwargs)
 
 
@@ -196,11 +194,8 @@ class PartialConnection(IDFunc):
         self.on = on
         self.node = node
         self.parent_connection = parent_connection
-        # self.func = func
 
     def __call__(self, *a, _graph=None, **kw):
-        print('!  Calling PartialConnection')
-        g = _graph or self.on
         r = self.process(*a, **kw)
         return r
 
@@ -223,15 +218,14 @@ class PartialConnection(IDFunc):
         return self.parent_connection.get_b()
 
     def get_connections(self, graph):
-        print('PartialConnection get_connections')
+        """Return the connections from node B, as the next step.
+        This is called by the stepper when processing this partial connection."""
         resolve = graph.resolve_node_connections
-        # b_next = get_connections(graph, self.parent_connection.b)
         b_next = resolve(self.parent_connection.b)
         return b_next
 
     def wb_pair(self):
-        """Return the _wire_ and _node B_ function as a tuple pair.
-        """
+        """Return the _wire_ and _node B_ function as a tuple pair."""
         pc = self.parent_connection
         return (pc.through, pc.b)
 

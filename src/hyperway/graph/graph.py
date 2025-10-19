@@ -2,7 +2,6 @@ from collections import defaultdict
 
 from .base import GraphBase, connect, add, resolve
 from .. import writer
-# from ..stepper import StepperC
 from ..packer import argspack
 
 __all__ = ['Graph']
@@ -30,7 +29,6 @@ class Graph(GraphBase):
 
         Alternatively use the `add(a,b)` or `connect(*nodes)` methods.
         """
-        # id of the _edge_
         self[edge.id()] += (edge, )
         self[edge.a.id()] += (edge, )
 
@@ -106,19 +104,18 @@ class Graph(GraphBase):
         """
         res = ()
         for node, *args in rows:
-            print(node, args)
             row = (node, argspack(*args),)
             res += (row,)
         self._stepper_rows = res
-        # self._stepper_args = argspack(*a, **kw)
+        
 
     def stepper(self, n=None, *a, **kw):
-        _StepperC = self.get_stepper_class()
+        _stepper_class = self.get_stepper_class()
         if self._stepper_rows is not None:
-            stepper = _StepperC(self, self._stepper_rows)
+            stepper = _stepper_class(self, self._stepper_rows)
             return stepper
 
-        stepper = _StepperC(self)
+        stepper = _stepper_class(self)
         n = n or self._stepper_callers
         akw = self._stepper_args
 
@@ -145,10 +142,8 @@ class UndirectedGraph(object):
         }
 
     def add_edge(self, edge):
-        # id of the _edge_
         self.graphs[FORWARD][id(edge)] += (edge, )
         self.graphs[BACKWARD][id(edge)] += (edge, )
-        # self[id(edge)] += (edge, )
 
     def __getattr__(self, k):
         if k in self.graphs:
