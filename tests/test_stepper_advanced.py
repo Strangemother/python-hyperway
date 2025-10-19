@@ -32,6 +32,29 @@ from hyperway.stepper import (
 )
 
 
+# Module-level helper functions used across multiple tests
+def passthrough(v):
+    """Return value as-is (passthrough/identity function)."""
+    return v
+
+
+def multiply_by_2(v):
+    """Multiply a value by 2."""
+    return v * 2
+
+
+def add_n(n):
+    """Create a function that adds n to a value."""
+    def adder(v):
+        return v + n
+    return adder
+
+
+def noop():
+    """No-op function that does nothing."""
+    pass
+
+
 class TestExpandFunctions(unittest.TestCase):
     """Test the expand functions that create row tuples."""
 
@@ -122,11 +145,8 @@ class TestHelperFunctions(unittest.TestCase):
         """Test run_stepper convenience function."""
         g = Graph()
         
-        def doubler(v):
-            return v * 2
-        
-        unit = as_unit(doubler)
-        g.add(unit, lambda v: v)
+        unit = as_unit(multiply_by_2)
+        g.add(unit, passthrough)
         
         stepper, result = run_stepper(g, unit, 5)
         
@@ -137,10 +157,7 @@ class TestHelperFunctions(unittest.TestCase):
         """Test process_forward function."""
         g = Graph()
         
-        def adder(v):
-            return v + 10
-        
-        unit = as_unit(adder)
+        unit = as_unit(add_n(10))
         akw = argspack(5)
         
         stepper, result = process_forward(g, unit, akw)
@@ -151,10 +168,7 @@ class TestHelperFunctions(unittest.TestCase):
         """Test stepper_c factory function."""
         g = Graph()
         
-        def simple(v):
-            return v
-        
-        unit = as_unit(simple)
+        unit = as_unit(passthrough)
         akw = argspack(10)
         
         stepper, result = stepper_c(g, unit, akw)
@@ -227,12 +241,8 @@ class TestRowConcat(unittest.TestCase):
         """Test row_concat with no duplicate nodes."""
         g = Graph()
         
-        func_a = lambda v: v
-        
-        func_b = lambda v: v
-        
-        ua = as_unit(func_a)
-        ub = as_unit(func_b)
+        ua = as_unit(passthrough)
+        ub = as_unit(passthrough)
         
         stepper = StepperC(g)
         rows = (
@@ -274,14 +284,8 @@ class TestRowConcat(unittest.TestCase):
         """Test row_concat with PartialConnection instances."""
         g = Graph()
         
-        def node_a(v):
-            return v
-        
-        def node_b(v):
-            return v
-        
-        ua = as_unit(node_a)
-        ub = as_unit(node_b)
+        ua = as_unit(passthrough)
+        ub = as_unit(passthrough)
         
         edge = make_edge(ua, ub)
         
@@ -302,10 +306,7 @@ class TestRowConcat(unittest.TestCase):
         """Test row_concat with concat_flat=True."""
         g = Graph()
         
-        def func(v):
-            return v
-        
-        unit = as_unit(func)
+        unit = as_unit(passthrough)
         
         stepper = StepperC(g)
         rows = (
@@ -354,20 +355,12 @@ class TestCallOneMethods(unittest.TestCase):
         """Test call_one_connection with an edge."""
         g = Graph()
         
-        def func_a(v):
-            return v * 2
-        
-        func_b = lambda v: v
-        
-        def func_c(v):
-            return v + 2
-        
-        ua = as_unit(func_a)
-        ub = as_unit(func_b)
+        ua = as_unit(multiply_by_2)
+        ub = as_unit(passthrough)
         
         edge = g.add(ua, ub)
         # Add a connection from ub so it has downstream connections
-        g.add(ub, func_c)
+        g.add(ub, add_n(2))
         
         stepper = StepperC(g)
         akw = argspack(5)
@@ -385,8 +378,7 @@ class TestCallOneMethods(unittest.TestCase):
         """
         g = Graph()
         
-        def orphan_func(v):
-            return v * 5
+        orphan_func = lambda v: v * 5
         
         stepper = StepperC(g)
         akw = argspack(10)
@@ -406,13 +398,8 @@ class TestCallOneMethods(unittest.TestCase):
         """
         g = Graph()
         
-        def func_a(v):
-            return v * 2
-        
-        func_b = lambda v: v
-        
-        ua = as_unit(func_a)
-        ub = as_unit(func_b)
+        ua = as_unit(multiply_by_2)
+        ub = as_unit(passthrough)
         
         # Add edge but don't give func_b any outgoing connections
         edge = g.add(ua, ub)
@@ -444,14 +431,8 @@ class TestCallOneMethods(unittest.TestCase):
         """Test call_one_partial_connection when B has no connections."""
         g = Graph()
         
-        def func_a(v):
-            return v
-        
-        def func_b(v):
-            return v * 2
-        
-        ua = as_unit(func_a)
-        ub = as_unit(func_b)
+        ua = as_unit(passthrough)
+        ub = as_unit(multiply_by_2)
         
         edge = make_edge(ua, ub)
         partial = PartialConnection(edge, None, ub)
@@ -469,13 +450,8 @@ class TestCallOneMethods(unittest.TestCase):
         """Test that call_one delegates to call_one_connection when given an edge."""
         g = Graph()
         
-        def func_a(v):
-            return v * 2
-        
-        func_b = lambda v: v
-        
-        ua = as_unit(func_a)
-        ub = as_unit(func_b)
+        ua = as_unit(multiply_by_2)
+        ub = as_unit(passthrough)
         edge = make_edge(ua, ub)
         
         stepper = StepperC(g)
@@ -490,8 +466,7 @@ class TestCallOneMethods(unittest.TestCase):
         """Test that call_one delegates to call_one_callable when given a callable."""
         g = Graph()
         
-        def my_func(v):
-            return v * 3
+        my_func = lambda v: v * 3
         
         stepper = StepperC(g)
         akw = argspack(10)
@@ -574,10 +549,7 @@ class TestStepperEdgeCases(unittest.TestCase):
         """Test creating a stepper with initial rows."""
         g = Graph()
         
-        def func(v):
-            return v
-        
-        unit = as_unit(func)
+        unit = as_unit(passthrough)
         initial_rows = ((unit, argspack(5)),)
         
         stepper = StepperC(g, rows=initial_rows)
@@ -615,8 +587,7 @@ class TestStepperEdgeCases(unittest.TestCase):
         stepper = StepperC(g)
         stepper.stash_ends = True
         
-        def func():
-            pass
+        func = noop
         
         akw = argspack(75)
         result = stepper.end_branch(func, akw)
@@ -629,10 +600,7 @@ class TestStepperEdgeCases(unittest.TestCase):
         """Test the iterator() method creates StepperIterator."""
         g = Graph()
         
-        def func(v):
-            return v
-        
-        unit = as_unit(func)
+        unit = as_unit(passthrough)
         
         stepper = StepperC(g)
         stepper.prepare(unit, akw=argspack(10))
@@ -645,10 +613,7 @@ class TestStepperEdgeCases(unittest.TestCase):
         """Test iterator() with explicit parameters."""
         g = Graph()
         
-        def func(v):
-            return v
-        
-        unit = as_unit(func)
+        unit = as_unit(passthrough)
         
         stepper = StepperC(g)
         akw = argspack(20)
@@ -749,10 +714,7 @@ class TestConcatAware(unittest.TestCase):
         """Test call_rows behavior when concat_aware=False."""
         g = Graph()
         
-        def func(v):
-            return v
-        
-        unit = as_unit(func)
+        unit = as_unit(passthrough)
         
         stepper = StepperC(g)
         stepper.concat_aware = False
@@ -775,10 +737,7 @@ class TestStepperDunderIter(unittest.TestCase):
         """Test that __iter__ calls iterator and returns a generator."""
         g = Graph()
         
-        def func(v):
-            return v
-        
-        unit = as_unit(func)
+        unit = as_unit(passthrough)
         
         stepper = StepperC(g)
         stepper.prepare(unit, akw=argspack(5))
