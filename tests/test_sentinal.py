@@ -94,6 +94,3 @@ class TestSentinal(unittest.TestCase):
         result = connection.pluck()
         self.assertEqual(result, "success")
 
-
-if __name__ == "__main__":
-    unittest.main()

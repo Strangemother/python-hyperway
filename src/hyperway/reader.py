@@ -3,33 +3,24 @@ from .nodes import as_unit
 
 
 def thin_graph(graph):
-
     res = defaultdict(tuple)
-    # res = {}
-
     for conns in graph.values():
         for conn in conns:
             res[conn.a.id()] += (conn.b.id(),)
-
     return res
 
 
 def flat_graph(graph):
-
     res = tuple()
-    # res = {}
     thin = thin_graph(graph)
     for node_a, b_nodes in thin.items():
         for node_b in b_nodes:
             res += ((node_a, node_b),)
-
     return res
 
 
 def get_nodes_edges(graph):
-    """Return node names, and all edges as a tuple and a tuple of tuples.
-    """
-
+    """Return node names, and all edges as a tuple and a tuple of tuples."""
     nodes = set()
     edges = set()
     for name, connections in graph.items():
@@ -37,10 +28,8 @@ def get_nodes_edges(graph):
             ia = str(connection.a.id())
             ib = str(connection.b.id())
             edges.add( (ia, ib), )
-
             nodes.add((ia, connection.a.get_name()))
             nodes.add((ib, connection.b.get_name()))
-
     return nodes, edges
 
 
@@ -127,31 +116,10 @@ def read_tree_chain(graph, node, *items, with_through=True):
     conns = graph.resolve_node_connections(unit)
     res = (unit,) + items
     l1 = len(conns) == 1
-
-    # if len(conns) == 0:
-    #     return res
-
-    # if len(conns) > 1:
-        # res = ()
-
     for unit_conn in conns:
-        # p_part = ()
-        # node_b = unit_conn.b
-        # if with_through and unit_conn.through:
-        #     p_part += (unit_conn.through,)
-        # res += (p_part + read_tree_chain(graph, node_b, with_through=with_through),)
         row = conn_b_chain(graph, unit_conn, with_through)
         res += row if l1 else (row,)
     return res
-
-    # conn = conns[0]
-    # p_part = ()
-    # node_b = conn.b
-    # if with_through and conn.through:
-    #     p_part += (conn.through,)
-    # res += p_part + read_tree_chain(graph, node_b, with_through=with_through)
-    # res += conn_b_chain(graph, conn, with_through)
-    # return res
 
 
 def conn_b_chain(graph, conn, with_through):

@@ -102,7 +102,7 @@ class Factory(object):
         return self.__getattr__(k)
 
     def __getattr__(self, k):
-        op_name, ival, *extra = k.split('_')
+        op_name, ival, *_ = k.split('_')
         operator_func = getattr(operator_mod, op_name)
         val = float(ival)
         return oper(operator_func, self.commute, val)

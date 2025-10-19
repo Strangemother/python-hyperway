@@ -19,6 +19,36 @@ from hyperway.nodes import as_unit
 from hyperway.packer import argspack
 
 
+# Module-level helper functions used across multiple tests
+def multiply_by_2(v=0):
+    """Multiply a value by 2."""
+    return v * 2
+
+
+def passthrough(v):
+    """Return value as-is (passthrough/identity function)."""
+    return v
+
+
+def multiply_by_3(v):
+    """Multiply a value by 3."""
+    return v * 3
+
+
+def add_n(n):
+    """Create a function that adds n to a value.
+    
+    Args:
+        n: The number to add
+        
+    Returns:
+        A function that adds n to its input value
+    """
+    def adder(v):
+        return v + n
+    return adder
+
+
 class TestStepperBasics(unittest.TestCase):
     """Test basic stepper functionality.
     
@@ -27,16 +57,13 @@ class TestStepperBasics(unittest.TestCase):
     """
 
     def setUp(self):
-        """Create a simple graph for testing."""
+        """Create a passthrough graph for testing."""
         self.graph = Graph(tuple)
 
     def test_stepper_creation(self):
         """Test that a stepper can be created from a graph."""
-        def simple_func(v):
-            return v * 2
-        
-        node = as_unit(simple_func)
-        self.graph.add(node, simple_func)
+        node = as_unit(multiply_by_2)
+        self.graph.add(node, multiply_by_2)
         
         # Prepare the stepper with starting node and value
         self.graph.stepper_prepare(node, 4)
@@ -49,10 +76,7 @@ class TestStepperBasics(unittest.TestCase):
 
     def test_stepper_prepare(self):
         """Test preparing a stepper with a starting node and arguments."""
-        def doubler(v=0):
-            return v * 2
-        
-        du = as_unit(doubler)
+        du = as_unit(multiply_by_2)
         self.graph.add(du, lambda v: v)
         
         # Prepare the stepper
@@ -69,27 +93,21 @@ class TestStepperBasics(unittest.TestCase):
         """Test stepping through a single node execution.
         
         As per the documentation example:
-        - Start with doubler node and value 4
-        - Step once to execute doubler (4 * 2 = 8)
-        - Next step should process the collector node
+        - Start with multiply_by_2 node and value 4
+        - Step once to execute multiply_by_2 (4 * 2 = 8)
+        - Next step should process the passthrough node
         """
-        def doubler(v=0):
-            return v * 2
-        
-        def collector(v):
-            return v
-        
-        du = as_unit(doubler)
-        self.graph.add(du, collector)
+        du = as_unit(multiply_by_2)
+        self.graph.add(du, passthrough)
         
         # Prepare stepper with starting node and value 4
         self.graph.stepper_prepare(du, 4)
         stepper = self.graph.stepper()
         
-        # First step executes the doubler
+        # First step executes the multiply_by_2
         next_steps = stepper.step()
         
-        # Should have a next step (the collector)
+        # Should have a next step (the passthrough)
         self.assertIsNotNone(next_steps)
         self.assertGreater(len(next_steps), 0)
 
@@ -99,14 +117,8 @@ class TestStepperBasics(unittest.TestCase):
         From documentation: "We can inspect the stepper stashed values at any time.
         When the stepper completes a path, the results are stored in the stash"
         """
-        def doubler(v=0):
-            return v * 2
-        
-        def collector(v):
-            return v
-        
-        du = as_unit(doubler)
-        self.graph.add(du, collector)
+        du = as_unit(multiply_by_2)
+        self.graph.add(du, passthrough)
         
         self.graph.stepper_prepare(du, 4)
         stepper = self.graph.stepper()
@@ -123,28 +135,22 @@ class TestStepperBasics(unittest.TestCase):
         """Test stepping through a complete path from start to finish.
         
         Following the documentation example:
-        1. Start at doubler with value 4
-        2. Step through doubler (returns 8)
-        3. Step through collector (stores result)
+        1. Start at multiply_by_2 with value 4
+        2. Step through multiply_by_2 (returns 8)
+        3. Step through passthrough (stores result)
         4. Verify result is in stash
         """
-        def doubler(v=0):
-            return v * 2
-        
-        def collector(v):
-            return v
-        
-        du = as_unit(doubler)
-        self.graph.add(du, collector)
+        du = as_unit(multiply_by_2)
+        self.graph.add(du, passthrough)
         
         self.graph.stepper_prepare(du, 4)
         stepper = self.graph.stepper()
         
-        # Step 1: Execute doubler
+        # Step 1: Execute multiply_by_2
         step1 = stepper.step()
         self.assertIsNotNone(step1)
         
-        # Step 2: Execute collector
+        # Step 2: Execute passthrough
         step2 = stepper.step()
         
         # After completing the path, should be no more steps
@@ -154,22 +160,16 @@ class TestStepperBasics(unittest.TestCase):
 
     def test_stepper_with_multiple_values(self):
         """Test stepper with different input values."""
-        def tripler(v):
-            return v * 3
-        
-        def adder(v):
-            return v + 10
-        
-        node_a = as_unit(tripler)
-        self.graph.add(node_a, adder)
+        node_a = as_unit(multiply_by_3)
+        self.graph.add(node_a, add_n(10))
         
         # Test with value 5: 5 * 3 = 15, then 15 + 10 = 25
         self.graph.stepper_prepare(node_a, 5)
         stepper = self.graph.stepper()
         
         # Execute the full path
-        stepper.step()  # tripler
-        result = stepper.step()  # adder
+        stepper.step()  # multiply_by_3
+        result = stepper.step()  # add_n(10)
         
         # Verify we processed through the nodes
         self.assertIsNotNone(result is not None or len(stepper.stash) > 0)
@@ -189,27 +189,21 @@ class TestStepperMultipleEdges(unittest.TestCase):
     def test_one_to_two_connections(self):
         """Test a node with two outgoing connections.
         
-        This matches the simple-one-to-two.py example where
-        one doubler node connects to two collector nodes.
+        This matches the passthrough-one-to-two.py example where
+        one multiply_by_2 node connects to two passthrough nodes.
         """
-        def doubler(v=0):
-            return v * 2
-        
-        def collector(v):
-            return v
-        
-        du = as_unit(doubler)
+        du = as_unit(multiply_by_2)
         # Add two edges from the same node
-        e1 = self.graph.add(du, collector)
-        e2 = self.graph.add(du, collector)
+        e1 = self.graph.add(du, passthrough)
+        e2 = self.graph.add(du, passthrough)
         
         self.graph.stepper_prepare(du, 4)
         stepper = self.graph.stepper()
         
-        # First step executes doubler, should yield two next steps
+        # First step executes multiply_by_2, should yield two next steps
         next_steps = stepper.step()
         
-        # Should have multiple next steps (one for each collector)
+        # Should have multiple next steps (one for each passthrough)
         self.assertIsNotNone(next_steps)
         # Depending on implementation, might have 2 steps
         if len(next_steps) > 0:
@@ -217,23 +211,14 @@ class TestStepperMultipleEdges(unittest.TestCase):
 
     def test_branching_graph(self):
         """Test a graph that branches into multiple paths."""
-        def source(v):
-            return v * 2
-        
-        def branch_a(v):
-            return v + 1
-        
-        def branch_b(v):
-            return v + 2
-        
-        source_node = as_unit(source)
-        self.graph.add(source_node, branch_a)
-        self.graph.add(source_node, branch_b)
+        source_node = as_unit(multiply_by_2)
+        self.graph.add(source_node, add_n(10))
+        self.graph.add(source_node, multiply_by_3)
         
         self.graph.stepper_prepare(source_node, 10)
         stepper = self.graph.stepper()
         
-        # Execute source node
+        # Execute multiply_by_2 node
         next_steps = stepper.step()
         
         # Should have steps for both branches
@@ -253,20 +238,11 @@ class TestStepperIterator(unittest.TestCase):
 
     def test_stepper_step_count(self):
         """Test stepping multiple times with count parameter."""
-        def add_one(v):
-            return v + 1
-        
-        def add_two(v):
-            return v + 2
-        
-        def add_three(v):
-            return v + 3
-        
-        n1 = as_unit(add_one)
-        n2 = as_unit(add_two)
+        n1 = as_unit(add_n(1))
+        n2 = as_unit(add_n(2))
         
         self.graph.add(n1, n2)
-        self.graph.add(n2, add_three)
+        self.graph.add(n2, add_n(3))
         
         self.graph.stepper_prepare(n1, 10)
         stepper = self.graph.stepper()
@@ -279,14 +255,9 @@ class TestStepperIterator(unittest.TestCase):
 
     def test_multiple_steps_execution(self):
         """Test calling step multiple times sequentially."""
-        def multiply(v):
-            return v * 2
         
-        def add(v):
-            return v + 5
-        
-        n1 = as_unit(multiply)
-        self.graph.add(n1, add)
+        n1 = as_unit(multiply_by_2)
+        self.graph.add(n1, add_n(5))
         
         self.graph.stepper_prepare(n1, 3)
         stepper = self.graph.stepper()
@@ -315,14 +286,8 @@ class TestStepperCallMethods(unittest.TestCase):
 
     def test_call_many_with_same_args(self):
         """Test calling multiple nodes with the same arguments."""
-        def add_one(v):
-            return v + 1
-        
-        def multiply_two(v):
-            return v * 2
-        
-        node_a = as_unit(add_one)
-        node_b = as_unit(multiply_two)
+        node_a = as_unit(add_n(1))
+        node_b = as_unit(multiply_by_2)
         
         stepper = self.graph.stepper()
         
@@ -336,10 +301,7 @@ class TestStepperCallMethods(unittest.TestCase):
 
     def test_start_method(self):
         """Test the start method which begins stepper execution."""
-        def initial(v):
-            return v * 3
-        
-        node = as_unit(initial)
+        node = as_unit(add_n(100))
         self.graph.add(node, lambda v: v)
         
         stepper = self.graph.stepper()
@@ -374,10 +336,7 @@ class TestStepperStash(unittest.TestCase):
 
     def test_reset_stash(self):
         """Test resetting the stash clears stored results."""
-        def simple(v):
-            return v
-        
-        node = as_unit(simple)
+        node = as_unit(passthrough)
         self.graph.add(node, lambda v: v)
         
         stepper = self.graph.stepper()
@@ -392,21 +351,15 @@ class TestStepperStash(unittest.TestCase):
 
     def test_stash_stores_results(self):
         """Test that completed paths store results in stash."""
-        def doubler(v=0):
-            return v * 2
-        
-        def collector(v):
-            return v
-        
-        du = as_unit(doubler)
-        self.graph.add(du, collector)
+        du = as_unit(multiply_by_2)
+        self.graph.add(du, passthrough)
         
         self.graph.stepper_prepare(du, 4)
         stepper = self.graph.stepper()
         
         # Execute complete path
-        stepper.step()  # doubler
-        stepper.step()  # collector
+        stepper.step()  # multiply_by_2
+        stepper.step()  # passthrough
         
         # Stash should contain results (implementation dependent)
         # At minimum, stash should be a valid defaultdict
@@ -424,23 +377,17 @@ class TestStepperDocumentationExample(unittest.TestCase):
         """Test the complete example from stepper.md documentation.
         
         Example flow:
-        1. Create graph with doubler -> collector
-        2. Prepare stepper with doubler node and value 4
+        1. Create graph with multiply_by_2 -> passthrough
+        2. Prepare stepper with multiply_by_2 node and value 4
         3. Step through execution
         4. Verify stash behavior
         """
         # Setup from documentation
         g = Graph(tuple)
         
-        def doubler(v=0):
-            return v * 2
-        
-        def collector(v):
-            return v
-        
-        du = as_unit(doubler)
-        e = g.add(du, collector)
-        e2 = g.add(du, collector)
+        du = as_unit(multiply_by_2)
+        e = g.add(du, passthrough)
+        e2 = g.add(du, passthrough)
         
         # Prepare stepper as documented
         g.stepper_prepare(du, 4)
@@ -455,12 +402,9 @@ class TestStepperDocumentationExample(unittest.TestCase):
         step1_result = stepper.step()
         self.assertIsNotNone(step1_result, "First step should return next steps")
         
-        # Step 2: Execute collector nodes
+        # Step 2: Execute passthrough nodes
         step2_result = stepper.step()
         
         # Verify stepper has stash (even if empty, should be a defaultdict)
         self.assertIsInstance(stepper.stash, defaultdict)
 
-
-if __name__ == "__main__":
-    unittest.main()

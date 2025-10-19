@@ -1,0 +1,5485 @@
+{
+  "project": "Strangemother_python-hyperway",
+  "organization": "strangemother",
+  "measures": {
+    "coverage": "100.0",
+    "bugs": "0",
+    "reliability_rating": "1.0",
+    "code_smells": "28",
+    "duplicated_lines_density": "0.0",
+    "security_rating": "1.0",
+    "vulnerabilities": "0",
+    "sqale_index": "155",
+    "sqale_rating": "1.0"
+  },
+  "issues": [
+    {
+      "key": "AZn8gMpdNE7v0jDuvysT",
+      "rule": "python:S4144",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_stepper_advanced.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "c0afd28886fac26a6139ba5ff5f7fe02",
+      "textRange": {
+        "startLine": 400,
+        "endLine": 400,
+        "startOffset": 8,
+        "endOffset": 33
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "Strangemother_python-hyperway:tests/test_stepper_advanced.py",
+              "textRange": {
+                "startLine": 324,
+                "endLine": 324,
+                "startOffset": 8,
+                "endOffset": 35
+              },
+              "msg": "Original"
+            }
+          ]
+        }
+      ],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Update this function so that its implementation is not identical to test_call_one_fallthrough_2 on line 324.",
+      "effort": "15min",
+      "debt": "15min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "confusing",
+        "duplicate",
+        "suspicious"
+      ],
+      "creationDate": "2025-10-19T11:18:50+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqvNE7v0jDuvysw",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_generator.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "b84c11e94ee7dd52cc4fd7d50631c542",
+      "textRange": {
+        "startLine": 235,
+        "endLine": 235,
+        "startOffset": 8,
+        "endOffset": 13
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"edges\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T09:53:05+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMprNE7v0jDuvysY",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "cd27cfbb58c794eb4fc6782f1b390125",
+      "textRange": {
+        "startLine": 197,
+        "endLine": 197,
+        "startOffset": 8,
+        "endOffset": 10
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"e1\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T09:20:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMprNE7v0jDuvysX",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "23742a1695bbfa80bfb12119fda736c5",
+      "textRange": {
+        "startLine": 198,
+        "endLine": 198,
+        "startOffset": 8,
+        "endOffset": 10
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"e2\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T09:20:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMprNE7v0jDuvysa",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "33836216c7a24255c07f80ed835f88fa",
+      "textRange": {
+        "startLine": 389,
+        "endLine": 389,
+        "startOffset": 8,
+        "endOffset": 9
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"e\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T09:20:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMprNE7v0jDuvysb",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "93f7425f6b73f1dbe04c451493849dbc",
+      "textRange": {
+        "startLine": 390,
+        "endLine": 390,
+        "startOffset": 8,
+        "endOffset": 10
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"e2\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T09:20:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMp1NE7v0jDuvysd",
+      "rule": "python:S7500",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_writer.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "47c015b1dbfce03fe023102e9844ffbd",
+      "textRange": {
+        "startLine": 96,
+        "endLine": 96,
+        "startOffset": 23,
+        "endOffset": 38
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Replace this comprehension with passing the iterable to the collection constructor call",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [],
+      "creationDate": "2025-10-19T07:31:48+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqcNE7v0jDuvysr",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_edges.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "9d1d631e7449b1968c8b20f32fc493ea",
+      "textRange": {
+        "startLine": 561,
+        "endLine": 561,
+        "startOffset": 17,
+        "endOffset": 28
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Replace the unused local variable \"result_pack\" with \"_\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T06:36:50+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqcNE7v0jDuvyss",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_edges.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "dd9830ab35d437deef79ad24a8c121ce",
+      "textRange": {
+        "startLine": 775,
+        "endLine": 775,
+        "startOffset": 8,
+        "endOffset": 13
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"edge1\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T06:36:50+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqcNE7v0jDuvyst",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_edges.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "b27fae9080cc820d262933fd5f4be800",
+      "textRange": {
+        "startLine": 776,
+        "endLine": 776,
+        "startOffset": 8,
+        "endOffset": 13
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"edge2\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T06:36:50+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqvNE7v0jDuvysx",
+      "rule": "python:S5906",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_generator.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4a957d443e1d12ab8dfaed0ebf4a9837",
+      "textRange": {
+        "startLine": 297,
+        "endLine": 297,
+        "startOffset": 8,
+        "endOffset": 39
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Consider using \"assertGreater\" instead.",
+      "effort": "1min",
+      "debt": "1min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "tests",
+        "unittest"
+      ],
+      "creationDate": "2025-10-19T05:47:27+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMo-NE7v0jDuvysI",
+      "rule": "python:S5914",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_graph.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "21093477ee904466c8877a4d5989d694",
+      "textRange": {
+        "startLine": 139,
+        "endLine": 139,
+        "startOffset": 24,
+        "endOffset": 28
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Replace this expression; its boolean value is constant.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "confusing",
+        "suspicious",
+        "tests"
+      ],
+      "creationDate": "2025-10-19T05:47:27+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMpJNE7v0jDuvysJ",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_tools.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "71286257c206a2ec00acc6bbb6ccf2b5",
+      "textRange": {
+        "startLine": 121,
+        "endLine": 121,
+        "startOffset": 8,
+        "endOffset": 34
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T05:47:27+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMpJNE7v0jDuvysK",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_tools.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "fb38086f79bb6410496cee84019bbfb2",
+      "textRange": {
+        "startLine": 140,
+        "endLine": 140,
+        "startOffset": 8,
+        "endOffset": 38
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T05:47:27+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMpJNE7v0jDuvysL",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_tools.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "872a507c20b62e43d06b64e3dfc4495e",
+      "textRange": {
+        "startLine": 224,
+        "endLine": 224,
+        "startOffset": 8,
+        "endOffset": 40
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T05:47:27+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMpJNE7v0jDuvysM",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_tools.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "808dbe9220c91b1587cc51439b4c5e01",
+      "textRange": {
+        "startLine": 247,
+        "endLine": 247,
+        "startOffset": 8,
+        "endOffset": 44
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T05:47:27+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMpJNE7v0jDuvysN",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_tools.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "33076002f7144a74ca04545c282fb6ec",
+      "textRange": {
+        "startLine": 273,
+        "endLine": 273,
+        "startOffset": 8,
+        "endOffset": 39
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T05:47:27+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMpJNE7v0jDuvysO",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_tools.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "bb28dc700d52db6e0a26b7d6328aa94e",
+      "textRange": {
+        "startLine": 281,
+        "endLine": 281,
+        "startOffset": 8,
+        "endOffset": 33
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T05:47:27+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMpJNE7v0jDuvysP",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_tools.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "1671b7a486197c1d5bc030baf6390910",
+      "textRange": {
+        "startLine": 289,
+        "endLine": 289,
+        "startOffset": 8,
+        "endOffset": 32
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T05:47:27+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMpJNE7v0jDuvysQ",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_tools.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "2e854f979792f05eb6c3921ce717958e",
+      "textRange": {
+        "startLine": 314,
+        "endLine": 314,
+        "startOffset": 8,
+        "endOffset": 40
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T05:47:27+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqlNE7v0jDuvysu",
+      "rule": "python:S5906",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_reader.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "3208218da245483ba0687419abbd48f5",
+      "textRange": {
+        "startLine": 57,
+        "endLine": 57,
+        "startOffset": 8,
+        "endOffset": 76
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Consider using \"assertLessEqual\" instead.",
+      "effort": "1min",
+      "debt": "1min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "tests",
+        "unittest"
+      ],
+      "creationDate": "2025-10-19T00:25:37+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqlNE7v0jDuvysv",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_reader.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "8b55ce32c7ac5b3be9b97511600a6176",
+      "textRange": {
+        "startLine": 118,
+        "endLine": 118,
+        "startOffset": 8,
+        "endOffset": 9
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"a\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T00:25:37+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMpdNE7v0jDuvysR",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_stepper_advanced.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "077d1143ffaedfbd0cc4212d6acc91e7",
+      "textRange": {
+        "startLine": 154,
+        "endLine": 154,
+        "startOffset": 17,
+        "endOffset": 23
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Replace the unused local variable \"result\" with \"_\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T00:25:37+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMpdNE7v0jDuvysS",
+      "rule": "python:S5845",
+      "severity": "CRITICAL",
+      "component": "Strangemother_python-hyperway:tests/test_stepper_advanced.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "f5e7d3eec61c3aaf5190a314c24f2157",
+      "textRange": {
+        "startLine": 211,
+        "endLine": 211,
+        "startOffset": 22,
+        "endOffset": 46
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "Strangemother_python-hyperway:tests/test_stepper_advanced.py",
+              "textRange": {
+                "startLine": 209,
+                "endLine": 209,
+                "startOffset": 8,
+                "endOffset": 59
+              },
+              "msg": "Last assignment of \"iterator\""
+            }
+          ]
+        }
+      ],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Change this assertion to not compare dissimilar types.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "tests",
+        "typing"
+      ],
+      "creationDate": "2025-10-19T00:25:37+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "BUG",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMpdNE7v0jDuvysU",
+      "rule": "python:S5906",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_stepper_advanced.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "a4af5a36c616cb22dc55c3c3a6cc3700",
+      "textRange": {
+        "startLine": 337,
+        "endLine": 337,
+        "startOffset": 8,
+        "endOffset": 44
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Consider using \"assertIsNone\" instead.",
+      "effort": "1min",
+      "debt": "1min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "tests",
+        "unittest"
+      ],
+      "creationDate": "2025-10-19T00:25:37+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMpdNE7v0jDuvysV",
+      "rule": "python:S5906",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_stepper_advanced.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "a4af5a36c616cb22dc55c3c3a6cc3700",
+      "textRange": {
+        "startLine": 413,
+        "endLine": 413,
+        "startOffset": 8,
+        "endOffset": 44
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Consider using \"assertIsNone\" instead.",
+      "effort": "1min",
+      "debt": "1min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "tests",
+        "unittest"
+      ],
+      "creationDate": "2025-10-19T00:25:37+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMpdNE7v0jDuvysW",
+      "rule": "python:S5906",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_stepper_advanced.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "a4af5a36c616cb22dc55c3c3a6cc3700",
+      "textRange": {
+        "startLine": 567,
+        "endLine": 567,
+        "startOffset": 8,
+        "endOffset": 44
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Consider using \"assertIsNone\" instead.",
+      "effort": "1min",
+      "debt": "1min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "tests",
+        "unittest"
+      ],
+      "creationDate": "2025-10-19T00:25:37+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMp1NE7v0jDuvyse",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_writer.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4e053f7591c0ec89718a84fc21be3d78",
+      "textRange": {
+        "startLine": 165,
+        "endLine": 165,
+        "startOffset": 14,
+        "endOffset": 20
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Replace the unused local variable \"kwargs\" with \"_\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T00:25:37+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMp1NE7v0jDuvysf",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_writer.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4e053f7591c0ec89718a84fc21be3d78",
+      "textRange": {
+        "startLine": 183,
+        "endLine": 183,
+        "startOffset": 8,
+        "endOffset": 12
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Replace the unused local variable \"args\" with \"_\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T00:25:37+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMp1NE7v0jDuvysg",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_writer.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4e053f7591c0ec89718a84fc21be3d78",
+      "textRange": {
+        "startLine": 197,
+        "endLine": 197,
+        "startOffset": 8,
+        "endOffset": 12
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Replace the unused local variable \"args\" with \"_\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-19T00:25:37+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMprNE7v0jDuvysZ",
+      "rule": "python:S3981",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "faa82278e8df69e5a531fea3c5b3f49d",
+      "textRange": {
+        "startLine": 254,
+        "endLine": 254,
+        "startOffset": 51,
+        "endOffset": 74
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "The length of a collection is always \">=0\", so update this test to either \"==0\" or \">0\".",
+      "effort": "2min",
+      "debt": "2min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "confusing"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "BUG",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMprNE7v0jDuvysc",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:tests/test_stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "c38b6b3b96feb86fccf006cb4a397fec",
+      "textRange": {
+        "startLine": 406,
+        "endLine": 406,
+        "startOffset": 8,
+        "endOffset": 20
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"step2_result\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqONE7v0jDuvysj",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_wire_func.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "7971af713683307508031518dd5dc9ee",
+      "textRange": {
+        "startLine": 53,
+        "endLine": 53,
+        "startOffset": 52,
+        "endOffset": 67
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqONE7v0jDuvysk",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_wire_func.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "cc31312026b86cda8388f6ff1fb6e6bc",
+      "textRange": {
+        "startLine": 54,
+        "endLine": 54,
+        "startOffset": 52,
+        "endOffset": 67
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqONE7v0jDuvysl",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_wire_func.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "a63bd4ddb8695eb02f51b6e93e51558a",
+      "textRange": {
+        "startLine": 55,
+        "endLine": 55,
+        "startOffset": 52,
+        "endOffset": 69
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqONE7v0jDuvysm",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_wire_func.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "24f4a6a44af57eeebd6edec802f66cb5",
+      "textRange": {
+        "startLine": 56,
+        "endLine": 56,
+        "startOffset": 52,
+        "endOffset": 69
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqONE7v0jDuvysn",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_wire_func.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "96602c97ce8fddf01dfec485f3f7c145",
+      "textRange": {
+        "startLine": 71,
+        "endLine": 71,
+        "startOffset": 52,
+        "endOffset": 72
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqONE7v0jDuvyso",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_wire_func.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "9e88fafe1582a6bc2ccfa5968032cfba",
+      "textRange": {
+        "startLine": 72,
+        "endLine": 72,
+        "startOffset": 52,
+        "endOffset": 72
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqONE7v0jDuvysp",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_wire_func.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "0d3e0bbdbd69af4c77db7b6dd31b17d6",
+      "textRange": {
+        "startLine": 73,
+        "endLine": 73,
+        "startOffset": 52,
+        "endOffset": 73
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqONE7v0jDuvysq",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_wire_func.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "32f010e5e07407b13b43845330224d5a",
+      "textRange": {
+        "startLine": 74,
+        "endLine": 74,
+        "startOffset": 52,
+        "endOffset": 73
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMiNNE7v0jDuvyqo",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/bench_expand.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "2d9bc2e9be04360f08e117cbdb620516",
+      "textRange": {
+        "startLine": 132,
+        "endLine": 132,
+        "startOffset": 12,
+        "endOffset": 19
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Replace the unused local variable \"current\" with \"_\".",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMm8NE7v0jDuvyrS",
+      "rule": "python:S1763",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/run.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "d22f921438ebbb91c29f28be28acff72",
+      "textRange": {
+        "startLine": 102,
+        "endLine": 102,
+        "startOffset": 4,
+        "endOffset": 25
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "Strangemother_python-hyperway:workspace/run.py",
+              "textRange": {
+                "startLine": 96,
+                "endLine": 96,
+                "startOffset": 4,
+                "endOffset": 37
+              },
+              "msg": "Statement exiting the current code block."
+            }
+          ]
+        }
+      ],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Delete this unreachable code or refactor the code to make it reachable.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "cwe",
+        "unused"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "BUG",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlMNE7v0jDuvyqu",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/simple-one-to-two.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "ccba2bf344a6f7fda84f843be733dc81",
+      "textRange": {
+        "startLine": 43,
+        "endLine": 43,
+        "startOffset": 4,
+        "endOffset": 31
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlMNE7v0jDuvyqv",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/simple-one-to-two.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "5d1fa2b2cdcbb7fee4c05782867209c4",
+      "textRange": {
+        "startLine": 53,
+        "endLine": 53,
+        "startOffset": 4,
+        "endOffset": 64
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "assignee": "Strangemother@github",
+      "author": "github@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2025-10-18T23:04:09+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmpNE7v0jDuvyrQ",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/sentinal.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "9fc53f0f3689372f0cf33e6e1d88e798",
+      "textRange": {
+        "startLine": 10,
+        "endLine": 10,
+        "startOffset": 4,
+        "endOffset": 17
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-10-19T19:36:20+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoyNE7v0jDuvysF",
+      "rule": "javascript:S7762",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:docs/info.html",
+      "project": "Strangemother_python-hyperway",
+      "hash": "2d8f89528b4eb2218ee1fec5fb50e840",
+      "textRange": {
+        "startLine": 203,
+        "endLine": 203,
+        "startOffset": 24,
+        "endOffset": 56
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Prefer `childNode.remove()` over `parentNode.removeChild(childNode)`.",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "dom",
+        "javascript",
+        "modernize"
+      ],
+      "creationDate": "2024-07-11T01:08:39+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "EFFICIENT",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoyNE7v0jDuvysG",
+      "rule": "javascript:S7748",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:docs/info.html",
+      "project": "Strangemother_python-hyperway",
+      "hash": "8fa4e2636192008a59b938a3e92d32c2",
+      "textRange": {
+        "startLine": 236,
+        "endLine": 236,
+        "startOffset": 66,
+        "endOffset": 68
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Don't use a zero fraction in the number.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "consistency",
+        "formatting"
+      ],
+      "creationDate": "2024-07-11T01:08:39+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmNNE7v0jDuvyrH",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/double-split.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "ed16370a6ad3330afe0afa7829edc0ba",
+      "textRange": {
+        "startLine": 20,
+        "endLine": 20,
+        "startOffset": 0,
+        "endOffset": 20
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmNNE7v0jDuvyrI",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/double-split.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4d41a15b67ee5dfe133aaeb6730a0672",
+      "textRange": {
+        "startLine": 96,
+        "endLine": 96,
+        "startOffset": 4,
+        "endOffset": 18
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmNNE7v0jDuvyrJ",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/double-split.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4d41a15b67ee5dfe133aaeb6730a0672",
+      "textRange": {
+        "startLine": 100,
+        "endLine": 100,
+        "startOffset": 4,
+        "endOffset": 18
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlyNE7v0jDuvyq5",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/hyperedge.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "ed16370a6ad3330afe0afa7829edc0ba",
+      "textRange": {
+        "startLine": 14,
+        "endLine": 14,
+        "startOffset": 0,
+        "endOffset": 20
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlyNE7v0jDuvyq6",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/hyperedge.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "1d7d8961ec1bbc735a26d8bbb57684b4",
+      "textRange": {
+        "startLine": 79,
+        "endLine": 79,
+        "startOffset": 4,
+        "endOffset": 7
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"cs2\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlyNE7v0jDuvyq7",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/hyperedge.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "f61a7f9642a17e1557e6d1e5078f7daf",
+      "textRange": {
+        "startLine": 85,
+        "endLine": 85,
+        "startOffset": 4,
+        "endOffset": 29
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlyNE7v0jDuvyq8",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/hyperedge.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4d41a15b67ee5dfe133aaeb6730a0672",
+      "textRange": {
+        "startLine": 91,
+        "endLine": 91,
+        "startOffset": 4,
+        "endOffset": 18
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlyNE7v0jDuvyq9",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/hyperedge.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4d41a15b67ee5dfe133aaeb6730a0672",
+      "textRange": {
+        "startLine": 95,
+        "endLine": 95,
+        "startOffset": 4,
+        "endOffset": 18
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlDNE7v0jDuvyqq",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/triple-split-2.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "ed16370a6ad3330afe0afa7829edc0ba",
+      "textRange": {
+        "startLine": 20,
+        "endLine": 20,
+        "startOffset": 0,
+        "endOffset": 20
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlDNE7v0jDuvyqr",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/triple-split-2.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4d41a15b67ee5dfe133aaeb6730a0672",
+      "textRange": {
+        "startLine": 79,
+        "endLine": 79,
+        "startOffset": 4,
+        "endOffset": 18
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlDNE7v0jDuvyqs",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/triple-split-2.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4d41a15b67ee5dfe133aaeb6730a0672",
+      "textRange": {
+        "startLine": 83,
+        "endLine": 83,
+        "startOffset": 4,
+        "endOffset": 18
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmDNE7v0jDuvyrD",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/triple-split-3.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "ed16370a6ad3330afe0afa7829edc0ba",
+      "textRange": {
+        "startLine": 20,
+        "endLine": 20,
+        "startOffset": 0,
+        "endOffset": 20
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmDNE7v0jDuvyrE",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/triple-split-3.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "02c505bef53bcd701d4931418d674847",
+      "textRange": {
+        "startLine": 70,
+        "endLine": 70,
+        "startOffset": 4,
+        "endOffset": 10
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"join_a\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmDNE7v0jDuvyrF",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/triple-split-3.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4d41a15b67ee5dfe133aaeb6730a0672",
+      "textRange": {
+        "startLine": 95,
+        "endLine": 95,
+        "startOffset": 4,
+        "endOffset": 18
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmDNE7v0jDuvyrG",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/triple-split-3.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4d41a15b67ee5dfe133aaeb6730a0672",
+      "textRange": {
+        "startLine": 99,
+        "endLine": 99,
+        "startOffset": 4,
+        "endOffset": 18
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmVNE7v0jDuvyrK",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/triple-split.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "ed16370a6ad3330afe0afa7829edc0ba",
+      "textRange": {
+        "startLine": 20,
+        "endLine": 20,
+        "startOffset": 0,
+        "endOffset": 20
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmVNE7v0jDuvyrL",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/triple-split.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4d41a15b67ee5dfe133aaeb6730a0672",
+      "textRange": {
+        "startLine": 79,
+        "endLine": 79,
+        "startOffset": 4,
+        "endOffset": 18
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmVNE7v0jDuvyrM",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/triple-split.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4d41a15b67ee5dfe133aaeb6730a0672",
+      "textRange": {
+        "startLine": 83,
+        "endLine": 83,
+        "startOffset": 4,
+        "endOffset": 18
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-08T01:29:33+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoQNE7v0jDuvyrw",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/writer.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 69,
+      "hash": "b55ef9d79cb988c438c6570b72012332",
+      "textRange": {
+        "startLine": 69,
+        "endLine": 69,
+        "startOffset": 55,
+        "endOffset": 71
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-06T23:16:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMl6NE7v0jDuvyq-",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/arrows.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "c6168316941f9b5ab29cba83690f775c",
+      "textRange": {
+        "startLine": 9,
+        "endLine": 9,
+        "startOffset": 0,
+        "endOffset": 83
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-06T23:16:57+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMl6NE7v0jDuvyq_",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/arrows.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "59b2c961557d71f875fd8f23d3346d99",
+      "textRange": {
+        "startLine": 13,
+        "endLine": 13,
+        "startOffset": 0,
+        "endOffset": 76
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-06T23:16:57+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMl6NE7v0jDuvyrA",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/arrows.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "f8e013a878b56cb8377ad00f8c0790c8",
+      "textRange": {
+        "startLine": 28,
+        "endLine": 28,
+        "startOffset": 4,
+        "endOffset": 12
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"sum_node\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-06T23:16:57+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMl6NE7v0jDuvyrB",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/arrows.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "114e85e0b3137a45d34be13f72aaba8c",
+      "textRange": {
+        "startLine": 29,
+        "endLine": 29,
+        "startOffset": 4,
+        "endOffset": 5
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"u\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-06T23:16:57+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMl6NE7v0jDuvyrC",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/arrows.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "514f5e4f74bcee8dd313686cf83e034c",
+      "textRange": {
+        "startLine": 30,
+        "endLine": 30,
+        "startOffset": 4,
+        "endOffset": 35
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-06T23:16:57+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlgNE7v0jDuvyqz",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/render-image.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "c6168316941f9b5ab29cba83690f775c",
+      "textRange": {
+        "startLine": 9,
+        "endLine": 9,
+        "startOffset": 0,
+        "endOffset": 83
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-06T23:16:57+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlgNE7v0jDuvyq0",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/render-image.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "59b2c961557d71f875fd8f23d3346d99",
+      "textRange": {
+        "startLine": 13,
+        "endLine": 13,
+        "startOffset": 0,
+        "endOffset": 76
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-06T23:16:57+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlgNE7v0jDuvyq2",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/render-image.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "abfc0bc6e8826668665670905a8cd8cf",
+      "textRange": {
+        "startLine": 34,
+        "endLine": 34,
+        "startOffset": 4,
+        "endOffset": 7
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"cs3\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-06T23:16:57+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlgNE7v0jDuvyq1",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/render-image.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4776f1d4349fca167d972637cb93421a",
+      "textRange": {
+        "startLine": 35,
+        "endLine": 35,
+        "startOffset": 4,
+        "endOffset": 7
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"cs4\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-07-06T23:16:57+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gModNE7v0jDuvyr1",
+      "rule": "python:S112",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 194,
+      "hash": "52030fc5cb2719ec24a1ef89a33f9d7e",
+      "textRange": {
+        "startLine": 194,
+        "endLine": 194,
+        "startOffset": 18,
+        "endOffset": 50
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Replace this generic exception class with a more specific one.",
+      "effort": "20min",
+      "debt": "20min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "cwe",
+        "error-handling"
+      ],
+      "creationDate": "2024-06-28T02:24:23+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMnfNE7v0jDuvyrj",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/graph/graph.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "a240ce40154c9412c98c3cf3b47a3f62",
+      "textRange": {
+        "startLine": 5,
+        "endLine": 5,
+        "startOffset": 0,
+        "endOffset": 32
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-14T01:32:32+0000",
+      "updateDate": "2025-10-19T15:17:25+0000",
+      "closeDate": "2025-10-19T15:17:25+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMnfNE7v0jDuvyrk",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/graph/graph.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "85c2bbf7fa6d3693604cab961b46d8bf",
+      "textRange": {
+        "startLine": 113,
+        "endLine": 113,
+        "startOffset": 8,
+        "endOffset": 49
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-14T01:32:32+0000",
+      "updateDate": "2025-10-19T15:17:25+0000",
+      "closeDate": "2025-10-19T15:17:25+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMnfNE7v0jDuvyrl",
+      "rule": "python:S117",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/graph/graph.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "29c13f7361dc7432da03d881757540bc",
+      "textRange": {
+        "startLine": 116,
+        "endLine": 116,
+        "startOffset": 8,
+        "endOffset": 17
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Rename this local variable \"_StepperC\" to match the regular expression ^[_a-z][a-z0-9_]*$.",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "convention"
+      ],
+      "creationDate": "2024-04-14T01:32:32+0000",
+      "updateDate": "2025-10-19T15:17:25+0000",
+      "closeDate": "2025-10-19T15:17:25+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "IDENTIFIABLE",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoeNE7v0jDuvyr5",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 364,
+      "hash": "fdf5da8cd9e6dd87563cf87b3c4f1ebc",
+      "textRange": {
+        "startLine": 364,
+        "endLine": 364,
+        "startOffset": 8,
+        "endOffset": 50
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-14T01:32:32+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoeNE7v0jDuvyr7",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 400,
+      "hash": "323c944480f621c595bbfb1cacb9d13d",
+      "textRange": {
+        "startLine": 400,
+        "endLine": 400,
+        "startOffset": 4,
+        "endOffset": 42
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-14T01:32:32+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMj-NE7v0jDuvyqp",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/gates/nand-gate.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "5c0efef731fd2d37f263b022cc398fe3",
+      "textRange": {
+        "startLine": 61,
+        "endLine": 61,
+        "startOffset": 4,
+        "endOffset": 40
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-14T01:32:32+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlYNE7v0jDuvyqw",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/run_2.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "ed16370a6ad3330afe0afa7829edc0ba",
+      "textRange": {
+        "startLine": 14,
+        "endLine": 14,
+        "startOffset": 0,
+        "endOffset": 20
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-14T01:32:32+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlYNE7v0jDuvyqx",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/run_2.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "0fb436aa21863713b0b562f3df6c531a",
+      "textRange": {
+        "startLine": 32,
+        "endLine": 32,
+        "startOffset": 4,
+        "endOffset": 5
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"e\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-14T01:32:32+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlYNE7v0jDuvyqy",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/run_2.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "9dfe188d12be604a9dca56e14e85cf3e",
+      "textRange": {
+        "startLine": 34,
+        "endLine": 34,
+        "startOffset": 4,
+        "endOffset": 35
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-14T01:32:32+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMnONE7v0jDuvyrg",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/run_3.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "34d9d24f964967588fd70dc2d8b3ceca",
+      "textRange": {
+        "startLine": 36,
+        "endLine": 36,
+        "startOffset": 4,
+        "endOffset": 8
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"cns2\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-14T01:32:32+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMnONE7v0jDuvyrh",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/run_3.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "cae0cbb944b523f099e1531a0627d4b2",
+      "textRange": {
+        "startLine": 57,
+        "endLine": 57,
+        "startOffset": 4,
+        "endOffset": 21
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-14T01:32:32+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlMNE7v0jDuvyqt",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/simple-one-to-two.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "7ce71b36cf48dc6552ca899026e1d419",
+      "textRange": {
+        "startLine": 42,
+        "endLine": 42,
+        "startOffset": 4,
+        "endOffset": 5
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"e\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T03:10:37+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gModNE7v0jDuvyr3",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 305,
+      "hash": "159f0854b6f35c54682ff3d6d85e29e9",
+      "textRange": {
+        "startLine": 305,
+        "endLine": 305,
+        "startOffset": 8,
+        "endOffset": 40
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoeNE7v0jDuvyr4",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 314,
+      "hash": "df580467125d08c32dd81d704f8aa7c1",
+      "textRange": {
+        "startLine": 314,
+        "endLine": 314,
+        "startOffset": 12,
+        "endOffset": 82
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmgNE7v0jDuvyrO",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/functional-add.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "c88f633235a7dd42727d43efe4c0eb8a",
+      "textRange": {
+        "startLine": 47,
+        "endLine": 47,
+        "startOffset": 4,
+        "endOffset": 6
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"cb\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmgNE7v0jDuvyrN",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/functional-add.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "ae721b9048fee0871d2e2b094e1264d8",
+      "textRange": {
+        "startLine": 48,
+        "endLine": 48,
+        "startOffset": 4,
+        "endOffset": 6
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"cc\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMmgNE7v0jDuvyrP",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/functional-add.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "d6ba2a29ee8d48b2794a7baf59398b59",
+      "textRange": {
+        "startLine": 53,
+        "endLine": 53,
+        "startOffset": 4,
+        "endOffset": 14
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlqNE7v0jDuvyq3",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/instance-method-node.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4524042385991bc50b11ed4540c6c491",
+      "textRange": {
+        "startLine": 49,
+        "endLine": 49,
+        "startOffset": 8,
+        "endOffset": 28
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMlqNE7v0jDuvyq4",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/instance-method-node.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "39d9f0e27c9921806bbe7da7baf7b1ce",
+      "textRange": {
+        "startLine": 57,
+        "endLine": 57,
+        "startOffset": 4,
+        "endOffset": 17
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMnFNE7v0jDuvyrd",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/merge-node.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4524042385991bc50b11ed4540c6c491",
+      "textRange": {
+        "startLine": 41,
+        "endLine": 41,
+        "startOffset": 8,
+        "endOffset": 28
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMnFNE7v0jDuvyre",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/merge-node.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "d6822b10edc759f65b884481daadbae0",
+      "textRange": {
+        "startLine": 48,
+        "endLine": 48,
+        "startOffset": 4,
+        "endOffset": 17
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMnFNE7v0jDuvyrf",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/merge-node.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "b98760a73778e76a9a13099f83f4cbae",
+      "textRange": {
+        "startLine": 113,
+        "endLine": 113,
+        "startOffset": 4,
+        "endOffset": 39
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMm8NE7v0jDuvyrT",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/run.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "54ccbb8d14ac8c935bb40f6e2241494f",
+      "textRange": {
+        "startLine": 95,
+        "endLine": 95,
+        "startOffset": 4,
+        "endOffset": 45
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMm8NE7v0jDuvyrU",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/run.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "0b026042a2f2dd22193e5179f055d0a9",
+      "textRange": {
+        "startLine": 98,
+        "endLine": 98,
+        "startOffset": 4,
+        "endOffset": 24
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMm8NE7v0jDuvyrR",
+      "rule": "python:S1192",
+      "severity": "CRITICAL",
+      "component": "Strangemother_python-hyperway:workspace/run.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "189e6797f91923f4e9445c55b39c3b76",
+      "textRange": {
+        "startLine": 114,
+        "endLine": 114,
+        "startOffset": 10,
+        "endOffset": 18
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "Strangemother_python-hyperway:workspace/run.py",
+              "textRange": {
+                "startLine": 146,
+                "endLine": 146,
+                "startOffset": 10,
+                "endOffset": 18
+              },
+              "msg": "Duplication"
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "Strangemother_python-hyperway:workspace/run.py",
+              "textRange": {
+                "startLine": 198,
+                "endLine": 198,
+                "startOffset": 10,
+                "endOffset": 18
+              },
+              "msg": "Duplication"
+            }
+          ]
+        }
+      ],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Define a constant instead of duplicating this literal 'mul_.5' 3 times.",
+      "effort": "6min",
+      "debt": "6min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "design"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMm8NE7v0jDuvyrV",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/run.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "2a0dd4e8aa4cf7e831a75ef2c81f8296",
+      "textRange": {
+        "startLine": 119,
+        "endLine": 119,
+        "startOffset": 4,
+        "endOffset": 7
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"cs2\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMm8NE7v0jDuvyrX",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/run.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "eda44951183993de67f6bc66c14a096e",
+      "textRange": {
+        "startLine": 160,
+        "endLine": 160,
+        "startOffset": 4,
+        "endOffset": 7
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"cs3\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMm8NE7v0jDuvyrW",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/run.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "05bfec350b799fcd794ddd55b9ed1d1c",
+      "textRange": {
+        "startLine": 172,
+        "endLine": 172,
+        "startOffset": 4,
+        "endOffset": 7
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"cs5\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMm8NE7v0jDuvyrY",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:workspace/run.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "910b3f061245eacaa80dddb3e5cbd46d",
+      "textRange": {
+        "startLine": 231,
+        "endLine": 231,
+        "startOffset": 4,
+        "endOffset": 23
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMm8NE7v0jDuvyrZ",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/run.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "d6364bb05bcf1d8d22afd6d3f705be6e",
+      "textRange": {
+        "startLine": 350,
+        "endLine": 350,
+        "startOffset": 4,
+        "endOffset": 6
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "Strangemother_python-hyperway:workspace/run.py",
+              "textRange": {
+                "startLine": 353,
+                "endLine": 353,
+                "startOffset": 4,
+                "endOffset": 6
+              },
+              "msg": "Assignment to unused local variable \"cd\"."
+            }
+          ]
+        }
+      ],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"cd\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMm8NE7v0jDuvyrb",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/run.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "4f34ec7f84d56c153dd293f1a716e4f6",
+      "textRange": {
+        "startLine": 351,
+        "endLine": 351,
+        "startOffset": 4,
+        "endOffset": 6
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"cb\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMm8NE7v0jDuvyra",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/run.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "8ff10f2f0d9166ff6dd6f2b11c262eb7",
+      "textRange": {
+        "startLine": 352,
+        "endLine": 352,
+        "startOffset": 4,
+        "endOffset": 6
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"cc\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMm8NE7v0jDuvyrc",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:workspace/run.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "384bebc4a137c7120a8f188a13fd8a3c",
+      "textRange": {
+        "startLine": 389,
+        "endLine": 389,
+        "startOffset": 4,
+        "endOffset": 6
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"cr\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-12T02:27:46+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqDNE7v0jDuvysh",
+      "rule": "python:S1244",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_condition.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "360b5f924242af816b3d75a34f9143e4",
+      "textRange": {
+        "startLine": 42,
+        "endLine": 42,
+        "startOffset": 11,
+        "endOffset": 22
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Do not perform equality checks with floating point values.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "data-science",
+        "numpy",
+        "pytorch",
+        "suspicious"
+      ],
+      "creationDate": "2024-04-09T23:07:21+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "BUG",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMqDNE7v0jDuvysi",
+      "rule": "python:S1244",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:tests/test_condition.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "7f165fbb7ee9aaa1598f1091ac26d963",
+      "textRange": {
+        "startLine": 44,
+        "endLine": 44,
+        "startOffset": 11,
+        "endOffset": 22
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Do not perform equality checks with floating point values.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "data-science",
+        "numpy",
+        "pytorch",
+        "suspicious"
+      ],
+      "creationDate": "2024-04-09T23:07:21+0000",
+      "updateDate": "2025-10-19T13:33:06+0000",
+      "closeDate": "2025-10-19T13:33:06+0000",
+      "type": "BUG",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMonNE7v0jDuvyr9",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/edges.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 90,
+      "hash": "ff09eed9ab9e9d4719716ffca80a4010",
+      "textRange": {
+        "startLine": 90,
+        "endLine": 90,
+        "startOffset": 8,
+        "endOffset": 9
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove the unused local variable \"g\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMonNE7v0jDuvyr-",
+      "rule": "python:S1172",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/edges.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 99,
+      "hash": "85c355995b1ee34b06f5066b5b2b4607",
+      "textRange": {
+        "startLine": 99,
+        "endLine": 99,
+        "startOffset": 46,
+        "endOffset": 52
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove the unused function parameter \"meta\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMonNE7v0jDuvyr_",
+      "rule": "python:S1172",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/edges.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 110,
+      "hash": "294f536d871b3b0b58abc279becfd6ed",
+      "textRange": {
+        "startLine": 110,
+        "endLine": 110,
+        "startOffset": 43,
+        "endOffset": 49
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove the unused function parameter \"meta\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMonNE7v0jDuvysA",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/edges.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "bc3a044262867895e220c0b251cad91a",
+      "textRange": {
+        "startLine": 199,
+        "endLine": 199,
+        "startOffset": 8,
+        "endOffset": 26
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T15:17:25+0000",
+      "closeDate": "2025-10-19T15:17:25+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMooNE7v0jDuvysB",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/edges.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "ff09eed9ab9e9d4719716ffca80a4010",
+      "textRange": {
+        "startLine": 203,
+        "endLine": 203,
+        "startOffset": 8,
+        "endOffset": 9
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove the unused local variable \"g\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T15:17:25+0000",
+      "closeDate": "2025-10-19T15:17:25+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMooNE7v0jDuvysC",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/edges.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "dfa69bf7c8f89198346e7034eb512c26",
+      "textRange": {
+        "startLine": 228,
+        "endLine": 228,
+        "startOffset": 8,
+        "endOffset": 67
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T15:17:25+0000",
+      "closeDate": "2025-10-19T15:17:25+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMooNE7v0jDuvysD",
+      "rule": "python:S1172",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/edges.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 232,
+      "hash": "85c355995b1ee34b06f5066b5b2b4607",
+      "textRange": {
+        "startLine": 232,
+        "endLine": 232,
+        "startOffset": 46,
+        "endOffset": 52
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove the unused function parameter \"meta\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMooNE7v0jDuvysE",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/edges.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 250,
+      "hash": "ff09eed9ab9e9d4719716ffca80a4010",
+      "textRange": {
+        "startLine": 250,
+        "endLine": 250,
+        "startOffset": 8,
+        "endOffset": 9
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove the unused local variable \"g\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMnWNE7v0jDuvyri",
+      "rule": "python:S1172",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/graph/base.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 22,
+      "hash": "e79361fc10c2f795275ccd8228690786",
+      "textRange": {
+        "startLine": 22,
+        "endLine": 22,
+        "startOffset": 38,
+        "endOffset": 43
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove the unused function parameter \"other\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMnfNE7v0jDuvyrm",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/graph/graph.py",
+      "project": "Strangemother_python-hyperway",
+      "hash": "32a3a4fcbab9912101394986180e2ff5",
+      "textRange": {
+        "startLine": 151,
+        "endLine": 151,
+        "startOffset": 8,
+        "endOffset": 36
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T15:17:25+0000",
+      "closeDate": "2025-10-19T15:17:25+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMn8NE7v0jDuvyrp",
+      "rule": "python:S7498",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/packer.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 73,
+      "hash": "0fea65011847de15c0715e7fbacd70c5",
+      "textRange": {
+        "startLine": 73,
+        "endLine": 73,
+        "startOffset": 8,
+        "endOffset": 12
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Replace this constructor call with a literal.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoFNE7v0jDuvyrq",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/reader.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 8,
+      "hash": "a99c06b643dd91b82eba156b46c05111",
+      "textRange": {
+        "startLine": 8,
+        "endLine": 8,
+        "startOffset": 4,
+        "endOffset": 14
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoFNE7v0jDuvyrr",
+      "rule": "python:S7498",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/reader.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 19,
+      "hash": "6ed123cd5284f2bca741aa130c35ef19",
+      "textRange": {
+        "startLine": 19,
+        "endLine": 19,
+        "startOffset": 10,
+        "endOffset": 15
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Replace this constructor call with a literal.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoFNE7v0jDuvyrs",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/reader.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 20,
+      "hash": "a99c06b643dd91b82eba156b46c05111",
+      "textRange": {
+        "startLine": 20,
+        "endLine": 20,
+        "startOffset": 4,
+        "endOffset": 14
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoFNE7v0jDuvyrt",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/reader.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 131,
+      "hash": "d2d1c8391dc121b044871df964837d96",
+      "textRange": {
+        "startLine": 131,
+        "endLine": 131,
+        "startOffset": 4,
+        "endOffset": 25
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoFNE7v0jDuvyru",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/reader.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 138,
+      "hash": "66334ebd4158ff7e2374016b222eec8c",
+      "textRange": {
+        "startLine": 138,
+        "endLine": 138,
+        "startOffset": 8,
+        "endOffset": 21
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoFNE7v0jDuvyrv",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/reader.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 147,
+      "hash": "2473bfe6e94375bfe2a60b3f335f680b",
+      "textRange": {
+        "startLine": 147,
+        "endLine": 147,
+        "startOffset": 4,
+        "endOffset": 21
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gModNE7v0jDuvyrz",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 99,
+      "hash": "6444a7c2640d31b0f9a0508407673689",
+      "textRange": {
+        "startLine": 99,
+        "endLine": 99,
+        "startOffset": 4,
+        "endOffset": 54
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gModNE7v0jDuvyr0",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 150,
+      "hash": "e5d6eafda6a027cf0d2a38ac93b739d5",
+      "textRange": {
+        "startLine": 150,
+        "endLine": 150,
+        "startOffset": 40,
+        "endOffset": 58
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gModNE7v0jDuvyr2",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 201,
+      "hash": "cdc5672ca91558bf3d51a73ef01703a7",
+      "textRange": {
+        "startLine": 201,
+        "endLine": 201,
+        "startOffset": 8,
+        "endOffset": 30
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoeNE7v0jDuvyr6",
+      "rule": "python:S1172",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 372,
+      "hash": "3f28c2055c43b81d6a5d5898a8aae086",
+      "textRange": {
+        "startLine": 372,
+        "endLine": 372,
+        "startOffset": 35,
+        "endOffset": 40
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove the unused function parameter \"thing\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoeNE7v0jDuvyr8",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/stepper.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 428,
+      "hash": "aa075fd7d74098307dfc074f93a0ba16",
+      "textRange": {
+        "startLine": 428,
+        "endLine": 428,
+        "startOffset": 8,
+        "endOffset": 66
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMnpNE7v0jDuvyrn",
+      "rule": "python:S1481",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/tools.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 105,
+      "hash": "33f897d5c0b27c6a9bf5418d6dcb2f16",
+      "textRange": {
+        "startLine": 105,
+        "endLine": 105,
+        "startOffset": 24,
+        "endOffset": 29
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Replace the unused local variable \"extra\" with \"_\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMnxNE7v0jDuvyro",
+      "rule": "Web:ImgWithoutAltCheck",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/view.html",
+      "project": "Strangemother_python-hyperway",
+      "line": 14,
+      "hash": "b1dc17356aa936a2583b2fd4027137ed",
+      "textRange": {
+        "startLine": 14,
+        "endLine": 14,
+        "startOffset": 4,
+        "endOffset": 36
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Add an \"alt\" attribute to this image.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "accessibility",
+        "wcag2-a"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoQNE7v0jDuvyrx",
+      "rule": "python:S125",
+      "severity": "MAJOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/writer.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 88,
+      "hash": "54df042c50317a95aa6c009d75724e37",
+      "textRange": {
+        "startLine": 88,
+        "endLine": 88,
+        "startOffset": 4,
+        "endOffset": 14
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    },
+    {
+      "key": "AZn8gMoQNE7v0jDuvyry",
+      "rule": "python:S7498",
+      "severity": "MINOR",
+      "component": "Strangemother_python-hyperway:src/hyperway/writer.py",
+      "project": "Strangemother_python-hyperway",
+      "line": 93,
+      "hash": "f736997f7d155cb4d27a6788e2950981",
+      "textRange": {
+        "startLine": 93,
+        "endLine": 93,
+        "startOffset": 17,
+        "endOffset": 21
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Replace this constructor call with a literal.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "jay@strangemother.com",
+      "tags": [],
+      "creationDate": "2024-04-09T22:41:57+0000",
+      "updateDate": "2025-10-19T12:44:52+0000",
+      "type": "CODE_SMELL",
+      "organization": "strangemother",
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "projectName": "Python Hyperway"
+    }
+  ],
+  "summary": {
+    "total_issues": 137,
+    "code_smells": 132,
+    "bugs": 5,
+    "vulnerabilities": 0
+  }
+}

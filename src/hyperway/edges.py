@@ -40,6 +40,7 @@ def get_connections(graph, unit):
     # print('xx - Get for', unit)
     if hasattr(unit, 'get_connections'):
         # Is an edge.
+        print('Using unit.get_connections')
         res = unit.get_connections(graph)
     else:
         res = graph.get(as_unit(unit).id(), None)
@@ -50,8 +51,12 @@ def get_connections(graph, unit):
         # for the next - BUT as A callers.
         tip_connections = graph.get(unit.b.id())
         # return a callers.
-        res = tuple(x.get_a() for x in tip_connections)
-        print(f'.. returning A nodes of B nodes from the origin: {unit}')
+        if tip_connections is not None:
+            res = tuple(x.get_a() for x in tip_connections)
+            print(f'.. returning A nodes of B nodes from the origin: {unit}')
+        else:
+            # No connections from edge.b - this is an end node
+            res = None
 
     if res is None:
         print(f' C(0) "{unit}"')
@@ -64,7 +69,6 @@ class Connection(IDFunc):
     """Represents a connection between A and B.
     + Lives on the graph at the node location
     + Returns the process function for the stepper caller.
-
     """
     def __init__(self, a, b, name=None, through=None, on=None):
         self.name = name
@@ -72,6 +76,7 @@ class Connection(IDFunc):
         self.b = b
         self.through = through
         self.on = on
+        self._resolver = None
 
     def __str__(self):
         return self.as_str()
@@ -80,15 +85,14 @@ class Connection(IDFunc):
         return f"<{self.as_str()}>"
 
     def __call__(self, *a, _graph=None, **kw):
-        # Call a, return tuple for through caller.
-        print('Connection()  ')
+        """Call this connection, returning the result of B.
+        This will call A, then the through function (if any), then B."""
         g = _graph or self.on
         return self.get_a().process(*a, **kw)
 
     @property
     def merge_node(self):
-        """If A is a merge node.
-        """
+        """If A is a merge node."""
         return self.get_a().merge_node
 
     def stepper_call(self, akw, stepper=None, **meta):
@@ -100,7 +104,6 @@ class Connection(IDFunc):
         Call upon self.process with the given argspack. This will call the
         wire function, and then the B function, returning B result.
         """
-        # wire_raw_res =
         return self.get_a().process(*akw.a,**akw.kw)
 
     def half_call(self, akw, stepper=None, **meta):
@@ -157,7 +160,7 @@ class Connection(IDFunc):
 
     def get_resolver(self):
         if self._resolver is None:
-            from graph import resolve
+            from .graph.base import resolve
             self._resolver = resolve
         return self._resolver
 
@@ -176,12 +179,10 @@ class Connection(IDFunc):
         ISSUE 01: Functional Return Sentinal
         """
         res = self.get_a().process(*a, **kw)
-        # print('pluck res A:', res)
         return self.process(res)
 
     def process(self, *a, **kw):
         akw = self.call_through(*a, **kw)
-        # print("Though result", akw)
         return self.b.process(*akw.args, **akw.kwargs)
 
 
@@ -191,11 +192,8 @@ class PartialConnection(IDFunc):
         self.on = on
         self.node = node
         self.parent_connection = parent_connection
-        # self.func = func
 
     def __call__(self, *a, _graph=None, **kw):
-        print('!  Calling PartialConnection')
-        g = _graph or self.on
         r = self.process(*a, **kw)
         return r
 
@@ -218,15 +216,14 @@ class PartialConnection(IDFunc):
         return self.parent_connection.get_b()
 
     def get_connections(self, graph):
-        print('PartialConnection get_connections')
+        """Return the connections from node B, as the next step.
+        This is called by the stepper when processing this partial connection."""
         resolve = graph.resolve_node_connections
-        # b_next = get_connections(graph, self.parent_connection.b)
         b_next = resolve(self.parent_connection.b)
         return b_next
 
     def wb_pair(self):
-        """Return the _wire_ and _node B_ function as a tuple pair.
-        """
+        """Return the _wire_ and _node B_ function as a tuple pair."""
         pc = self.parent_connection
         return (pc.through, pc.b)
 
@@ -236,7 +233,6 @@ class PartialConnection(IDFunc):
         Call upon self.process with the given argspack. This will call the
         wire function, and then the B function, returning B result.
         """
-        # wire_raw_res =
         return self.process(*akw.a,**akw.kw)
 
     def process(self, *a, **kw):
@@ -244,7 +240,6 @@ class PartialConnection(IDFunc):
         B function.
         """
         pr = self.parent_connection
-        # Call Connection.process
         return pr.process(*a, **kw)
 
     def graph_next_process_caller(self, _graph=None):

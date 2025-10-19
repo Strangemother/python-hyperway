@@ -1,51 +1,83 @@
 # https://packaging.python.org/en/latest/specifications/declaring-project-metadata/#example
-[tool.portray]
-output_dir = "documentation_website"
-modules = ["hyperway"]
-port = 8001
-
-[project]
-name = "hyperway"
-# version = "0.1a"
-authors = [
-  { name="Strangemother", email="hyperway@strangemother.com" },
-]
-description = "hyperway"
-readme = "README.md"
-requires-python = ">=3.8"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-]
-license = {text='MIT'}
-dynamic = ['version']
-# dependencies
-# dynamic
-# entry-points
-# gui-scripts
-# keywords
-# license
-# maintainers
-# optional-dependencies
-[project.optional-dependencies]
-dev = [
-  "pytest",
-]
-# scripts
-# urls
-
-[tool.setuptools.package-data]
-trim = ["**/*.js", "**/*.css","**/*.html"]
-
-# [project.scripts]
-# trim = 'trim.cli.primary:main'
-# trim-admin = 'trim.cli.primary:main_admin'
-
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "hyperway"
+version = "1.0.3"
+authors = [
+  { name="Strangemother", email="hyperway@strangemother.com" },
+]
+description = "A functional graph execution engine with left-associative edge execution and composable node connections"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = [
+    "graph",
+    "execution-engine",
+    "functional-programming",
+    "dataflow",
+    "computational-graph",
+    "workflow",
+    "pipeline",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering",
+    "Typing :: Typed",
+]
+license = "MIT"
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-cov",
+  "tox",
+]
+docs = [
+  "sphinx",
+  "sphinx-rtd-theme",
+]
+
 [project.urls]
-"Homepage" = "http://github.com/Strangemother/python-hyperway"
-"Bug Tracker" = "http://github.com/Strangemother/python-hyperway/issues"
+"Homepage" = "https://github.com/Strangemother/python-hyperway"
+"Documentation" = "https://github.com/Strangemother/python-hyperway/tree/main/docs"
+"Bug Tracker" = "https://github.com/Strangemother/python-hyperway/issues"
+"Source Code" = "https://github.com/Strangemother/python-hyperway"
+"Changelog" = "https://github.com/Strangemother/python-hyperway/blob/main/RELEASE_NOTES_v1.0.0.md"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["hyperway", "hyperway.graph"]
+
+[tool.setuptools.package-data]
+hyperway = ["**/*.html", "**/*.js", "**/*.css"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --strict-markers"
+
+[tool.coverage.run]
+source = ["src/hyperway"]
+omit = ["*/tests/*", "*/__pycache__/*"]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+
+[tool.portray]
+output_dir = "documentation_website"
+modules = ["hyperway"]
+port = 8001
