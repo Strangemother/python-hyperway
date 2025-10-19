@@ -469,6 +469,56 @@ class TestCallOneMethods(unittest.TestCase):
         # With stash_ends=True, returns empty tuple
         self.assertIsInstance(result, tuple)
 
+    def test_call_one_delegates_to_call_one_connection_for_edge(self):
+        """Test that call_one delegates to call_one_connection when given an edge."""
+        g = Graph()
+        
+        def func_a(v):
+            return v * 2
+        
+        def func_b(v):
+            return v + 1
+        
+        ua = as_unit(func_a)
+        ub = as_unit(func_b)
+        edge = make_edge(ua, ub)
+        
+        stepper = StepperC(g)
+        akw = argspack(5)
+        
+        with patch.object(stepper, 'call_one_connection', return_value=()) as mock_call:
+            stepper.call_one(edge, akw)
+            
+            mock_call.assert_called_once_with(edge, akw)
+
+    def test_call_one_delegates_to_call_one_callable_for_function(self):
+        """Test that call_one delegates to call_one_callable when given a callable."""
+        g = Graph()
+        
+        def my_func(v):
+            return v * 3
+        
+        stepper = StepperC(g)
+        akw = argspack(10)
+        
+        with patch.object(stepper, 'call_one_callable', return_value=()) as mock_call:
+            stepper.call_one(my_func, akw)
+            
+            mock_call.assert_called_once_with(my_func, akw)
+
+    def test_call_one_delegates_to_call_one_fallthrough_for_non_callable(self):
+        """Test that call_one delegates to call_one_fallthrough for non-callable objects."""
+        g = Graph()
+        
+        thing = {}  # A dict is not callable
+        stepper = StepperC(g)
+        akw = argspack(5)
+        
+        with patch.object(stepper, 'call_one_fallthrough', return_value=()) as mock_call:
+            stepper.call_one(thing, akw)
+            
+            mock_call.assert_called_once_with(thing, akw)
+
 
 class TestStepperEdgeCases(unittest.TestCase):
     """Test edge cases and error conditions."""

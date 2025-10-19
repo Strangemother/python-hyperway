@@ -194,5 +194,32 @@ class TestLeafBehavior(unittest.TestCase):
         self.assertEqual(result[0], "end")
 
 
+class TestUnitInput(unittest.TestCase):
+    """Test Unit.input() method delegation."""
+    
+    def test_input_calls_process_with_args_and_kwargs(self):
+        """input() calls process() with the provided args and kwargs."""
+        func = lambda x, y=10: x + y
+        u = Unit(func)
+        
+        with patch.object(u, 'process', return_value=42) as mock_process:
+            result = u.input((5,), {'y': 20})
+            
+            # input() calls process(a, kw) - passing the tuple and dict as args
+            mock_process.assert_called_once_with((5,), {'y': 20})
+            self.assertEqual(result, 42)
+    
+    def test_input_returns_process_result(self):
+        """input() returns the result from process()."""
+        func = lambda a_tuple, kw_dict: a_tuple[0] * 2
+        u = Unit(func)
+        
+        # input() receives (args_tuple, kwargs_dict) and passes them to process
+        # Since process has *a signature, it will receive them as two positional args
+        result = u.input((10,), {})
+        
+        self.assertEqual(result, 20)
+
+
 if __name__ == "__main__":
     unittest.main()
