@@ -2,7 +2,7 @@
 applyTo: '**/.*.py'
 ---
 
-Run tests using the `./quick_test.sh` script to ensure all functionality remains intact.
+Run tests using the `/workspaces/python-hyperway/quick_test.sh` script to ensure all functionality remains intact.
 
 + PEP-8 style is preferred.
 + Tend to use f-strings for formatting.

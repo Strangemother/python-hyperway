@@ -68,7 +68,6 @@ class Connection(IDFunc):
     """Represents a connection between A and B.
     + Lives on the graph at the node location
     + Returns the process function for the stepper caller.
-
     """
     def __init__(self, a, b, name=None, through=None, on=None):
         self.name = name
