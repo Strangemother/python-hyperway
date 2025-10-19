@@ -520,6 +520,47 @@ class TestCallOneMethods(unittest.TestCase):
             mock_call.assert_called_once_with(thing, akw)
 
 
+class TestStepperNextIterator(unittest.TestCase):
+    """Test Stepper.next_iterator method."""
+
+    def test_iter_no_rows(self):
+        mock_stepper = MagicMock()
+        mock_stepper.start.return_value = ()  # Empty rows triggers StopIteration
+        akw = {'id': 1}
+        start_nodes = (1,2,3,)
+        
+        st = StepperIterator(mock_stepper, start_nodes, akw=akw)
+        gen = next(st)
+        with self.assertRaises(RuntimeError):
+            next(gen)
+        mock_stepper.start.assert_called_once_with(*start_nodes, akw=akw)
+
+    def test_iter_with_rows(self):
+        """Test StepperIterator with rows that eventually exhaust."""
+        mock_stepper = MagicMock()
+        # First call returns 2 rows, second call returns empty (triggering StopIteration)
+        mock_stepper.start.return_value = (
+            (lambda x: x, argspack(10)),
+            (lambda x: x, argspack(20)),
+        )
+        mock_stepper.call_rows.return_value = ()  # Empty on second iteration
+        
+        akw = {'id': 2}
+        start_nodes = (4,5,)
+        
+        st = StepperIterator(mock_stepper, start_nodes, akw=akw)
+        gen = next(st)  # Get the generator from __next__
+        
+        # First yield should return the initial rows
+        first_result = next(gen)
+        self.assertEqual(first_result, mock_stepper.start.return_value)
+        
+        # Second call should exhaust (call_rows returns empty, causing StopIteration)
+        with self.assertRaises(RuntimeError):
+            next(gen)
+        
+        mock_stepper.start.assert_called_once_with(*start_nodes, akw=akw)
+
 class TestStepperEdgeCases(unittest.TestCase):
     """Test edge cases and error conditions."""
 
