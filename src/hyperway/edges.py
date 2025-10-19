@@ -50,8 +50,12 @@ def get_connections(graph, unit):
         # for the next - BUT as A callers.
         tip_connections = graph.get(unit.b.id())
         # return a callers.
-        res = tuple(x.get_a() for x in tip_connections)
-        print(f'.. returning A nodes of B nodes from the origin: {unit}')
+        if tip_connections is not None:
+            res = tuple(x.get_a() for x in tip_connections)
+            print(f'.. returning A nodes of B nodes from the origin: {unit}')
+        else:
+            # No connections from edge.b - this is an end node
+            res = None
 
     if res is None:
         print(f' C(0) "{unit}"')
