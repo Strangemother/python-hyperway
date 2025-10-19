@@ -3,15 +3,17 @@
 
 <br>
 
-![hyperway logo](./docs/images/logo-800.png)
+![hyperway logo](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/logo-800.png)
 
 <br>
 
 
 
 [![Upload Python Package](https://github.com/Strangemother/python-hyperway/actions/workflows/python-publish.yml/badge.svg)](https://github.com/Strangemother/python-hyperway/actions/workflows/python-publish.yml)
-![PyPI](https://img.shields.io/pypi/v/hyperway?label=hyperway)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/hyperway)
+[![PyPI](https://img.shields.io/pypi/v/hyperway?label=hyperway)](https://pypi.org/project/hyperway/)
+![License](https://img.shields.io/pypi/l/hyperway)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/hyperway)](https://pypi.org/project/hyperway/)
+![coverage](https://img.shields.io/codecov/c/github/Strangemother/python-hyperway?logo=codecov&logoColor=white)
 
 # Hyperway
 
@@ -33,10 +35,6 @@ Hyperway is a graph based functional execution library, allowing you to connect 
 ```bash
 pip install hyperway
 ```
-
-> [!NOTICE]
-> This project is very new and I'm still putting together better docs, tests, examples, a website, and all the bits in-between. Until then these [other libraries](#other-libraries) are awesome.
-
 
 ## Example
 
@@ -69,7 +67,7 @@ Render with graphviz:
 g.write('intro-example', directory='renders', direction='LR')
 ```
 
-![connection diagram](./docs/images/intro-example.gv.png)
+![connection diagram](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/intro-example.gv.png)
 
 # Getting Started
 
@@ -114,7 +112,7 @@ g = hyperway.Graph()
 
 Bind functions in an execution chain. Notably it's a minimum of two:
 
-![connection diagram of two nodes with an optional wire function](./docs/images/connection.png)
+![connection diagram of two nodes with an optional wire function](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/connection.png)
 
 ```py
 from hyperway.edges import make_edge
@@ -192,7 +190,7 @@ The `pluck()` executes both nodes and the optional wire function, in the expecte
 
 An optional wire function exists between two nodes
 
-![connection diagram of two nodes with a wire function](./docs/images/connection-with-wire.png)
+![connection diagram of two nodes with a wire function](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/connection-with-wire.png)
 
 
 The [Connection](#connections-edges) can have a function existing between its connected [Units](#units-nodes), allowing the alteration of the data through transit (whilst running through a connection):
@@ -275,7 +273,7 @@ c.pluck(4)
 
 A connection `A -> B` may be the same node, performing a _loop_ or self-referencing node connection.
 
-![self referencing connection](./docs/images/self-reference.png)
+![self referencing connection](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/self-reference.png)
 
 
 We can use the `as_unit` function, and reference the same unit on the graph:
@@ -380,7 +378,7 @@ With this we create a linear chain of function calls, or close a loop that will 
 
 Generally when inserting functions, a new reference is created. This allows us to use the same function at different points in a chain:
 
-![3 nodes linear chain](./docs/images/3-nodes.png)
+![3 nodes linear chain](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/3-nodes.png)
 
 ```py
 a = f.add_1
@@ -399,7 +397,7 @@ _ = make_edge(c, a)
 
 Closing a path produces a loop. To close a path we can reuse the same `Unit` at both ends of our path.
 
-![3 nodes loop](./docs/images/3-node-loop.png)
+![3 nodes loop](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/3-node-loop.png)
 
 To ensure a node is reused when applied, we pre-convert it to a `Unit`:
 
@@ -436,7 +434,7 @@ Under the hood, The graph is just a `defaultdict` and doesn't do much.
 
 The `Stepper` run units and discovers connections through the attached Graph. It runs concurrent units and spools the next callables for the next _step_.
 
-![self referencing connection](./docs/images/stepper.png)
+![self referencing connection](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/stepper.png)
 
 ```py
 from hyperway.graph import Graph
@@ -514,7 +512,7 @@ result = run_stepper(g, connections[0].a, argspack(10))
 The value of the stepper is concurrent. When a path ends, the value is stored in the `stepper.stash`.
 When executing node steps, the result from the call is given to the next connected unit.
 
-![stepper classic path movement](./docs/images/stepper-classic-path.png)
+![stepper classic path movement](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/stepper-classic-path.png)
 
 If two nodes call to the same destination node, this causes _two_ calls of the next node:
 
@@ -547,7 +545,7 @@ Use merge nodes to action _one_ call to a node, with two results.
 1. Set `merge_node=True` on target node
 2. Flag `concat_aware=True` on the stepper
 
-![stepper merge node](./docs/images/stepper-merge.png)
+![stepper merge node](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/stepper-merge.png)
 
 ```py
 g = Graph()
@@ -579,7 +577,7 @@ print(10, 11) # resultant
 
 A _path_ defines the flow of a `stepper` through a single processing chain. A function connected to more than one function will _fork_ the stepper and produce a result per connection.
 
-![stepper classic path movement](./docs/images/stepper-value-2-fork-wires.png)
+![stepper classic path movement](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/stepper-value-2-fork-wires.png)
 
 For example a graph with a a split path will yield two results:
 
@@ -604,13 +602,13 @@ If [graphviz](https://github.com/xflr6/graphviz) is installed, The graph can be 
 g.write('double-split', direction='LR')
 ```
 
-![double split](./docs/images/double-split.gv.png)
+![double split](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/double-split.gv.png)
 
 ---
 
 Connecting nodes will grow the result count. For example creating in two exits nodes will double the result count
 
-![stepper classic path movement](./docs/images/stepper-value-4-fork-wires.png)
+![stepper classic path movement](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/stepper-value-4-fork-wires.png)
 
 To model this, we can extend the _above_ code with an extra connection: `g.connect(join, f.sub_1)`:
 
@@ -634,7 +632,7 @@ g.connect(join, f.sub_1)
 g.write('double-double-split', direction='LR')
 ```
 
-![double split with two exit nodes](./docs/images/double-double-split.png)
+![double split with two exit nodes](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/double-double-split.png)
 
 > [!NOTE]
 > The count of results is a _product_ of the node count - and may result exponential paths if unmanaged.
@@ -642,7 +640,7 @@ g.write('double-double-split', direction='LR')
 
 _Wire functions have been removed for clarity_
 
-![stepper classic path movement](./docs/images/stepper-value-9-fork.png)
+![stepper classic path movement](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/stepper-value-9-fork.png)
 
 ```py
 from hyperway import Graph, as_unit
@@ -666,7 +664,7 @@ g.connect(join, f.sub_2)
 g.write('triple-split', direction='LR')
 ```
 
-![triple split with three exit nodes](./docs/images/triple-split-3.gv.png)
+![triple split with three exit nodes](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/triple-split-3.gv.png)
 
 
 #### Order of Operation
@@ -717,7 +715,7 @@ assert c.pluck(10) == 24 # (10 + 1) * 2 + 2
 
 # Topology
 
-![stepper classic path movement](./docs/images/stepper-value-fork.png)
+![stepper classic path movement](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/stepper-value-fork.png)
 
 + [Graph](#graph-1): The Graph is a thin and dumb dictionary, maintaining a list of connections per node.
 + [Node](#units-and-nodes): The Node is also very terse, fundamentally acting as a thin wrapper around the user given function, and exposes a few methods for _on-graph_ executions.
@@ -825,7 +823,6 @@ Each restart was a lesson in what _not-to-do_. I have fundamentally 25 restart/r
 3. The same thing; but with a "system" running a super-loop of futures
    Sure it works, but now we have an asyncio execution machine, with a bunch of mixins, structures classes, and a specific _run_ function.
    Entities are too classy, with a large unwanted method stack - more simpler is required
----
 
 
 # Areas of Interest
@@ -839,20 +836,20 @@ Each restart was a lesson in what _not-to-do_. I have fundamentally 25 restart/r
 
 # Futher Reading
 
-+ (TensorFlow: Introduction to Graph and `tf.function`)[https://www.tensorflow.org/guide/intro_to_graphs]
-+ (Wiki: Extract, transform, load)[https://en.wikipedia.org/wiki/Extract,_transform,_load]
++ [TensorFlow: Introduction to Graph and `tf.function`](https://www.tensorflow.org/guide/intro_to_graphs)
++ [Wiki: Extract, transform, load](https://en.wikipedia.org/wiki/Extract,_transform,_load)
 + https://docs.dgl.ai/en/2.0.x/notebooks/sparse/hgnn.html | https://github.com/iMoonLab/DeepHypergraph/blob/main/README.md
 + https://distill.pub/2021/gnn-intro/
 + https://renzoangles.net/gdm/
 
 # Other Libraries
 
-+ (Graphtik)[https://graphtik.readthedocs.io/en/latest/]
-+ (iGraph)[https://python.igraph.org/en/stable/index.html#]
-+ (graph-tool)[https://graph-tool.skewed.de/]
-+ (pyDot)[https://github.com/pydot/pydot]
-+ (FreExGraph)[https://github.com/FreeYourSoul/FreExGraph]
-+ (NetworkX)[https://networkx.org/documentation/latest/index.html]
++ [Graphtik](https://graphtik.readthedocs.io/en/latest/)
++ [iGraph](https://python.igraph.org/en/stable/index.html#)
++ [graph-tool](https://graph-tool.skewed.de/)
++ [pyDot](https://github.com/pydot/pydot)
++ [FreExGraph](https://github.com/FreeYourSoul/FreExGraph)
++ [NetworkX](https://networkx.org/documentation/latest/index.html)
 
 
 # Links
