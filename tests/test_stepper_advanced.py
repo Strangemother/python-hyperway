@@ -516,6 +516,57 @@ class TestStepperNextIterator(unittest.TestCase):
         
         mock_stepper.start.assert_called_once_with(*start_nodes, akw=akw)
 
+    def test_iter_with_rows_already_set(self):
+        """Test StepperIterator when rows are pre-set (bypassing initial start call).
+        
+        This covers the false branch of 'if self.rows is None' (line 117->119).
+        When __next__ is called again after rows have been set, it should skip the start() call.
+        """
+        mock_stepper = MagicMock()
+        
+        # Set up start to return initial rows
+        initial_rows = (
+            (lambda x: x + 1, argspack(10)),
+        )
+        mock_stepper.start.return_value = initial_rows
+        
+        # Set up call_rows to return new rows on first call, empty on second
+        second_rows = (
+            (lambda x: x + 2, argspack(20)),
+        )
+        mock_stepper.call_rows.side_effect = [second_rows, ()]
+        
+        akw = argspack(99)
+        start_nodes = (lambda x: x * 2,)
+        
+        # Create iterator
+        st = StepperIterator(mock_stepper, start_nodes, akw=akw)
+        
+        # First call to __next__ - rows is None, so start() is called
+        gen1 = next(st)
+        first_result = next(gen1)
+        self.assertEqual(first_result, initial_rows)
+        
+        # At this point, self.rows has been set by the while loop
+        # Verify start was called once
+        self.assertEqual(mock_stepper.start.call_count, 1)
+        
+        # Continue the generator - this will call call_rows and set self.rows to second_rows
+        second_result = next(gen1)
+        self.assertEqual(second_result, second_rows)
+        
+        # Now self.rows is second_rows (not None)
+        # Call __next__ again - this should skip the 'if self.rows is None' block
+        # and go directly to the while loop
+        gen2 = next(st)
+        
+        # This should yield second_rows immediately without calling start() again
+        third_result = next(gen2)
+        self.assertEqual(third_result, second_rows)
+        
+        # start() should still only have been called once (from the first __next__)
+        self.assertEqual(mock_stepper.start.call_count, 1)
+
 class TestStepperEdgeCases(unittest.TestCase):
     """Test edge cases and error conditions."""
 
