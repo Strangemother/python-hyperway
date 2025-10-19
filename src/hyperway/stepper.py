@@ -34,6 +34,19 @@ def process_forward(graph, start_node, argspack):
 
 
 def expand_tuple(items, second):
+    """Expand items into rows paired with second.
+    
+    Args:
+        items: Iterable of connections/callables, or None if no connections exist
+        second: The argspack to pair with each item
+        
+    Returns:
+        Tuple of (item, second) pairs. Returns empty tuple if items is None.
+    """
+    if items is None:
+        # No connections - return empty rows (end of branch)
+        return ()
+    
     res = ()
     for conn in items:
         if isinstance(conn, (tuple,list)):
@@ -52,7 +65,18 @@ def expand_list(items, second):
 
     Builds rows with list append/extend and converts to a tuple at the end.
     The return shape matches the original expand().
+    
+    Args:
+        items: Iterable of connections/callables, or None if no connections exist
+        second: The argspack to pair with each item
+        
+    Returns:
+        Tuple of (item, second) pairs. Returns empty tuple if items is None.
     """
+    if items is None:
+        # No connections - return empty rows (end of branch)
+        return ()
+    
     res_list = []
     for conn in items:
         if isinstance(conn, (tuple, list)):
