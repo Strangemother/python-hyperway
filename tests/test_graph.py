@@ -13,9 +13,36 @@ from unittest.mock import patch, MagicMock
 
 from hyperway.graph import Graph
 from hyperway.graph.graph import UndirectedGraph, FORWARD, BACKWARD
+from hyperway.graph.base import is_graph, GraphBase, pairwise
 from hyperway.edges import make_edge, Connection
 from hyperway.nodes import as_unit, Unit
 from hyperway.packer import argspack
+from hyperway.stepper import StepperC
+
+
+# Reusable test functions to reduce redundancy
+def func_a(v=None):
+    """Standard test function A - returns None or passes through value."""
+    if v is None:
+        return None
+    return v
+
+
+def func_b(v=None):
+    """Standard test function B - returns None or passes through value."""
+    if v is None:
+        return None
+    return v
+
+
+def func_c():
+    """Standard test function C - returns 3."""
+    return 3
+
+
+def wire_func(v, *args, **kwargs):
+    """Wire function that doubles the value."""
+    return argspack(v * 2, **kwargs)
 
 
 class TestGraphBasics(unittest.TestCase):
@@ -41,10 +68,6 @@ class TestGraphAddEdge(unittest.TestCase):
         """add_edge adds a connection to the graph."""
         g = Graph()
         
-        func_a = lambda: None
-        
-        func_b = lambda: None
-        
         edge = make_edge(func_a, func_b)
         g.add_edge(edge)
         
@@ -55,10 +78,6 @@ class TestGraphAddEdge(unittest.TestCase):
     def test_add_edge_stores_by_edge_id(self):
         """add_edge stores edge by its id."""
         g = Graph()
-        
-        func_a = lambda: None
-        
-        func_b = lambda: None
         
         edge = make_edge(func_a, func_b)
         edge_id = edge.id()
@@ -71,10 +90,6 @@ class TestGraphAddEdge(unittest.TestCase):
     def test_add_edge_stores_by_node_a_id(self):
         """add_edge stores edge by node A's id."""
         g = Graph()
-        
-        func_a = lambda: None
-        
-        func_b = lambda: None
         
         edge = make_edge(func_a, func_b)
         node_a_id = edge.a.id()
@@ -92,13 +107,6 @@ class TestGraphAddEdges(unittest.TestCase):
         """add_edges adds multiple edges."""
         g = Graph()
         
-        func_a = lambda: None
-        
-        func_b = lambda: None
-        
-        def func_c():
-            return 3
-        
         edge1 = make_edge(func_a, func_b)
         edge2 = make_edge(func_b, func_c)
         
@@ -111,10 +119,6 @@ class TestGraphAddEdges(unittest.TestCase):
     def test_add_edges_with_tuple(self):
         """add_edges works with tuple of edges."""
         g = Graph()
-        
-        func_a = lambda: None
-        
-        func_b = lambda: None
         
         edges = (make_edge(func_a, func_b),)
         g.add_edges(edges)
@@ -135,13 +139,6 @@ class TestGraphGetNodes(unittest.TestCase):
     def test_get_nodes_returns_unique_nodes(self):
         """get_nodes returns all unique nodes."""
         g = Graph()
-        
-        func_a = lambda: None
-        
-        func_b = lambda: None
-        
-        def func_c():
-            return 3
         
         # Use as_unit to ensure we have unique units
         unit_a = as_unit(func_a)
@@ -170,10 +167,6 @@ class TestGraphGetNodes(unittest.TestCase):
         """get_nodes includes both edge.a and edge.b."""
         g = Graph()
         
-        func_a = lambda: None
-        
-        func_b = lambda: None
-        
         edge = make_edge(func_a, func_b)
         g.add_edge(edge)
         
@@ -191,10 +184,6 @@ class TestGraphConnect(unittest.TestCase):
         """connect creates chain for two nodes."""
         g = Graph()
         
-        func_a = lambda: None
-        
-        func_b = lambda: None
-        
         connections = g.connect(func_a, func_b)
         
         # Should create one connection
@@ -205,13 +194,6 @@ class TestGraphConnect(unittest.TestCase):
         """connect creates chain for three nodes (a→b, b→c)."""
         g = Graph()
         
-        func_a = lambda: None
-        
-        func_b = lambda: None
-        
-        def func_c():
-            return 3
-        
         connections = g.connect(func_a, func_b, func_c)
         
         # Should create two connections
@@ -221,14 +203,7 @@ class TestGraphConnect(unittest.TestCase):
         """connect accepts through parameter for wire function."""
         g = Graph()
         
-        func_a = lambda v: v
-        
-        func_b = lambda v: v
-        
-        def wire(v, *args, **kwargs):
-            return argspack(v * 2, **kwargs)
-        
-        connections = g.connect(func_a, func_b, through=wire)
+        connections = g.connect(func_a, func_b, through=wire_func)
         
         self.assertEqual(len(connections), 1)
         # Edge should have the wire function
@@ -242,10 +217,6 @@ class TestGraphAdd(unittest.TestCase):
         """add creates a single edge between two nodes."""
         g = Graph()
         
-        func_a = lambda: None
-        
-        func_b = lambda: None
-        
         connection = g.add(func_a, func_b)
         
         self.assertIsInstance(connection, Connection)
@@ -254,14 +225,7 @@ class TestGraphAdd(unittest.TestCase):
         """add accepts through parameter for wire function."""
         g = Graph()
         
-        func_a = lambda v: v
-        
-        func_b = lambda v: v
-        
-        def wire(v, *args, **kwargs):
-            return argspack(v * 2, **kwargs)
-        
-        connection = g.add(func_a, func_b, through=wire)
+        connection = g.add(func_a, func_b, through=wire_func)
         
         # Connection should have wire function
         self.assertIsNotNone(connection.through)
@@ -269,10 +233,6 @@ class TestGraphAdd(unittest.TestCase):
     def test_add_stores_in_graph(self):
         """add stores the connection in the graph."""
         g = Graph()
-        
-        func_a = lambda: None
-        
-        func_b = lambda: None
         
         connection = g.add(func_a, func_b)
         
@@ -286,8 +246,6 @@ class TestGraphResolve(unittest.TestCase):
     def test_resolve_calls_resolve_node(self):
         """resolve delegates to resolve_node method."""
         g = Graph()
-        
-        func_a = lambda: None
         
         unit = as_unit(func_a)
         
@@ -308,8 +266,6 @@ class TestGraphStepperPrepare(unittest.TestCase):
         """stepper_prepare stores the starting node."""
         g = Graph()
         
-        func_a = lambda: None
-        
         unit = as_unit(func_a)
         
         g.stepper_prepare(unit, 10)
@@ -319,8 +275,6 @@ class TestGraphStepperPrepare(unittest.TestCase):
     def test_stepper_prepare_stores_args(self):
         """stepper_prepare stores arguments as ArgsPack."""
         g = Graph()
-        
-        func_a = lambda: None
         
         unit = as_unit(func_a)
         
@@ -333,8 +287,6 @@ class TestGraphStepperPrepare(unittest.TestCase):
     def test_stepper_prepare_without_args(self):
         """stepper_prepare works with no arguments."""
         g = Graph()
-        
-        func_a = lambda: None
         
         unit = as_unit(func_a)
         
@@ -353,10 +305,6 @@ class TestGraphStepperPrepareMany(unittest.TestCase):
         """stepper_prepare_many stores multiple (node, args) rows."""
         g = Graph()
         
-        func_a = lambda: None
-        
-        func_b = lambda: None
-        
         unit_a = as_unit(func_a)
         unit_b = as_unit(func_b)
         
@@ -372,8 +320,6 @@ class TestGraphStepperPrepareMany(unittest.TestCase):
     def test_stepper_prepare_many_creates_argspacks(self):
         """stepper_prepare_many wraps args in ArgsPacks."""
         g = Graph()
-        
-        func_a = lambda: None
         
         unit = as_unit(func_a)
         
@@ -393,24 +339,17 @@ class TestGraphStepper(unittest.TestCase):
         """stepper returns a StepperC instance."""
         g = Graph()
         
-        func_a = lambda: None
-        
         unit = as_unit(func_a)
         g.stepper_prepare(unit, 10)
         
         stepper = g.stepper()
         
         # Should be a StepperC instance
-        from hyperway.stepper import StepperC
         self.assertIsInstance(stepper, StepperC)
     
     def test_stepper_with_connection(self):
         """stepper works with a simple connection."""
         g = Graph()
-        
-        func_a = lambda v: v
-        
-        func_b = lambda v: v
         
         # Create a connection
         g.connect(func_a, func_b)
@@ -424,28 +363,22 @@ class TestGraphStepper(unittest.TestCase):
             stepper = g.stepper()
             
             # Stepper should be created
-            from hyperway.stepper import StepperC
             self.assertIsInstance(stepper, StepperC)
     
     def test_stepper_with_direct_node_and_args(self):
         """stepper can be called with node and args directly."""
         g = Graph()
         
-        func_a = lambda v: v
-        
         unit = as_unit(func_a)
         
         stepper = g.stepper(unit, 10)
         
         # Stepper should be created
-        from hyperway.stepper import StepperC
         self.assertIsInstance(stepper, StepperC)
     
     def test_stepper_with_prepared_rows(self):
         """stepper uses rows from stepper_prepare_many."""
         g = Graph()
-        
-        func_a = lambda: None
         
         unit = as_unit(func_a)
         
@@ -455,7 +388,6 @@ class TestGraphStepper(unittest.TestCase):
         stepper = g.stepper()
         
         # Should be a StepperC
-        from hyperway.stepper import StepperC
         self.assertIsInstance(stepper, StepperC)
     
     def test_stepper_get_stepper_class(self):
@@ -464,7 +396,6 @@ class TestGraphStepper(unittest.TestCase):
         
         stepper_class = g.get_stepper_class()
         
-        from hyperway.stepper import StepperC
         self.assertEqual(stepper_class, StepperC)
     
     def test_stepper_class_cached(self):
@@ -562,10 +493,6 @@ class TestUndirectedGraphAddEdge(unittest.TestCase):
         """add_edge stores edge in both FORWARD and BACKWARD graphs."""
         ug = UndirectedGraph()
         
-        func_a = lambda: None
-        
-        func_b = lambda: None
-        
         edge = make_edge(func_a, func_b)
         ug.add_edge(edge)
         
@@ -582,10 +509,6 @@ class TestUndirectedGraphConnect(unittest.TestCase):
         """connect creates edges in both FORWARD and BACKWARD graphs."""
         ug = UndirectedGraph()
         
-        func_a = lambda: None
-        
-        func_b = lambda: None
-        
         result = ug.connect(func_a, func_b)
         
         # Should return tuple of connections
@@ -597,13 +520,6 @@ class TestUndirectedGraphConnect(unittest.TestCase):
         """connect with three nodes creates edges in both directions."""
         ug = UndirectedGraph()
         
-        func_a = lambda: None
-        
-        func_b = lambda: None
-        
-        def func_c():
-            return 3
-        
         result = ug.connect(func_a, func_b, func_c)
         
         # Forward: 2 edges (a->b, b->c)
@@ -614,13 +530,6 @@ class TestUndirectedGraphConnect(unittest.TestCase):
     def test_connect_reverses_for_backward(self):
         """connect reverses node order for BACKWARD graph."""
         ug = UndirectedGraph()
-        
-        func_a = lambda: None
-        
-        func_b = lambda: None
-        
-        def func_c():
-            return 3
         
         # Use as_unit to track specific nodes
         unit_a = as_unit(func_a)
@@ -653,10 +562,6 @@ class TestUndirectedGraphAdd(unittest.TestCase):
         """add creates a connection."""
         ug = UndirectedGraph()
         
-        func_a = lambda: None
-        
-        func_b = lambda: None
-        
         result = ug.add(func_a, func_b)
         
         # Should return a connection
@@ -669,8 +574,6 @@ class TestUndirectedGraphResolve(unittest.TestCase):
     def test_resolve_delegates_to_base(self):
         """resolve calls base resolve function."""
         ug = UndirectedGraph()
-        
-        func_a = lambda: None
         
         unit = as_unit(func_a)
         
@@ -688,7 +591,6 @@ class TestGraphBaseUtilities(unittest.TestCase):
     
     def test_is_graph_with_graph_instance(self):
         """is_graph returns True for Graph instances."""
-        from hyperway.graph.base import is_graph
         
         g = Graph()
         
@@ -697,7 +599,6 @@ class TestGraphBaseUtilities(unittest.TestCase):
     
     def test_is_graph_with_custom_type(self):
         """is_graph returns True for custom graph types passed as others."""
-        from hyperway.graph.base import is_graph, GraphBase
         
         class CustomGraph(GraphBase):
             pass
@@ -713,7 +614,6 @@ class TestGraphBaseUtilities(unittest.TestCase):
         This tests line 28 - the isinstance(u.func, types) branch.
         Some objects wrap graph instances in a .func attribute.
         """
-        from hyperway.graph.base import is_graph, GraphBase
         
         # Create a wrapper object with .func attribute
         class GraphWrapper:
@@ -728,7 +628,6 @@ class TestGraphBaseUtilities(unittest.TestCase):
     
     def test_is_graph_returns_false_for_non_graph(self):
         """is_graph returns False for non-graph objects."""
-        from hyperway.graph.base import is_graph
         
         # Regular objects should not be graphs
         self.assertFalse(is_graph("string"))
@@ -747,7 +646,6 @@ class TestGraphBaseUtilities(unittest.TestCase):
         This tests lines 65-67 - the pairwise() utility function.
         Given [1, 2, 3, 4], returns [(1,2), (2,3), (3,4)]
         """
-        from hyperway.graph.base import pairwise
         
         # Test with list
         result = list(pairwise([1, 2, 3, 4]))
