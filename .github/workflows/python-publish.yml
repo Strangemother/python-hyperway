@@ -98,10 +98,10 @@ jobs:
           sudo dpkg -i /tmp/graphviz-14.0.1.deb
           dot -V
       
-      - name: Install tox
+      - name: Install tox and dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install tox
+          pip install tox graphviz
       
       - name: Run tests and generate coverage
         run: tox -e py312
