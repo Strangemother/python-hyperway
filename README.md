@@ -547,7 +547,7 @@ result = run_stepper(g, connections[0].a, argspack(10))
 
 ---
 
-# 📊 Results
+# Results
 
 The value of the stepper is concurrent. When a path ends, the value is stored in the `stepper.stash`.
 When executing node steps, the result from the call is given to the next connected unit.
@@ -881,5 +881,5 @@ I'm slowly updating it to include the more advanced [future features](docs/futur
 
 [ibm-order-precedence]: https://www.ibm.com/docs/en/zos/3.1.0?topic=section-precedence-associativity
 [lag]: https://lagrammar.net/monographs/1999/slides/pdf/chapter-10.pdf
-[complexity-in-lag]: https://www.researchgate.net/publication/222342088_Complexity_in_left-associative_grammar
+[complexity-in-lag]: https://lagrammar.net/papers/aij.pdf
 
