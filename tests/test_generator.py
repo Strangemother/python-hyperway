@@ -301,9 +301,9 @@ class TestFullyConnectedIntegration(unittest.TestCase):
         edges = fully_connected(add_n(1), add_n(2))
         
         # Find an edge and execute it
-        if edges:
-            edge = edges[0]
-            result = edge.pluck(5)
-            # Result depends on which edge, but should work
-            self.assertIsNotNone(result)
+        # if edges:
+        edge = edges[0]
+        result = edge.pluck(5)
+        # Result depends on which edge, but should work
+        self.assertIsNotNone(result)
 

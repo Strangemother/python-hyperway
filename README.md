@@ -17,7 +17,7 @@
 
 # Hyperway
 
-Python graph based functional execution library, with a unique API.
+A Python graph based functional execution library, with a unique API.
 
 </div>
 
@@ -32,13 +32,23 @@ Hyperway is a graph based functional execution library, allowing you to connect 
 
 ## Install
 
+Hyperway has no enforced dependencies. 
+
+Install via pip:
+
 ```bash
 pip install hyperway
 ```
 
-## Example
+If you want to render graphs, ensure [graphviz](https://graphviz.org/) is installed. This can be done through your own methods, or by installing the optional dependency:
 
-Connect functions, run the chain:
+```bash
+pip install hyperway[graphviz]
+```
+
+## Quick Example
+
+For a quick example of the important parts, lets connect some functions and run the chain:
 
 ```py
 import hyperway
@@ -61,7 +71,10 @@ stepper = g.stepper(first_connection.a, 10)
 concurrent_row = stepper.step()
 ```
 
-Render with graphviz:
+That's it! Your a graph engineer.
+
+
+Render this graph (if [graphviz](https://graphviz.org/) is installed):
 
 ```py
 g.write('intro-example', directory='renders', direction='LR')
@@ -71,15 +84,21 @@ g.write('intro-example', directory='renders', direction='LR')
 
 # Getting Started
 
-This library aims to simplify graph based execution chains, allowing a developer to use functional graphs without managing the connections.
+Hyperway aims to simplify graph based execution chains, allowing a developer to use functional graphs without managing the connections.
 
 > [!TIP]
 > **TL;DR:** The `Unit` (or node) is a function connected to other nodes through `Connections`. The `Stepper` walks the `Graph` of all connections.
 
 
-**Key**
+**Glossary**
 
-The Hyperway API aims to simplify standard graph-theory terminology and allows developers to extend the base library with custom or preferred terms, such as `class Vertex(Unit): pass`.
+The Hyperway API aims to simplify standard graph-theory terminology, by providing more intuitive names for common graph components. Developers and mathematicians can extend the base library with preferred terms, without changing the core functionality:
+
+```py
+class Vertex(Unit): 
+    """Alias for Unit (Node)"""
+    pass
+```
 
 Hyperway components, and their conventional siblings:
 
@@ -101,8 +120,11 @@ import hyperway
 g = hyperway.Graph()
 ```
 
+There are a few convenience methods, such as `add()` and `connect()`, but fundamentally it's a dictionary of connections.
 
 ## Connections (Edges)
+
+A `Connection` binds two functions (or `Unit` objects) together. It represents an edge between two nodes.
 
 + [Create](#create)
 + [Run](#run-a-connection)
@@ -110,7 +132,8 @@ g = hyperway.Graph()
 + [Wire Function](#wire-function)
 + [Self Reference](#self-reference)
 
-Bind functions in an execution chain. Notably it's a minimum of two:
+
+A connection needs a minimum of two nodes:
 
 ![connection diagram of two nodes with an optional wire function](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/connection.png)
 
@@ -123,7 +146,11 @@ c = make_edge(f.add_1, f.add_2)
 
 ### Create
 
-Hyperway
+We can create a connection in two ways:
+
+#### Hyperway
+
+The `Graph` has an `add()` method to create a connection between two functions:
 
 ```py
 import hyperway
@@ -135,7 +162,9 @@ connection = g.add(f.add_1, f.add_2)
 # <Connection>
 ```
 
-Or Functional
+#### Functional
+
+Alternatively we can use the `make_edge` function directly (without a graph):
 
 ```py
 from hyperway.edges import make_edge
@@ -170,7 +199,7 @@ Alternatively use the `pluck()` method.
 
 ### Plucking
 
-We can "pluck" a connection (like plucking a string) to run a command with any arguments:
+We can "pluck" a connection (like plucking a string) to run thr functions with any arguments:
 
 ```py
 from hyperway.tools import factory as f
@@ -198,7 +227,9 @@ The [Connection](#connections-edges) can have a function existing between its co
 
 ```py
 from hyperway.tools import factory as f
-from hyperway.edges import make_edge, wire
+from hyperway.edges import make_edge
+
+
 
 c = make_edge(f.add_1, f.add_2, through=wire(f.mul_2))
 # <Connection(Unit(func=P_add_1.0), Unit(func=P_add_2.0), through="P_mul_2.0" name=None)>
@@ -219,7 +250,7 @@ assert c.pluck(10) == 24 # (10 + 1) * 2 + 2 == 24
 
 It's easy to argue a wire function is a _node_, and you can implement the wire function without this connection tap.
 
-+ Wire functions are optional: node to node connections are inherently not optional)
++ Wire functions are optional: node to node connections are inherently not optional.
 + Removing a wire function does not remove the edge: Edges are persistent to the graph
 + Wire functions may be inert (e.g. just logging); Nodes cannot be inert as they must be bound to edges.
 
@@ -316,7 +347,7 @@ add_10(14)
 ## Units (Nodes)
 
 
-The `Unit` (or node) is a function connected to other nodes through a `Connection`. A `Unit` is a wrapper for a any python function. Everything in the graph (and in a Connection) is a `Unit`.
+The `Unit` (or node) is a function connected to other nodes through a `Connection`. A `Unit` is a wrapper for any python function. Everything in the graph (and in a Connection) is a `Unit`.
 
 
 When we create a new connection, it automatically wraps the given functions as `Unit` types:

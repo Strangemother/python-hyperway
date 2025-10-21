@@ -358,14 +358,13 @@ class TestGraphStepper(unittest.TestCase):
         
         # Get first unit
         nodes = g.get_nodes()
-        if nodes:
-            first_node = nodes[0]
-            g.stepper_prepare(first_node, 10)
-            
-            stepper = g.stepper()
-            
-            # Stepper should be created
-            self.assertIsInstance(stepper, StepperC)
+        first_node = nodes[0]
+        g.stepper_prepare(first_node, 10)
+        
+        stepper = g.stepper()
+        
+        # Stepper should be created
+        self.assertIsInstance(stepper, StepperC)
     
     def test_stepper_with_direct_node_and_args(self):
         """stepper can be called with node and args directly."""

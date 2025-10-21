@@ -37,6 +37,9 @@ classifiers = [
 ]
 license = "MIT"
 [project.optional-dependencies]
+graphviz = [
+  "graphviz>=0.20",
+]
 dev = [
   "pytest",
   "pytest-cov",

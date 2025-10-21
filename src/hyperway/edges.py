@@ -10,8 +10,26 @@ def make_edge(a, b, name=None, through=None, node_class=None):
             name=name, through=through)
     return c
 
+
 def is_edge(unit):
     return isinstance(unit, Connection)
+
+
+def wire(func, *a, **kw):
+    """Wire function that accepts a standard function, to 
+    later execute as a wire function
+
+    Allowing the developer to apply generic functions as a wire
+    method without handling the argpack.
+    
+        c = make_edge(f.add_1, f.add_2, 
+                through=wire(f.mul_5))
+    """
+    def wrapper(*a, **kw):
+        """Wrapper wire function."""
+        result = func(*a, **kw)
+        return argspack(result, **kw)
+    return wrapper
 
 
 def as_connections(*items, graph=None):

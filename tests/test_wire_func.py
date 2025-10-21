@@ -16,6 +16,9 @@ import unittest
 from hyperway.tools import factory as f
 from hyperway.edges import make_edge
 from hyperway.packer import argspack
+from hyperway.edges import wire
+from hyperway.graph import Graph
+        
 
 def wire_with_kwargs(v, *a, **kw):
     """Wire function that modifies value but preserves kwargs."""
@@ -185,5 +188,107 @@ class TestWireFuncEdgeCases(unittest.TestCase):
         
         # Large value: 15 → add_1 = 16 → conditional = 32 → add_2 = 34
         self.assertEqual(connection.pluck(15), 34)
+
+
+class TestWireHelper(unittest.TestCase):
+    """Test the wire() helper function for wrapping standard functions as wire functions.
+    
+    The wire() helper allows developers to use standard functions as wire/through functions
+    without manually handling argspack. It automatically wraps the function to return
+    an argspack, making it easier to use regular functions in edge connections.
+    """
+
+    def test_wire_helper_with_multiplication(self):
+        """Test wire() helper wrapping a multiplication function.
+        
+        The wire() helper allows using f.mul_5 directly as a through function
+        without manually wrapping it to return argspack.
+        
+        Flow: input → add_1 (+1) → wire(mul_5) (*5) → add_2 (+2)
+        Result: (input + 1) * 5 + 2
+        """        
+        connection = make_edge(f.add_1, f.add_2, through=wire(f.mul_5))
+        
+        # Test cases from the wire-func.py example
+        self.assertEqual(connection.pluck(1), 12)   # (1 + 1) * 5 + 2 = 12
+        self.assertEqual(connection.pluck(2), 17)   # (2 + 1) * 5 + 2 = 17
+        self.assertEqual(connection.pluck(3), 22)   # (3 + 1) * 5 + 2 = 22
+        self.assertEqual(connection.pluck(4), 27)   # (4 + 1) * 5 + 2 = 27
+
+    def test_wire_helper_with_addition(self):
+        """Test wire() helper with addition transformation."""
+        connection = make_edge(f.mul_2, f.add_1, through=wire(f.add_10))
+        # Flow: 5 → mul_2 = 10 → add_10 = 20 → add_1 = 21
+        self.assertEqual(connection.pluck(5), 21)
+        # Flow: 10 → mul_2 = 20 → add_10 = 30 → add_1 = 31
+        self.assertEqual(connection.pluck(10), 31)
+
+    def test_wire_helper_with_division(self):
+        """Test wire() helper with division transformation.
+        
+        Note: With commute=False (default), f.truediv_2(20) = 2 / 20 = 0.1
+        This is left-associative, so the constant comes first: operator(constant, value)
+        """
+        connection = make_edge(f.add_10, f.add_1, through=wire(f.truediv_2))
+        # Flow: 10 → add_10 = 20 → truediv_2 = (2 / 20) = 0.1 → add_1 = 1.1
+        self.assertEqual(connection.pluck(10), 1.1)
+        # Flow: 20 → add_10 = 30 → truediv_2 = (2 / 30) = 0.0666... → add_1 ≈ 1.0666...
+        self.assertAlmostEqual(connection.pluck(20), 1.0666666666666667, places=10)
+
+    def test_wire_helper_with_subtraction(self):
+        """Test wire() helper with subtraction transformation."""
+        # Note: Factory with commute=False means f.sub_5(20) = 5 - 20 = -15
+        connection = make_edge(f.add_10, f.mul_2, through=wire(f.sub_5))
+        # Flow: 10 → add_10 = 20 → sub_5 = (5 - 20) = -15 → mul_2 = -30
+        self.assertEqual(connection.pluck(10), -30)
+
+    def test_wire_helper_with_custom_function(self):
+        """Test wire() helper with a custom lambda function."""
+        # Custom function that squares the value
+        square = lambda x: x * x
+        connection = make_edge(f.add_1, f.add_2, through=wire(square))
+        # Flow: 3 → add_1 = 4 → square = 16 → add_2 = 18
+        self.assertEqual(connection.pluck(3), 18)
+        # Flow: 5 → add_1 = 6 → square = 36 → add_2 = 38
+        self.assertEqual(connection.pluck(5), 38)
+
+    def test_wire_helper_vs_manual_argspack(self):
+        """Compare wire() helper with manual argspack wrapping.
+        
+        Both approaches should produce identical results, but wire() is
+        more convenient for simple transformations.
+        """
+        # Using wire() helper
+        conn_with_helper = make_edge(f.add_1, f.add_2, through=wire(f.mul_3))
+        
+        # Manual argspack wrapping
+        def manual_wire(v, *a, **kw):
+            result = f.mul_3(v)
+            return argspack(result, **kw)
+        
+        conn_manual = make_edge(f.add_1, f.add_2, through=manual_wire)
+        
+        # Both should produce identical results
+        test_values = [1, 5, 10, 20]
+        for val in test_values:
+            self.assertEqual(
+                conn_with_helper.pluck(val),
+                conn_manual.pluck(val),
+                f"Results differ for input {val}"
+            )
+
+    def test_wire_helper_chain_multiple_operations(self):
+        """Test wire() helper in a chain of multiple edge connections."""
+        g = Graph()
+        
+        # Create a chain with wire helpers
+        first_conn = g.add(f.add_1, f.mul_2, through=wire(f.add_5))
+        second_conn = g.add(first_conn.b, f.add_10, through=wire(f.mul_2))
+        # Test first connection: (5 + 1 + 5) * 2 = 22
+        self.assertEqual(first_conn.pluck(5), 22)
+        # Test second connection separately: 
+        # second_conn.a is f.mul_2 (first_conn.b)
+        # Flow: 5 → mul_2 = 10 → wire(mul_2) = 20 → add_10 = 30
+        self.assertEqual(second_conn.pluck(5), 30)
 
 
