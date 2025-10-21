@@ -5,11 +5,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hyperway"
-version = "1.0.3"
+version = "1.0.4"
 authors = [
   { name="Strangemother", email="hyperway@strangemother.com" },
 ]
-description = "A functional graph execution engine with left-associative edge execution and composable node connections"
+description = "A graph based functional execution library. Connect functions arbitrarily through a unique API"
 readme = "README.md"
 requires-python = ">=3.8"
 keywords = [
