@@ -22,7 +22,7 @@ A Python graph based functional execution library, with a unique API.
 </div>
 
 + [Graph](#graph)
-+ [Stepper](#stepper)
++ [Stepper](#-stepper)
 + [Units (Nodes)](#units-nodes) | [Functions](#functions)
 + [Connections (Edges)](#connections-edges) | [Wire Functions](#wire-function)
 + [Reference Links](#areas-of-interest)
@@ -30,7 +30,8 @@ A Python graph based functional execution library, with a unique API.
 Hyperway is a graph based functional execution library, allowing you to connect functions arbitrarily through a unique API. Mimic a large range of programming paradigms such as procedural, parallel, or aspect-oriented-programming. Build B-trees or decision trees, circuitry or logic gates; all with a simple _wiring_ methodology.
 
 
-## Install
+
+## 📦 Install
 
 Hyperway has no enforced dependencies. 
 
@@ -46,11 +47,11 @@ If you want to render graphs, ensure [graphviz](https://graphviz.org/) is instal
 pip install hyperway[graphviz]
 ```
 
-## Quick Example
+## 🚀 Quick Example
 
-For a quick example of the important parts, lets connect some functions and run the chain:
+For a quick example of the important parts, let's connect some functions and run the chain:
 
-```py
+```python
 import hyperway
 from hyperway.tools import factory as f
 
@@ -71,12 +72,17 @@ stepper = g.stepper(first_connection.a, 10)
 concurrent_row = stepper.step()
 ```
 
-That's it! Your a graph engineer.
+> [!NOTE]
+> The stepper yields rows of `(Unit, ArgsPack)` tuples representing the next functions to execute.
+> Continue calling `step()` until no rows remain. Final results accumulate in `stepper.stash`.
+
+
+That's it! You're a graph engineer.
 
 
 Render this graph (if [graphviz](https://graphviz.org/) is installed):
 
-```py
+```python
 g.write('intro-example', directory='renders', direction='LR')
 ```
 
@@ -89,12 +95,11 @@ Hyperway aims to simplify graph based execution chains, allowing a developer to 
 > [!TIP]
 > **TL;DR:** The `Unit` (or node) is a function connected to other nodes through `Connections`. The `Stepper` walks the `Graph` of all connections.
 
-
-**Glossary**
+### Glossary
 
 The Hyperway API aims to simplify standard graph-theory terminology, by providing more intuitive names for common graph components. Developers and mathematicians can extend the base library with preferred terms, without changing the core functionality:
 
-```py
+```python
 class Vertex(Unit): 
     """Alias for Unit (Node)"""
     pass
@@ -114,13 +119,28 @@ Hyperway components, and their conventional siblings:
 
 The `Graph` is a fancy `defaultdict` of tuples, used to store connections:
 
-```py
+```python
 import hyperway
 
 g = hyperway.Graph()
 ```
 
 There are a few convenience methods, such as `add()` and `connect()`, but fundamentally it's a dictionary of connections.
+
+All Connections are stored within a single `Graph` instance. We can consider the graph as a dictionary register of all associated connections.
+
+```python
+from hyperway.graph import Graph, add
+from hyperway.nodes import as_units
+from hyperway.tools import factory as f
+
+g = Graph()
+unit_a, unit_b = as_units(f.add_2, f.mul_2)
+
+connection = add(g, unit_a, unit_b)
+```
+
+Under the hood, The graph is just a `defaultdict` and doesn't do much.
 
 ## Connections (Edges)
 
@@ -137,7 +157,7 @@ A connection needs a minimum of two nodes:
 
 ![connection diagram of two nodes with an optional wire function](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/connection.png)
 
-```py
+```python
 from hyperway.edges import make_edge
 
 c = make_edge(f.add_1, f.add_2)
@@ -152,7 +172,7 @@ We can create a connection in two ways:
 
 The `Graph` has an `add()` method to create a connection between two functions:
 
-```py
+```python
 import hyperway
 from hyperway.tools import factory as f
 
@@ -166,9 +186,9 @@ connection = g.add(f.add_1, f.add_2)
 
 Alternatively we can use the `make_edge` function directly (without a graph):
 
-```py
+```python
 from hyperway.edges import make_edge
-
+from hyperway.tools import factory as f
 c = make_edge(f.add_1, f.add_2)
 # <Connection>
 ```
@@ -182,7 +202,7 @@ We can _run_ a connection, calling the chain of two nodes. Generally a `Connecti
 
 A standard call to a connection will run node `a` (the left side):
 
-```py
+```python
 # connection = make_edge(f.add_1, f.add_2)
 >>> value_part_a = connection(1) # call A-side `add_1`
 2.0
@@ -190,7 +210,7 @@ A standard call to a connection will run node `a` (the left side):
 
 Then process the second part `b` (providing the value from the first call):
 
-```py
+```python
 >>> connection.process(value_part_a) # call B-side `add_2`
 4.0
 ```
@@ -199,9 +219,9 @@ Alternatively use the `pluck()` method.
 
 ### Plucking
 
-We can "pluck" a connection (like plucking a string) to run thr functions with any arguments:
+We can "pluck" a connection (like plucking a string) to run the functions with any arguments:
 
-```py
+```python
 from hyperway.tools import factory as f
 from hyperway.edges import make_edge
 
@@ -225,11 +245,9 @@ An optional wire function exists between two nodes
 The [Connection](#connections-edges) can have a function existing between its connected [Units](#units-nodes), allowing the alteration of the data through transit (whilst running through a connection):
 
 
-```py
+```python
 from hyperway.tools import factory as f
-from hyperway.edges import make_edge
-
-
+from hyperway.edges import make_edge, wire
 
 c = make_edge(f.add_1, f.add_2, through=wire(f.mul_2))
 # <Connection(Unit(func=P_add_1.0), Unit(func=P_add_2.0), through="P_mul_2.0" name=None)>
@@ -239,8 +257,8 @@ When using the connection side A (the `f.add_1` function), the wire function `wi
 
 It's important to note Hyperway is _[left-associative](#order-of-operation)_. The order of operation computes linearly:
 
-```py
-assert c.pluck(1) == 10 # (1 + 1) * 2 + 2 == 6
+```python
+assert c.pluck(1) == 6   # (1 + 1) * 2 + 2 == 6
 assert c.pluck(10) == 24 # (10 + 1) * 2 + 2 == 24
 ```
 
@@ -260,7 +278,7 @@ Fundamentally a wire function exists for topological clarity and may be ignored.
 
 `make_edge` can accept the wire function. It receives the concurrent values transmitting through the attached edge:
 
-```py
+```python
 from hyperway.edges import make_edge
 from hyperway.packer import argspack
 
@@ -281,9 +299,14 @@ c.pluck(2)  # 8.0
 c.pluck(3)  # 10.0
 ```
 
+> [!IMPORTANT]
+> Wire functions **must** return an `ArgsPack` via `argspack()`. Returning raw values will break the execution chain.
+> See [Extras](#extras) for `argspack` details.
+
+
 The wire function is the reason for a two-step process when executing connections:
 
-```py
+```python
 # Call Node A: (+ 1)
 c(4)
 5.0
@@ -295,7 +318,7 @@ c.process(5.0)
 
 Or a single `pluck()`:
 
-```py
+```python
 c.pluck(4)
 12.0
 ```
@@ -309,7 +332,7 @@ A connection `A -> B` may be the same node, performing a _loop_ or self-referenc
 
 We can use the `as_unit` function, and reference the same unit on the graph:
 
-```py
+```python
 # pre-define the graph node wrapper
 u = as_unit(f.add_2)
 # Build an loop edge
@@ -333,7 +356,7 @@ g.step()
 
 A function is our working code. We can borrow operator functions from the tools:
 
-```py
+```python
 from hyperway.tools import factory as f
 add_10 = f.add_10
 # functools.partial(<built-in function add>, 10.0)
@@ -352,7 +375,7 @@ The `Unit` (or node) is a function connected to other nodes through a `Connectio
 
 When we create a new connection, it automatically wraps the given functions as `Unit` types:
 
-```py
+```python
 c = make_edge(f.mul_3, f.add_4)
 c.a
 # <Unit(func=P_mul_3.0)>
@@ -362,7 +385,7 @@ c.b
 
 A Unit has additional methods used by the graph tools, such as the `process` method:
 
-```py
+```python
 # Call our add_4 function:
 >>> c.b.process(1)
 5.0
@@ -370,7 +393,7 @@ A Unit has additional methods used by the graph tools, such as the `process` met
 
 A new unit is very unique. Creating a Connection with the same function for both sides `a` and `b`, will insert two new nodes:
 
-```py
+```python
 c = make_edge(f.add_4, f.add_4)
 c.pluck(4)
 12.0
@@ -387,7 +410,7 @@ We can cast a function as a `Unit` before insertion, allowing the re-reference t
 
 If you create a Unit using the same function, this will produce two unique units:
 
-```py
+```python
 unit_a = as_unit(f.add_2)
 unit_a_2 = as_unit(f.add_2)
 assert unit_a != unit_a_2  # Not the same.
@@ -395,7 +418,7 @@ assert unit_a != unit_a_2  # Not the same.
 
 Attempting to recast a `Unit`, will return the same `Unit`:
 
-```py
+```python
 unit_a = as_unit(f.add_2)
 unit_a_2 = as_unit(unit_a) # unit_a is already a Unit
 assert unit_a == unit_a_2  # They are the same
@@ -411,7 +434,7 @@ Generally when inserting functions, a new reference is created. This allows us t
 
 ![3 nodes linear chain](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/3-nodes.png)
 
-```py
+```python
 a = f.add_1
 b = f.add_2
 c = f.add_2
@@ -432,7 +455,7 @@ Closing a path produces a loop. To close a path we can reuse the same `Unit` at 
 
 To ensure a node is reused when applied, we pre-convert it to a `Unit`:
 
-```py
+```python
 a = as_unit(f.add_1) # sticky reference.
 b = f.add_2
 c = f.add_2
@@ -444,30 +467,14 @@ _ = make_edge(c, a)
 ```
 
 
-## Graph
 
-All Connections are stored within a single `Graph` instance. It has been purposefully designed as a small collection of connections. We can consider the graph as a dictionary register of all associated connections.
-
-```py
-from hyperway.graph import Graph, add
-from hyperway.nodes import as_units
-
-g = Graph()
-unit_a, unit_b = as_unit(f.add_2, f.mul_2)
-
-connection = add(g, unit_a, unit_b)
-```
-
-Under the hood, The graph is just a `defaultdict` and doesn't do much.
-
-
-## Stepper
+## 👣 Stepper
 
 The `Stepper` run units and discovers connections through the attached Graph. It runs concurrent units and spools the next callables for the next _step_.
 
 ![self referencing connection](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/stepper.png)
 
-```py
+```python
 from hyperway.graph import Graph
 from hyperway.tools import factory as f
 
@@ -486,7 +493,7 @@ concurrent_row = stepper.step()
 
 For each `step()` call, we yield a step. When iterating from `first_connection_first_node` (`f.add_10`), the stepper will _pause_ half-way through our call. The _next_ step will resolve the value and prepare the next step:
 
-```py
+```python
 # From above:
 # g.stepper(first_connection_first_node, 10)
 
@@ -509,7 +516,7 @@ We initiated a stepper at our preferred node `stepper = g.stepper(first_connecti
 
 Each iteration returns the _next_ thing to perform and the values from the previous unit call.
 
-```py
+```python
 # Many (1) rows to call next.
 (
     (<Unit(func=P_add_30.0)>, <ArgsPack(*(40.0,), **{})>),
@@ -523,7 +530,7 @@ We see one row, with `f.add_30` as the _next_ function to call.
 
 The stepper can run once (allowing us to loop it), or we can use the built-in `run_stepper` function, to walk the nodes until the chain is complete
 
-```py
+```python
 from hyperway.graph import Graph
 from hyperway.tools import factory as f
 
@@ -538,7 +545,9 @@ connections = g.connect(f.add_10, f.add_20, f.add_30)
 result = run_stepper(g, connections[0].a, argspack(10))
 ```
 
-# Results
+---
+
+# 📊 Results
 
 The value of the stepper is concurrent. When a path ends, the value is stored in the `stepper.stash`.
 When executing node steps, the result from the call is given to the next connected unit.
@@ -547,7 +556,7 @@ When executing node steps, the result from the call is given to the next connect
 
 If two nodes call to the same destination node, this causes _two_ calls of the next node:
 
-```py
+```python
            +4
 i  +2  +3       print
            +5
@@ -555,15 +564,15 @@ i  +2  +3       print
 
 With this layout, the `print` function will be called twice by the `+4` and `+5` node. Two calls occur:
 
-```py
+```python
 
           10
  1  3  6      print
           11
 
 # Two results
-print(10)
-print(11)
+print(10) # from path: 1 → +2 → +3 → +4 → 10
+print(11) # from path: 1 → +2 → +3 → +5 → 11
 ```
 
 This is because there are two connections _to_ the `print` node, causing two calls.
@@ -578,7 +587,7 @@ Use merge nodes to action _one_ call to a node, with two results.
 
 ![stepper merge node](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/stepper-merge.png)
 
-```py
+```python
 g = Graph()
 u = as_unit(print)
 u.merge_node = True
@@ -592,7 +601,7 @@ s.step()
 
 When processing a print merge-node, one call is executed when events occur through multiple connections during one step:
 
-```py
+```python
          10
 1  3  6      print
          11
@@ -612,7 +621,7 @@ A _path_ defines the flow of a `stepper` through a single processing chain. A fu
 
 For example a graph with a a split path will yield two results:
 
-```py
+```python
 from hyperway import Graph, as_units
 from hyperway.tools import factory as f
 
@@ -628,7 +637,7 @@ g.connect(join, f.add_1)
 
 If [graphviz](https://github.com/xflr6/graphviz) is installed, The graph can be rendered with `graph.write()`:
 
-```py
+```python
 # Continued from above
 g.write('double-split', direction='LR')
 ```
@@ -643,7 +652,7 @@ Connecting nodes will grow the result count. For example creating in two exits n
 
 To model this, we can extend the _above_ code with an extra connection: `g.connect(join, f.sub_1)`:
 
-```py
+```python
 # same as above
 from hyperway import Graph, as_units
 from hyperway.tools import factory as f
@@ -673,7 +682,7 @@ _Wire functions have been removed for clarity_
 
 ![stepper classic path movement](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/stepper-value-9-fork.png)
 
-```py
+```python
 from hyperway import Graph, as_unit
 
 g = Graph()
@@ -682,7 +691,7 @@ split = as_unit(f.add_2, name='split')
 join_a = as_unit(f.add_2)
 
 # sum([1,2,3]) accepts an array - so we merge the args for the response.
-join = as_unit(lambda *x: sum(x) name='sum')
+join = as_unit(lambda *x: sum(x), name='sum')
 
 cs = g.connect(f.add_1, split)
 g.connect(split, f.add_3, join)
@@ -717,7 +726,7 @@ The order of precedence for operations occurs through sequential evaluation (fro
 </tr></thead>
 <tbody><tr valign="top"><td>
 
-```py
+```python
 # BODMAS computes * first
  1 + 1 * 2 + 2 == 5
 10 + 1 * 2 + 2 == 14
@@ -725,7 +734,7 @@ The order of precedence for operations occurs through sequential evaluation (fro
 
 </td><td>
 
-```py
+```python
 # left-to-right computes linearly
 ( (1 + 1)  * 2) + 2 == 6
 ( (10 + 1) * 2) + 2 == 24
@@ -733,15 +742,15 @@ The order of precedence for operations occurs through sequential evaluation (fro
 
 </td></tbody></table>
 
-```py
+```python
 # example sequential evaluation
 from hyperway.tools import factory as f
 from hyperway.edges import make_edge, wire
 
 c = make_edge(f.add_1, f.add_2, through=wire(f.mul_2))
 
-assert c.pluck(1) == 10 # (1 + 1) * 2 + 2
-assert c.pluck(10) == 24 # (10 + 1) * 2 + 2
+assert c.pluck(1) == 6   # (1 + 1) * 2 + 2 == 6
+assert c.pluck(10) == 24 # (10 + 1) * 2 + 2 == 24
 ```
 
 # Topology
@@ -749,9 +758,9 @@ assert c.pluck(10) == 24 # (10 + 1) * 2 + 2
 ![stepper classic path movement](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/stepper-value-fork.png)
 
 + [Graph](#graph-1): The Graph is a thin and dumb dictionary, maintaining a list of connections per node.
-+ [Node](#units-and-nodes): The Node is also very terse, fundamentally acting as a thin wrapper around the user given function, and exposes a few methods for _on-graph_ executions.
-+ [Edges](#connection): Edges or Connections are the primary focus of this version, where a single `Connection` is bound to two nodes, and maintains a wire-function.
-+ Stepper: The _Stepper_ performs much of the work for interacting with Nodes on a graph through Edges.
++ [Node](#units-and-nodes-1): The Node is also very terse, fundamentally acting as a thin wrapper around the user given function, and exposes a few methods for _on-graph_ executions.
++ [Edges](#connection-1): Edges or Connections are the primary focus of this version, where a single `Connection` is bound to two nodes, and maintains a wire-function.
++ [Stepper](#-stepper): The _Stepper_ performs most of the work for interacting with Nodes on a graph through Edges.
 
 ## Breakdown
 
@@ -767,13 +776,13 @@ The `Stepper` should call each _next caller_ with the given _result_. Each _call
 
 In each iteration the callable resolves one or more connections. If no connections return for a node, The execution chain is considered complete.
 
-### Graph
+### Understanding the Graph
 
 The `Graph` is purposefully terse. Its build to be as minimal as possible for the task. In the raw solution the `Graph` is a `defaultdict(tuple)` with a few additional functions for node acquisition.
 
 The graph maintains a list of `ID` to `Connection` set.
 
-```py
+```python
 {
   ID: (
         Connection(to=ID2),
@@ -784,7 +793,7 @@ The graph maintains a list of `ID` to `Connection` set.
 }
 ```
 
-### Connection
+### Core Connection Knowledge
 
 A `Connection` bind two functions and an optional wire function.
 
@@ -796,7 +805,7 @@ When executing the connection, input starts through `A`, and returns through `B`
 
 A `Unit` represents a _thing_ on the graph, bound to other units through connections.
 
-```py
+```python
 def callable_func(value):
     return value * 3
 
@@ -805,7 +814,7 @@ as_unit(callable_func)
 
 A unit is one reference
 
-```py
+```python
 unit = as_unit(callable_func)
 unit2 = as_unit(callable_func)
 
@@ -820,41 +829,25 @@ The `argspack` simplifies the movement of arguments and keyword arguments for a 
 
 we can wrap the result as a pack, always ensuring its _unpackable_ when required.
 
-```py
-akw = argswrap(100)
+```python
+akw = argspack(100)
 akw.a
 (100, )
 
-akw = argswrap(foo=1)
+akw = argspack(foo=1)
 akw.kw
 { 'foo': 1 }
 ```
-
 
 ---
 
 # Project Goal
 
 Although many existing libraries cater to graph theory, they often require a deep understanding of complex terminology and concepts. As an engineer without formal training in graph theory, these libraries are challenging.
-**Hyperway** is the result of few years of research aimed at developing a simplified functional graph-based execution library with a minimal set of core features.
+**Hyperway** is the result of several years of research aimed at developing a simplified, functional, graph-based execution library with a minimal set of core features.
+
 
 I'm slowly updating it to include the more advanced [future features](docs/future.md), such as hyper-edges and connection-decisions, bridging the gap between academic graph theory and practical application, providing developers with a low-level runtime that facilitates functional execution without the need for specialized knowledge.
-
-The core components of Hyperway were developed through more than 40 rewrites and refinements, leading to a robust framework that supports both procedural and parallel functionality with the same homogeneous interface.
-
-
-**Lessons Learned**
-
-Each restart was a lesson in what _not-to-do_. I have fundamentally 25 restart/rewrites. Roughly three of them I'd consider "complete" enough to function within a range of distinct cases, such as "electronic circuit", "logic gates", "function chains" and a bunch of other variants.
-
-1. API/Libraries Servers/Websites/Render-loops - bin-em
-   First version was an all-singing socketed executor. Which was crap to maintain.
-2. Let's try plugging-up _Devices_ and _pipes_
-   It works, But then I also have plugin functions, `on` method, mixins and all sorts of 'library' bits pushing around objects. It's too limited.
-3. The same thing; but with a "system" running a super-loop of futures
-   Sure it works, but now we have an asyncio execution machine, with a bunch of mixins, structures classes, and a specific _run_ function.
-   Entities are too classy, with a large unwanted method stack - more simpler is required
-
 
 # Areas of Interest
 
@@ -865,7 +858,7 @@ Each restart was a lesson in what _not-to-do_. I have fundamentally 25 restart/r
 + https://resources.wolframcloud.com/FunctionRepository/resources/HypergraphPlot
 + https://www.lancaster.ac.uk/stor-i-student-sites/katie-howgate/2021/04/29/hypergraphs-not-just-a-cool-name/
 
-# Futher Reading
+# Further Reading
 
 + [TensorFlow: Introduction to Graph and `tf.function`](https://www.tensorflow.org/guide/intro_to_graphs)
 + [Wiki: Extract, transform, load](https://en.wikipedia.org/wiki/Extract,_transform,_load)
@@ -881,7 +874,6 @@ Each restart was a lesson in what _not-to-do_. I have fundamentally 25 restart/r
 + [pyDot](https://github.com/pydot/pydot)
 + [FreExGraph](https://github.com/FreeYourSoul/FreExGraph)
 + [NetworkX](https://networkx.org/documentation/latest/index.html)
-
 
 # Links
 
