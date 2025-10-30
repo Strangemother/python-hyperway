@@ -15,9 +15,20 @@ def is_edge(unit):
     return isinstance(unit, Connection)
 
 
-def wire(func, *a, **kw):
+def wire_partial(func, *wire_a, **wire_kw):
     """Wire function that accepts a standard function, to 
-    later execute as a wire function
+    later execute as a wire function.
+
+    This _partial_ variant acts like a funtools.partial, allowing
+    pre-setting of arguments to the wire function.
+
+        def my_wire_func(*a, **kw):
+            print('WIRING:', a, kw)
+            return argspack(*a, **kw)
+
+        wire_partial(my_wire_func, 10, 20, foo=2, egg=True)
+        my_wire_func(30, 40, foo=5)
+        WIRING: (10, 20, 30, 40) {'foo': 5, 'egg': True}
 
     Allowing the developer to apply generic functions as a wire
     method without handling the argpack.
@@ -27,8 +38,30 @@ def wire(func, *a, **kw):
     """
     def wrapper(*a, **kw):
         """Wrapper wire function."""
+        wire_kw.update(kw)
+        result = func(*wire_a, *a, **wire_kw)
+        return argspack(result)
+    return wrapper
+
+
+def wire(func, **wkw):
+    """Wire function that accepts a standard function, to 
+    later execute as a wire function
+
+    Allowing the developer to apply generic functions as a wire
+    method without handling the argpack.
+    
+        c = make_edge(f.add_1, f.add_2, 
+                through=wire(f.mul_5))
+    
+    The wrapped function is called with all runtime args/kwargs, allowing
+    it to work with its normal signature. Wire-setup kwargs (wkw) flow 
+    through the ArgsPack for pipeline metadata.
+    """
+    def wrapper(*a, **kw):
+        """Wrapper wire function."""
         result = func(*a, **kw)
-        return argspack(result, **kw)
+        return argspack(result, **wkw)
     return wrapper
 
 
@@ -105,8 +138,8 @@ class Connection(IDFunc):
     def __call__(self, *a, _graph=None, **kw):
         """Call this connection, returning the result of B.
         This will call A, then the through function (if any), then B."""
-        g = _graph or self.on
-        return self.get_a().process(*a, **kw)
+        g = self.on if _graph is None else _graph
+        return self.get_a(g).process(*a, **kw)
 
     @property
     def merge_node(self):

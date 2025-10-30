@@ -18,7 +18,9 @@ class GraphBase(defaultdict):
             return self.resolve_node_to_nowhere(other)
         return res
 
-    def resolve_node_to_nowhere(self, other):
+    def resolve_node_to_nowhere(self, other): # py-lint: disable=unused-argument
+        """Given a node with no connections, return a connection to nowhere.
+        Override in subclasses to provide custom behaviour."""
         return ()
 
 

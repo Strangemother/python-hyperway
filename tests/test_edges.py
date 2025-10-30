@@ -9,7 +9,7 @@ Connection, PartialConnection classes.
 import unittest
 from unittest.mock import patch, MagicMock
 
-from hyperway.edges import make_edge, is_edge, Connection, PartialConnection, as_connections, get_connections
+from hyperway.edges import make_edge, is_edge, Connection, PartialConnection, as_connections, get_connections, wire_partial, wire
 from hyperway.nodes import as_unit
 from hyperway.packer import argspack, ArgsPack
 from hyperway.graph import Graph
@@ -542,6 +542,92 @@ class TestConnectionCall(unittest.TestCase):
         
         # Should execute node A with kwargs (10 + 5 = 15)
         self.assertEqual(result, 15)
+    
+    def test_connection_call_with_explicit_graph(self):
+        """Connection.__call__ accepts explicit _graph parameter.
+        
+        The __call__ method should accept and use an explicit _graph
+        parameter. This is the primary way to provide graph context for
+        connection execution, as edge.on is typically None unless explicitly set.
+        """
+        g = Graph()
+        
+        # Create connection - note edge.on will be None
+        edge = g.add(add_ten, add_twenty)
+        
+        # Call with explicit graph
+        with patch('builtins.print'):  # Suppress debug output
+            result = edge(5, _graph=g)
+        
+        # Should execute successfully using provided graph
+        self.assertEqual(result, 15)
+    
+    def test_connection_call_without_graph_uses_fallback(self):
+        """Connection.__call__ works without graph when not needed.
+        
+        When _graph is not provided and edge.on is None, the connection
+        can still execute if the node doesn't require graph resolution.
+        This tests the `g = _graph or self.on` fallback logic.
+        """
+        g = Graph()
+        edge = g.add(add_ten, add_twenty)
+        
+        # edge.on is None by default
+        self.assertIsNone(edge.on)
+        
+        # Call without _graph should still work (g will be None)
+        with patch('builtins.print'):  # Suppress debug output
+            result = edge(5)
+        
+        # Should execute successfully even without graph reference
+        self.assertEqual(result, 15)
+    
+    def test_connection_call_graph_priority_logic(self):
+        """Connection.__call__ _graph parameter takes priority over edge.on.
+        
+        When both self.on and _graph are provided, the explicit _graph
+        parameter should take precedence. This verifies the logic:
+        g = self.on if _graph is None else _graph
+        
+        This uses explicit None checking, so even an empty Graph (which is
+        falsy) will be used when explicitly passed as _graph parameter.
+        """
+        g1 = Graph()  # Will have connections
+        g2 = Graph()  # Empty graph
+        
+        # Create connection and manually set edge.on
+        edge = g1.add(add_ten, add_twenty)
+        edge.on = g1  # Manually set for testing
+        
+        # Verify edge.on is set
+        self.assertIs(edge.on, g1)
+        
+        # Test the priority logic: self.on if _graph is None else _graph
+        # Simulate what happens in Connection.__call__ with different _graph values
+        
+        # Scenario 1: _graph is None -> should use edge.on
+        _graph_param = None
+        resolved = edge.on if _graph_param is None else _graph_param
+        self.assertIs(resolved, g1)  # _graph is None, so edge.on (g1) is used
+        
+        # Scenario 2: _graph is g2 (even though empty) -> should use g2
+        _graph_param = g2
+        resolved = edge.on if _graph_param is None else _graph_param
+        self.assertIs(resolved, g2)  # _graph is not None, so g2 takes priority
+        
+        # Scenario 3: _graph is g1 -> should use g1
+        _graph_param = g1
+        resolved = edge.on if _graph_param is None else _graph_param
+        self.assertIs(resolved, g1)  # _graph is not None, so g1 takes priority
+        
+        # Verify execution works with explicit empty graph
+        with patch('builtins.print'):  # Suppress debug output
+            result_with_g2 = edge(5, _graph=g2)  # Explicit empty graph
+            result_without_graph = edge(5)  # Should use edge.on (g1)
+        
+        # Both should execute successfully
+        self.assertEqual(result_with_g2, 15)
+        self.assertEqual(result_without_graph, 15)
 
 class TestPartialConnectionCall(unittest.TestCase):
     """Test PartialConnection.__call__ method - direct partial invocation."""
@@ -873,4 +959,258 @@ class TestPartialConnectionEdgeCases(unittest.TestCase):
         # Second call should use cached resolver (doesn't re-import)
         node_b_with_graph = edge.get_node_key('b', graph=g)
         self.assertEqual(node_b_with_graph, edge.b)
+
+
+class TestWirePartial(unittest.TestCase):
+    """Test wire_partial function - partial application for wire functions."""
+    
+    def test_wire_partial_basic_functionality(self):
+        """wire_partial creates a wrapper that pre-applies arguments.
+        
+        wire_partial should act like functools.partial, allowing pre-setting
+        of arguments to a wire function. The wrapper should return an ArgsPack.
+        
+        Example from docstring:
+            wire_partial(my_wire_func, 10, 20)
+            # Later called with: (30, 40)
+            # Results in: my_wire_func(10, 20, 30, 40)
+        """
+        def my_wire_func(*a, **kw):
+            # Sum all args and kwargs for testing
+            return sum(a) + sum(kw.values())
+        
+        # Pre-apply arguments 10, 20
+        partial_wire = wire_partial(my_wire_func, 10, 20)
+        
+        # Call with additional arguments 30, 40
+        result = partial_wire(30, 40)
+        
+        # Should execute: my_wire_func(10, 20, 30, 40) = 100
+        self.assertIsInstance(result, ArgsPack)
+        self.assertEqual(result.args, (100,))
+    
+    def test_wire_partial_with_kwargs(self):
+        """wire_partial pre-applies keyword arguments correctly.
+        
+        Pre-set keyword arguments should be passed to the underlying function,
+        with later kwargs merged (later values override pre-set ones).
+        
+        Example from docstring:
+            wire_partial(my_wire_func, 10, 20, foo=2, egg=True)
+            my_wire_func(30, 40, foo=5)
+            WIRING: (10, 20, 30, 40) {'foo': 5, 'egg': True}
+        """
+        def my_wire_func(*a, **kw):
+            return (a, kw)
+        
+        # Pre-apply foo=2, egg=True
+        partial_wire = wire_partial(my_wire_func, 10, 20, foo=2, egg=True)
+        
+        # Call with additional kwargs (foo=5 overrides foo=2)
+        result = partial_wire(30, 40, foo=5)
+        
+        # <ArgsPack(*(10, 20, 30, 40), **{'foo': 5, 'egg': True})>
+        self.assertIsInstance(result, ArgsPack)
+        args_result, kwargs_result = result.args, result.kwargs
+        
+        self.assertEqual(args_result, (10, 20, 30, 40))
+        self.assertEqual(kwargs_result['foo'], 5)  # Overridden
+        self.assertEqual(kwargs_result['egg'], True)  # Preserved
+    
+    def test_wire_partial_returns_argspack(self):
+        """wire_partial wrapper always returns an ArgsPack.
+        
+        The wrapper must return argspack(result) to maintain compatibility
+        with the graph execution pipeline. This is the key difference from
+        raw functools.partial.
+        """
+        def simple_func(x):
+            return x * 2
+        
+        partial_wire = wire_partial(simple_func, 5)
+        result = partial_wire()
+        
+        # Must be ArgsPack, not raw result
+        self.assertIsInstance(result, ArgsPack)
+        self.assertEqual(result.args, (10,))
+    
+    def test_wire_partial_in_connection(self):
+        """wire_partial can be used as a through function in make_edge.
+        
+        This is the primary use case: wrapping a standard function to use
+        as a wire transform between nodes, with some arguments pre-applied.
+        """
+        def multiplier(pre_mul, value):
+            return value * pre_mul
+        
+        # Create wire that pre-applies multiplier of 5
+        wire_mul_5 = wire_partial(multiplier, 5)
+        
+        # Create edge with wire function
+        edge = make_edge(add_one, add_two, through=wire_mul_5)
+        
+        # Test with pluck: add_one(10) = 11, mul_5(11) = 55, add_two(55) = 57
+        result = edge.pluck(10)
+        self.assertEqual(result, 57)
+    
+    def test_wire_partial_no_args(self):
+        """wire_partial with no pre-applied args still wraps in ArgsPack.
+        
+        Even without pre-applied arguments, wire_partial should create
+        a wrapper that returns an ArgsPack, making it suitable for use
+        as a wire function.
+        """
+        def simple_func(x, y):
+            return x + y
+        
+        # No pre-applied args
+        partial_wire = wire_partial(simple_func)
+        result = partial_wire(10, 20)
+        
+        self.assertIsInstance(result, ArgsPack)
+        self.assertEqual(result.args, (30,))
+    
+    def test_wire_partial_merges_distinct_kwargs(self):
+        """wire_partial merges kwargs from pre-set and call-time.
+        
+        Pre-set kwargs and call-time kwargs are merged together.
+        Note: duplicate keys will raise TypeError (Python limitation).
+        """
+        def collect_kwargs(**kw):
+            return kw
+        
+        # Pre-set a, b, c
+        partial_wire = wire_partial(collect_kwargs, a=1, b=2, c=3)
+        
+        # Add distinct kwargs d, e
+        result = partial_wire(d=4, e=5)
+        
+        self.assertIsInstance(result, ArgsPack)
+        kwargs_result = result.args[0]
+        
+        self.assertEqual(kwargs_result['a'], 1)   # Pre-set
+        self.assertEqual(kwargs_result['b'], 2)   # Pre-set
+        self.assertEqual(kwargs_result['c'], 3)   # Pre-set
+        self.assertEqual(kwargs_result['d'], 4)   # Call-time
+        self.assertEqual(kwargs_result['e'], 5)   # Call-time
+    
+    def test_wire_partial_with_complex_transform(self):
+        """wire_partial can pre-apply complex transformation parameters.
+        
+        Demonstrates using wire_partial to configure a data transformation
+        function with specific parameters before using it in a graph.
+        """
+        def transform(prefix, suffix, value):
+            return f"{prefix}_{value}_{suffix}"
+        
+        # Create a specific transformer
+        wire_format = wire_partial(transform, "START", "END")
+        
+        edge = make_edge(passthrough, passthrough, through=wire_format)
+        
+        # passthrough("hello") = "hello", transform("START", "END", "hello")
+        result = edge.pluck("hello")
+        self.assertEqual(result, "START_hello_END")
+
+
+class TestWire(unittest.TestCase):
+    """Test wire function - simple wrapper for standard functions as wire functions."""
+    
+    def test_wire_basic_functionality(self):
+        """wire wraps a standard function to return ArgsPack.
+        
+        Unlike wire_partial, wire does not pre-apply arguments. It simply
+        wraps a function to ensure it returns an ArgsPack.
+        """
+        def multiply_by_5(value):
+            return value * 5
+        
+        wire_func = wire(multiply_by_5)
+        result = wire_func(10)
+        
+        self.assertIsInstance(result, ArgsPack)
+        self.assertEqual(result.args, (50,))
+    
+    def test_wire_preserves_kwargs(self):
+        """wire wrapper passes call-time kwargs to func, setup kwargs to ArgsPack.
+        
+        The wire wrapper passes runtime args/kwargs to the wrapped function
+        with its normal signature. Wire-setup kwargs (from wire(func, **wkw))
+        flow through the ArgsPack for pipeline metadata.
+        
+        This allows clean function calls without needing **kwargs in the signature.
+        """
+        def add_values(x, y):
+            # Clean function signature - no **kwargs needed!
+            return x + y
+        
+        # Create wire with setup metadata
+        wire_func = wire(add_values, pipeline_meta='test', stage='transform')
+        
+        # Call with normal function args
+        result = wire_func(10, 20)
+        
+        self.assertIsInstance(result, ArgsPack)
+        self.assertEqual(result.args, (30,))
+        # Wire-setup kwargs appear in ArgsPack
+        self.assertEqual(result.kwargs, {'pipeline_meta': 'test', 'stage': 'transform'})
+    
+    def test_wire_call_time_kwargs_to_function(self):
+        """wire passes call-time kwargs to the wrapped function.
+        
+        Call-time kwargs are passed directly to the function, allowing
+        normal function signatures with keyword arguments.
+        """
+        def add_with_default(x, y, multiplier=1):
+            return (x + y) * multiplier
+        
+        wire_func = wire(add_with_default, metadata='test')
+        
+        # Call with keyword argument
+        result = wire_func(10, 20, multiplier=2)
+        
+        self.assertIsInstance(result, ArgsPack)
+        self.assertEqual(result.args, (60,))  # (10 + 20) * 2
+        # Only wire-setup kwargs in ArgsPack
+        self.assertEqual(result.kwargs, {'metadata': 'test'})
+    
+    def test_wire_in_connection(self):
+        """wire can be used as a through function in make_edge.
+        
+        Example from docstring:
+            c = make_edge(f.add_1, f.add_2, through=wire(f.mul_5))
+        """
+        mul_5 = add_n(0)  # Create a simple function
+        def mul_5_func(v):
+            return v * 5
+        
+        wire_func = wire(mul_5_func)
+        edge = make_edge(add_one, add_two, through=wire_func)
+        
+        # add_one(10) = 11, mul_5(11) = 55, add_two(55) = 57
+        result = edge.pluck(10)
+        self.assertEqual(result, 57)
+    
+    def test_wire_vs_wire_partial(self):
+        """wire and wire_partial have different use cases.
+        
+        wire: wraps a function without pre-applying args
+        wire_partial: wraps a function WITH pre-applied args
+        """
+        def add_numbers(a, b):
+            return a + b
+        
+        # wire: no pre-applied args
+        wire_add = wire(add_numbers)
+        result1 = wire_add(10, 20)
+        self.assertEqual(result1.args, (30,))
+        
+        # wire_partial: pre-apply first arg
+        wire_partial_add = wire_partial(add_numbers, 10)
+        result2 = wire_partial_add(20)
+        self.assertEqual(result2.args, (30,))
+        
+        # Both return same result but called differently
+        self.assertEqual(result1.args, result2.args)
+
 

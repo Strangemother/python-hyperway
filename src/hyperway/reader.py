@@ -11,7 +11,7 @@ def thin_graph(graph):
 
 
 def flat_graph(graph):
-    res = tuple()
+    res = ()
     thin = thin_graph(graph)
     for node_a, b_nodes in thin.items():
         for node_b in b_nodes:

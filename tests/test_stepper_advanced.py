@@ -20,6 +20,7 @@ from hyperway.packer import argspack
 from hyperway.edges import make_edge, PartialConnection
 from hyperway.stepper import (
     StepperC,
+    StepperException,
     StepperIterator,
     run_stepper,
     process_forward,
@@ -571,12 +572,12 @@ class TestStepperEdgeCases(unittest.TestCase):
     """Test edge cases and error conditions."""
 
     def test_step_without_start_nodes_raises(self):
-        """Test that stepping without start_nodes raises an exception."""
+        """Test that stepping without start_nodes raises a StepperException."""
         g = Graph()
         stepper = StepperC(g)
         
         # Don't set start_nodes
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(StepperException) as context:
             stepper.step()
         
         self.assertIn('start_nodes is None', str(context.exception))

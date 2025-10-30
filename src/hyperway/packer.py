@@ -67,7 +67,7 @@ argspack = argpack
 def test_argpack():
 
     a = (1,3,4,5)
-    d = dict(foo=3, bar=4)
+    d = {'foo': 3, 'bar': 4}
     
     v = argpack(argpack(a, **d))
     assert a == v.args[0]

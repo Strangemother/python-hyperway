@@ -251,6 +251,138 @@ class TestWriteGraphvizWithGraphviz(unittest.TestCase):
         # Should add edges
         self.assertGreater(mock_digraph.edge.call_count, 0)
 
+    @patch('hyperway.writer.graphviz.Digraph')
+    def test_write_graphviz_with_show_view(self, mock_digraph_class):
+        """Test that view() is called when show_view=True."""
+        mock_digraph = MagicMock()
+        mock_digraph.render.return_value = "test.gv"
+        mock_digraph_class.return_value = mock_digraph
+        
+        write_graphviz(self.graph, "test", view=True)
+        
+        # Should call view() when view=True
+        mock_digraph.view.assert_called_once()
+        mock_digraph.render.assert_called_once()
+
+    @patch('hyperway.writer.graphviz.Digraph')
+    def test_write_graphviz_without_show_view(self, mock_digraph_class):
+        """Test that view() is NOT called when show_view=False (default)."""
+        mock_digraph = MagicMock()
+        mock_digraph.render.return_value = "test.gv"
+        mock_digraph_class.return_value = mock_digraph
+        
+        write_graphviz(self.graph, "test", view=False)
+        
+        # Should NOT call view() when view=False
+        mock_digraph.view.assert_not_called()
+        mock_digraph.render.assert_called_once()
+
+    @patch('hyperway.writer.graphviz.Digraph')
+    def test_write_graphviz_default_no_view(self, mock_digraph_class):
+        """Test that view() is NOT called by default."""
+        mock_digraph = MagicMock()
+        mock_digraph.render.return_value = "test.gv"
+        mock_digraph_class.return_value = mock_digraph
+        
+        # Call without view parameter
+        write_graphviz(self.graph, "test")
+        
+        # Should NOT call view() by default
+        mock_digraph.view.assert_not_called()
+
+    @patch('hyperway.writer.graphviz.Digraph')
+    def test_write_graphviz_with_format_parameter(self, mock_digraph_class):
+        """Test that format attribute is set when format parameter is provided."""
+        mock_digraph = MagicMock()
+        mock_digraph.render.return_value = "test.gv"
+        mock_digraph_class.return_value = mock_digraph
+        
+        write_graphviz(self.graph, "test", format='svg')
+        
+        # Should set format attribute on the digraph
+        self.assertEqual(mock_digraph.format, 'svg')
+        mock_digraph.render.assert_called_once()
+
+    @patch('hyperway.writer.graphviz.Digraph')
+    def test_write_graphviz_format_parameter_none(self, mock_digraph_class):
+        """Test that format attribute is NOT set when format=None."""
+        mock_digraph = MagicMock()
+        mock_digraph.render.return_value = "test.gv"
+        mock_digraph_class.return_value = mock_digraph
+        
+        write_graphviz(self.graph, "test", format=None)
+        
+        # format attribute should not be set when format=None
+        # Check that format was never assigned after initialization
+        # (it's set in defaults but shouldn't be reassigned)
+        self.assertEqual(mock_digraph.render.call_count, 1)
+
+    @patch('hyperway.writer.graphviz.Digraph')
+    def test_write_graphviz_with_directory_and_format(self, mock_digraph_class):
+        """Test rendering with both directory and format parameters."""
+        mock_digraph = MagicMock()
+        mock_digraph.render.return_value = "output/test.svg"
+        mock_digraph_class.return_value = mock_digraph
+        
+        write_graphviz(self.graph, "test", directory="output", format='svg')
+        
+        # Should set format
+        self.assertEqual(mock_digraph.format, 'svg')
+        # Should pass directory to render
+        mock_digraph.render.assert_called_once_with(directory="output")
+
+    @patch('hyperway.writer.graphviz.Digraph')
+    def test_write_graphviz_view_and_format_together(self, mock_digraph_class):
+        """Test that both view and format work together."""
+        mock_digraph = MagicMock()
+        mock_digraph.render.return_value = "test.pdf"
+        mock_digraph_class.return_value = mock_digraph
+        
+        write_graphviz(self.graph, "test", view=True, format='pdf')
+        
+        # Should call view
+        mock_digraph.view.assert_called_once()
+        # Should set format
+        self.assertEqual(mock_digraph.format, 'pdf')
+        # Should render
+        mock_digraph.render.assert_called_once()
+
+    @patch('hyperway.writer.graphviz.Digraph')
+    def test_write_graphviz_directory_none_not_passed(self, mock_digraph_class):
+        """Test that directory is not passed to render when None."""
+        mock_digraph = MagicMock()
+        mock_digraph.render.return_value = "test.gv"
+        mock_digraph_class.return_value = mock_digraph
+        
+        write_graphviz(self.graph, "test")
+        
+        # Should call render without directory parameter
+        mock_digraph.render.assert_called_once_with()
+
+    @patch('hyperway.writer.graphviz.Digraph')
+    def test_write_graphviz_all_options_combined(self, mock_digraph_class):
+        """Test all highlighted options working together."""
+        mock_digraph = MagicMock()
+        mock_digraph.render.return_value = "renders/test.svg"
+        mock_digraph_class.return_value = mock_digraph
+        
+        result = write_graphviz(
+            self.graph, 
+            "test_all_options",
+            view=True,
+            format='svg',
+            directory="renders"
+        )
+        
+        # Should call view
+        mock_digraph.view.assert_called_once()
+        # Should set format
+        self.assertEqual(mock_digraph.format, 'svg')
+        # Should pass directory to render
+        mock_digraph.render.assert_called_once_with(directory="renders")
+        # Should return the digraph
+        self.assertEqual(result, mock_digraph)
+
 
 class TestWriteGraphvizWithoutGraphviz(unittest.TestCase):
     """Test write_graphviz behavior when graphviz is unavailable."""

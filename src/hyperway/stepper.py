@@ -7,6 +7,12 @@ from .edges import (Connection, as_connections,
                     is_edge, PartialConnection, get_connections)
 from .graph.base import is_graph
 
+
+class StepperException(Exception):
+    """Exception raised when stepper encounters an error during execution."""
+    pass
+
+
 def run_stepper(g, unit_a, val):
     """Here we can _run_ the graph, executing the chain of connections
     from A to Z. The _result_ is the end attribute. This may be a graph of
@@ -92,6 +98,7 @@ def set_global_expand(expand_func):
     """
     global expand
     expand = expand_func    
+
 
 def stepper_c(graph, start_node, argspack):
     stepper = StepperC(graph)
@@ -191,7 +198,7 @@ class StepperC(object):
         st_nodes = self.start_nodes
         if st_nodes is None:
             # Start node must be something...
-            raise Exception('start_nodes is None')
+            raise StepperException('start_nodes is None')
         self.rows = rows or self.rows or expand(st_nodes, self.start_akw,)
 
         while c < count:
@@ -364,7 +371,7 @@ class StepperC(object):
 
         return self.call_one_fallthrough(func, akw)
 
-    def call_one_fallthrough(self, thing, akw):
+    def call_one_fallthrough(self, thing, akw): # pylint: disable=unused-argument
         """
         The given function is not A Connection, PartialConnection, Unit, or
         function (a callable). The last-stage action should occur.
@@ -467,6 +474,12 @@ class StepperC(object):
         return self.end_branch(func, akw)
 
     def end_branch(self, func, akw):
+        """The end_branch method is default hanlder when no branches exist on the stepper chain.
+        This captures the result from the last call, and stores it in the stash for later retrieval.
+
+        return an empty tuple if the stash branch stash ends, else return a tuple of tuples (a row set)
+        with no destination node. 
+        """
         # print(' ... Connections end ...', akw)
         # A tuple of rows
         if self.stash_ends:

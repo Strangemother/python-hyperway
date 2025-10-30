@@ -23,6 +23,7 @@ from hyperway.edges import make_edge, wire
 c = make_edge(f.add_1, f.add_2, through=wire(f.mul_2))
 
 
-assert c.pluck(1) == 10 # (1 + 1) * 2 + 2 == 6
+r = c.pluck(1)
+assert r == 6, f"Result was: {r}" # (1 + 1) * 2 + 2 == 6
 assert c.pluck(10) == 24 # (10 + 1) * 2 + 2 == 24
 
