@@ -6,3 +6,4 @@ from .nodes import as_unit, as_units, Unit
 from .edges import make_edge, Connection
 from .graph import Graph
 from .packer import argspack, argpack, ArgsPack
+from .stepper import StepperException

@@ -42,6 +42,8 @@ def write_graphviz(graph, title, **opts):
 
     styles = opts.pop('styles', {})
     direction = opts.pop('direction', 'TB')
+    show_view = opts.pop('view', False)
+    t_format = opts.pop('format', None)
     print(f'{direction=}')
     defaults = {
         # 'format':'svg',
@@ -85,8 +87,10 @@ def write_graphviz(graph, title, **opts):
     t.attr(fontsize=styles.get('fontsize', '12'))
     t.attr(bgcolor=styles.get('bgcolor', "#00000000"))
 
-    # t.view()
-    # t.format = 'svg'
+    if show_view:
+        t.view()
+    if t_format is not None:
+        t.format = t_format
     r_opts = {}
     directory = opts.get('directory', None)
     if directory is not None:
