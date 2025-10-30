@@ -1,19 +1,19 @@
 
 <div align="center">
 
-<br>
-
-![hyperway logo](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/logo-v2.png)
-
-<br>
-
-
 
 [![Upload Python Package](https://github.com/Strangemother/python-hyperway/actions/workflows/python-publish.yml/badge.svg)](https://github.com/Strangemother/python-hyperway/actions/workflows/python-publish.yml)
 [![PyPI](https://img.shields.io/pypi/v/hyperway?label=hyperway)](https://pypi.org/project/hyperway/)
 ![License](https://img.shields.io/pypi/l/hyperway)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/hyperway)](https://pypi.org/project/hyperway/)
 [![Sonar Coverage](https://img.shields.io/sonar/coverage/Strangemother_python-hyperway?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=Strangemother_python-hyperway)
+
+<br>
+
+![hyperway logo](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/logo-v2.png)
+
+<br>
+
 
 # Hyperway
 
@@ -882,4 +882,5 @@ I'm slowly updating it to include the more advanced [future features](docs/futur
 [ibm-order-precedence]: https://www.ibm.com/docs/en/zos/3.1.0?topic=section-precedence-associativity
 [lag]: https://lagrammar.net/monographs/1999/slides/pdf/chapter-10.pdf
 [complexity-in-lag]: https://lagrammar.net/papers/aij.pdf
+
 
