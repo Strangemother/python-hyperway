@@ -3,7 +3,7 @@
 
 <br>
 
-![hyperway logo](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/logo-800.png)
+![hyperway logo](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/logo-v2.png)
 
 <br>
 
