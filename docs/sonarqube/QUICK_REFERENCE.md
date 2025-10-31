@@ -4,7 +4,7 @@
 
 ```bash
 # Generate coverage locally
-./generate_coverage.sh py312
+./scripts/generate_coverage.sh py312
 
 # Or with tox directly
 tox -e py312

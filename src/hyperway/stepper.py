@@ -256,7 +256,7 @@ class StepperC(object):
                 res += add_rows
             return res
         """
-
+        
         if self.concat_aware:
             rows = self.row_concat(rows)
 

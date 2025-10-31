@@ -1,3 +1,4 @@
+from ._version import __version__
 
 from . import edges
 from . import nodes
