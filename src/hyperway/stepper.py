@@ -108,7 +108,20 @@ def stepper_c(graph, start_node, argspack):
 
 
 class StepperIterator(object):
-
+    """Iterator wrapper for StepperC that enables Python iteration protocol.
+    
+    Yields successive row sets from the stepper until the graph execution
+    completes (rows become empty). Each yielded value is a tuple of 
+    (next_caller, argspack) pairs representing the current execution frontier.
+    
+    Example:
+        >>> g = Graph()
+        >>> g.connect(f.add_1, f.add_2, f.add_3)
+        >>> s = g.stepper()
+        >>> s.prepare(f.add_1, akw=argspack(10))
+        >>> for rows in s.iterator():
+        ...     print(len(rows))  # prints row count per step
+    """
     def __init__(self, stepper, funcs, akw, **config):
         self.stepper = stepper
         self.start_nodes = funcs
@@ -140,13 +153,15 @@ def is_merge_node(next_caller):
 class StepperC(object):
     """This stepper will work with functions - or just callers, and argpacks
     """
-    concat_aware = False
+    # When True, enables row_concat() to merge multiple incoming rows targeting the same merge_node
+    concat_aware = False  
+    # When True, stores branch-end results in stash; when False, returns rows with None as next caller
+    stash_ends = True
 
     def __init__(self, graph, rows=None):
         self.graph = graph
         self.run = 1
 
-        self.stash_ends = True
         self.reset_stash()
 
         self.start_nodes = None
@@ -393,7 +408,7 @@ class StepperC(object):
         call.
         If a function, the _result_ is pushed into the future call stack.
         """
-        a_to_b_conns = get_connections(self.graph, edge)
+        a_to_b_conns = get_connections(self.graph, edge, akw=akw)
         raw_res = edge.stepper_call(akw, stepper=self)
         res_akw = argspack(raw_res)
 
@@ -408,7 +423,7 @@ class StepperC(object):
         call.
         If a function, the _result_ is pushed into the future call stack.
         """
-        a_to_b_conns = get_connections(self.graph, func)
+        a_to_b_conns = get_connections(self.graph, func, akw=akw)
         raw_res = func(*akw.a,**akw.kw)
         res_akw = argspack(raw_res)
 
@@ -422,7 +437,7 @@ class StepperC(object):
         returning the B node raw result.
         """
         wire_raw_res = partial_conn.stepper_call(akw, stepper=self)
-        b_conns = get_connections(self.graph, partial_conn.b)
+        b_conns = get_connections(self.graph, partial_conn.b, akw=akw)
 
         # The raw wire result here, is the wire -> B result (as the
         # Therefore collect the B node connections(.A), for the next calls
@@ -444,7 +459,7 @@ class StepperC(object):
         the connection; [wire] -> B
         """
         # where unit == a
-        a_to_b_conns = get_connections(self.graph, unit)
+        a_to_b_conns = get_connections(self.graph, unit, akw=akw)
 
         if a_to_b_conns is None:
             # This node call has no connection, assume an end;
