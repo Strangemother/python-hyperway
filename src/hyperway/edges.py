@@ -84,15 +84,23 @@ def as_connections(*items, graph=None):
     return res
 
 
-def get_connections(graph, unit):
+def get_connections(graph, unit, akw=None):
+    """
+    Given a graph and a unit (node or connection), return the connections from that unit.
+    This function checks if the unit has a custom get_connections() method;
+    if so, it uses that method to retrieve the connections. Otherwise, it looks up
+    the connections in the graph using the unit's ID.
 
+    The optional `akw` is pushed through to the unit.get_connections() if it exists.
+
+    """
     # resolve the list of connections using the
     # id of the unit.
     # print('xx - Get for', unit)
     if hasattr(unit, 'get_connections'):
         # Is an edge.
         print('Using unit.get_connections')
-        res = unit.get_connections(graph)
+        res = unit.get_connections(graph, akw=akw)
     else:
         res = graph.get(as_unit(unit).id(), None)
 
@@ -266,7 +274,7 @@ class PartialConnection(IDFunc):
     def b(self):
         return self.parent_connection.get_b()
 
-    def get_connections(self, graph):
+    def get_connections(self, graph, akw=None):
         """Return the connections from node B, as the next step.
         This is called by the stepper when processing this partial connection."""
         resolve = graph.resolve_node_connections
