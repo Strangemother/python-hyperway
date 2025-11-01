@@ -3,6 +3,7 @@ from collections import defaultdict
 from .base import GraphBase, connect, add, resolve
 from .. import writer
 from ..packer import argspack
+from ..constants import INITIATE_DISTRIBUTED
 
 __all__ = ['Graph']
 
@@ -12,6 +13,11 @@ class Graph(GraphBase):
     _stepper_args = None
     _stepper_rows = None
     _stepper_class = None
+    _stepper_initiate = None 
+
+    # In Graph theory, the 'seed' is the primary point of initiation.
+    # Here, we use 'initiate' as the key applied within the prepare
+    seed_flag_parameter = 'initiate'  # Parameter name for initiate mode in stepper
 
     def get_stepper_class(self):
         if self._stepper_class is None:
@@ -97,6 +103,7 @@ class Graph(GraphBase):
     def stepper_prepare(self, n=None, *a, **kw):
         self._stepper_callers = n
         self._stepper_args = argspack(*a, **kw)
+        self._stepper_initiate = kw.pop(self.seed_flag_parameter, INITIATE_DISTRIBUTED) 
 
     def stepper_prepare_many(self, *rows):
         """Given many rows of `node, primivites`,
@@ -118,11 +125,12 @@ class Graph(GraphBase):
         stepper = _stepper_class(self)
         n = n or self._stepper_callers
         akw = self._stepper_args
+        initiate_mode = self._stepper_initiate  # Default: INITIATE_DISTRIBUTED
 
         if len(a) + len(kw) > 0:
             akw = argspack(*a, **kw)
         if n is not None:
-            stepper.prepare(n, akw=akw)
+            stepper.prepare(n, akw=akw, initiate=initiate_mode)
         return stepper
 
     def write(self, *a, **kw):

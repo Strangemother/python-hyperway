@@ -9,3 +9,4 @@ from .edges import make_edge, Connection
 from .graph import Graph
 from .packer import argspack, argpack, ArgsPack
 from .stepper import StepperException
+from .constants import INITIATE_DISTRIBUTED, INITIATE_UNIFIED

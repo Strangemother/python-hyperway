@@ -99,11 +99,13 @@ def main():
     print()
     
     # Step the graph from lana until complete
+    from hyperway import INITIATE_UNIFIED
+    
     print("=" * 70)
-    print("Executing Graph:")
+    print("Executing Graph with initiate=INITIATE_UNIFIED:")
     print("=" * 70)
     
-    g.stepper_prepare(lana, {'foo': 'bar', 'target_name': 'Dave'})
+    g.stepper_prepare(lana, {'foo': 'bar', 'target_name': 'Dave'}, initiate=INITIATE_UNIFIED)
     stepper = g.stepper()
     # return stepper
 
