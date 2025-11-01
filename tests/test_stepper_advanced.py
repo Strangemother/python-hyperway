@@ -31,6 +31,11 @@ from hyperway.stepper import (
     is_merge_node,
     expand,
 )
+# from hyperway import stepper
+from hyperway.packer import ArgsPack
+from hyperway.stepper import expand_unified
+from unittest.mock import Mock, patch
+from hyperway.edges import Connection    
 
 
 def multiply_by_2(v):
@@ -128,6 +133,126 @@ class TestExpandFunctions(unittest.TestCase):
         
         # Restore original
         set_global_expand(original_expand)
+
+
+class TestExpandUnified(unittest.TestCase):
+    """Test expand_unified function for unified initiation mode."""
+    
+    def test_expand_unified_calls_node_once(self):
+        """expand_unified calls each node once and distributes result to connections."""        
+        g = Graph()
+        
+        # Track how many times the node is called
+        call_count = [0]
+        
+        def counting_func(x):
+            call_count[0] += 1
+            return x * 2
+        
+        unit_a = as_unit(counting_func)
+        g.add(unit_a, multiply_by_2)
+        g.add(unit_a, multiply_by_2)  # Two connections from unit_a
+        
+        stepper = StepperC(g)
+        akw = argspack(10)
+        
+        rows = expand_unified(stepper, (unit_a,), akw)
+        
+        # Node should be called once, not twice
+        self.assertEqual(call_count[0], 1)
+        # Should return 2 rows (one per connection)
+        self.assertEqual(len(rows), 2)
+    
+    def test_expand_unified_returns_partial_connections(self):
+        """expand_unified returns PartialConnection instances."""
+        g = Graph()
+        unit_a = as_unit(multiply_by_2)
+        g.add(unit_a, multiply_by_2)
+        
+        stepper = StepperC(g)
+        akw = argspack(5)
+        
+        rows = expand_unified(stepper, (unit_a,), akw)
+        
+        self.assertEqual(len(rows), 1)
+        next_caller, result_akw = rows[0]
+        self.assertIsInstance(next_caller, PartialConnection)
+        # Result should be from calling the node once
+        self.assertEqual(result_akw.args[0], 10)
+    
+    def test_expand_unified_handles_no_connections(self):
+        """expand_unified handles leaf nodes with no connections."""
+        from hyperway.stepper import expand_unified
+        
+        g = Graph()
+        unit_a = as_unit(multiply_by_2)
+        # No connections added - unit_a is a leaf
+        
+        stepper = StepperC(g)
+        akw = argspack(5)
+        
+        rows = expand_unified(stepper, (unit_a,), akw)
+        
+        # Leaf nodes return empty tuple by default
+        self.assertEqual(rows, ())
+
+
+class TestExpandUnifiedNodeCall(unittest.TestCase):
+    """Test expand_unified if/else for is_unit check - lines 128-135 in stepper.py."""
+    
+    def test_is_unit_true_calls_process(self):
+        """When is_unit(node) is True, calls node.process()."""
+        g = Graph()
+        unit_a = as_unit(multiply_by_2)
+        g.add(unit_a, multiply_by_2)
+        
+        stepper = StepperC(g)
+        akw = argspack(5)
+        
+        rows = expand_unified(stepper, (unit_a,), akw)
+        
+        # Unit.process called: 5 * 2 = 10
+        _, result_akw = rows[0]
+        self.assertEqual(result_akw.args[0], 10)
+    
+    def test_is_unit_false_calls_directly(self):
+        """When is_unit(node) is False, calls node directly (else branch)."""
+        g = Graph()
+        # Mock callable that is NOT a Unit
+        mock_callable = Mock(return_value=42)
+        mock_callable.__name__ = 'mock_func'
+        
+        unit_b = as_unit(multiply_by_2)
+    
+        # Manually create connection
+        conn = Connection(mock_callable, unit_b)
+        g.add_edge(conn)
+        
+        stepper = StepperC(g)
+        akw = argspack(10, foo='bar')
+        
+        # Mock get_connections to return proper list
+        with patch('hyperway.stepper.get_connections', return_value=[conn]):
+            rows = expand_unified(stepper, (mock_callable,), akw)
+        
+        # Should call mock_callable directly (else branch: not .process)
+        mock_callable.assert_called_once_with(10, foo='bar')
+        _, result_akw = rows[0]
+        self.assertEqual(result_akw.args[0], 42)
+    
+    def test_both_branches_return_argspack(self):
+        """Both if and else branches wrap result in argspack."""
+        g = Graph()
+        unit_a = as_unit(multiply_by_2)
+        g.add(unit_a, multiply_by_2)
+        
+        stepper = StepperC(g)
+        akw = argspack(5)
+        
+        rows = expand_unified(stepper, (unit_a,), akw)
+        
+        _, result_akw = rows[0]
+        self.assertIsInstance(result_akw, ArgsPack)
 
 
 class TestHelperFunctions(unittest.TestCase):

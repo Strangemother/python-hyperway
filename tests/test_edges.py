@@ -782,6 +782,87 @@ class TestGetConnections(unittest.TestCase):
         # The result should contain func_b (the A node of edge2)
         self.assertEqual(len(connections), 1)
         self.assertEqual(connections[0], edge2.a)
+    
+    def test_get_connections_passes_akw_to_unit_method(self):
+        """get_connections passes akw parameter to unit.get_connections when available.
+        
+        When a unit has a custom get_connections method, and akw is provided,
+        the get_connections function should pass akw through to the unit's method.
+        This enables data-driven edge selection (knuckles functionality).
+        """
+        from unittest.mock import MagicMock
+        
+        g = Graph()
+        
+        # Create a unit with a mock get_connections method
+        unit_a = as_unit(func_a)
+        mock_get_connections = MagicMock(return_value=())
+        unit_a.get_connections = mock_get_connections
+        
+        # Create some edges
+        g.add(unit_a, func_b)
+        
+        # Call get_connections with akw
+        test_akw = argspack('test_data', value=42)
+        with patch('builtins.print'):  # Suppress debug output
+            get_connections(g, unit_a, akw=test_akw)
+        
+        # Verify the unit's get_connections was called with graph and akw as keyword arg
+        mock_get_connections.assert_called_once_with(g, akw=test_akw)
+    
+    def test_get_connections_without_akw_parameter(self):
+        """get_connections works without akw parameter (backward compatibility).
+        
+        Verifies that when akw is not provided, the function still works
+        as before. This ensures backward compatibility with existing code.
+        """
+        from hyperway.nodes import Unit
+        
+        g = Graph()
+        
+        # Create a unit with get_connections that handles None akw
+        class SafeUnit(Unit):
+            def get_connections(self, graph, akw=None):
+                """Return all connections, with optional akw."""
+                return tuple(graph.get(self.id()))
+        
+        unit_a = SafeUnit(func_a)
+        edge1 = g.add(unit_a, func_b)
+        edge2 = g.add(unit_a, func_c)
+        
+        # Call without akw parameter
+        with patch('builtins.print'):
+            connections = get_connections(g, unit_a)
+        
+        # Should return all connections
+        self.assertEqual(len(connections), 2)
+        self.assertIn(edge1, connections)
+        self.assertIn(edge2, connections)
+    
+    def test_get_connections_with_none_akw(self):
+        """get_connections handles akw=None explicitly passed.
+        
+        Tests that explicitly passing akw=None works correctly and
+        is distinguishable from not passing akw at all (though they
+        should behave the same).
+        """
+        from unittest.mock import MagicMock
+        
+        g = Graph()
+        
+        # Create a unit with a mock get_connections method
+        unit_a = as_unit(func_a)
+        mock_get_connections = MagicMock(return_value=())
+        unit_a.get_connections = mock_get_connections
+        
+        g.add(unit_a, func_b)
+        
+        # Call with explicit akw=None
+        with patch('builtins.print'):
+            get_connections(g, unit_a, akw=None)
+        
+        # Verify called with None as keyword arg
+        mock_get_connections.assert_called_once_with(g, akw=None)
 
 class TestGetConnectionsIfBranch(unittest.TestCase):
     """Test get_connections if branch (line 42) - PartialConnection with get_connections method."""
