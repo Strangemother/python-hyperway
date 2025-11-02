@@ -882,4 +882,9 @@ I'm slowly updating it to include the more advanced [future features](docs/futur
 [complexity-in-lag]: https://lagrammar.net/papers/aij.pdf
 
 
+---
+
++ https://pypistats.org/packages/hyperway
+
+
 
