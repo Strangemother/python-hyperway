@@ -1,10 +1,10 @@
 #!/bin/bash
 # Generate coverage report for SonarQube
-# Usage: ./generate_coverage.sh [tox-environment]
+# Usage: ./scripts/generate_coverage.sh [tox-environment]
 #
 # Examples:
-#   ./generate_coverage.sh          # Run all available Python versions
-#   ./generate_coverage.sh py312    # Run only Python 3.12
+#   ./scripts/generate_coverage.sh          # Run all available Python versions
+#   ./scripts/generate_coverage.sh py312    # Run only Python 3.12
 
 set -e
 

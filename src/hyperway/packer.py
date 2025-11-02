@@ -94,6 +94,9 @@ class ArgsPack(object):
     @property
     def kw(self):
         return self.kwargs
+    
+    def get(self, key, default=None):
+        return self.kwargs.get(key, default)
 
     def __str__(self):
         return self.as_str()

@@ -6,6 +6,7 @@ from .nodes import is_unit
 from .edges import (Connection, as_connections,
                     is_edge, PartialConnection, get_connections)
 from .graph.base import is_graph
+from .constants import INITIATE_DISTRIBUTED, INITIATE_UNIFIED
 
 
 class StepperException(Exception):
@@ -100,6 +101,68 @@ def set_global_expand(expand_func):
     expand = expand_func    
 
 
+def expand_distributed(stepper, start_nodes, start_akw):
+    """Expand for distributed initiation: call each start node once per connection.
+    
+    This is the standard edge-centric expansion mode where each outgoing
+    connection from a start node results in a separate call to that node.
+    
+    Args:
+        stepper: The StepperC instance
+        start_nodes: Tuple of start node(s)
+        start_akw: Initial argument pack
+    Returns:    
+
+        Tuple of (Connection, argspack) pairs ready for the next step
+    """
+    return expand(start_nodes, start_akw)
+
+def expand_unified(stepper, start_nodes, akw):
+    """Expand for unified initiation: call each start node once, then fan out to connections.
+    
+    This is an alternative to the standard expand() that implements node-centric
+    initialization. Instead of calling the node once per connection, this calls
+    the node once and distributes the result to all outgoing connections.
+    
+    Args:
+        stepper: The StepperC instance
+        start_nodes: Tuple of start node(s)
+        akw: Initial argument pack
+        
+    Returns:
+        Tuple of (PartialConnection, argspack) pairs ready for the next step
+    """
+    all_rows = ()
+    
+    for node in start_nodes:
+        # Get connections for this node
+        conns = get_connections(stepper.graph, node, akw=akw)
+        
+        if conns is None:
+            # No connections - handle as leaf
+            all_rows += node.leaf(stepper, akw)
+            continue
+        
+        # Call node ONCE
+        if is_unit(node):
+            result = node.process(*akw.a, **akw.kw)
+        else:
+            # For raw callables
+            result = node(*akw.a, **akw.kw)
+        
+        result_akw = argspack(result)
+        
+        # Create rows for each connection using the shared result
+        # Each connection's wire function will receive the same result
+        for conn in conns:
+            # Create a PartialConnection (skipping the A call since we already did it)
+            # The PartialConnection represents the [wire]->B portion
+            partial = PartialConnection(conn)
+            all_rows += ((partial, result_akw),)
+    
+    return all_rows
+
+
 def stepper_c(graph, start_node, argspack):
     stepper = StepperC(graph)
     res = stepper.start(start_node, akw=argspack)
@@ -108,7 +171,20 @@ def stepper_c(graph, start_node, argspack):
 
 
 class StepperIterator(object):
-
+    """Iterator wrapper for StepperC that enables Python iteration protocol.
+    
+    Yields successive row sets from the stepper until the graph execution
+    completes (rows become empty). Each yielded value is a tuple of 
+    (next_caller, argspack) pairs representing the current execution frontier.
+    
+    Example:
+        >>> g = Graph()
+        >>> g.connect(f.add_1, f.add_2, f.add_3)
+        >>> s = g.stepper()
+        >>> s.prepare(f.add_1, akw=argspack(10))
+        >>> for rows in s.iterator():
+        ...     print(len(rows))  # prints row count per step
+    """
     def __init__(self, stepper, funcs, akw, **config):
         self.stepper = stepper
         self.start_nodes = funcs
@@ -140,13 +216,16 @@ def is_merge_node(next_caller):
 class StepperC(object):
     """This stepper will work with functions - or just callers, and argpacks
     """
-    concat_aware = False
+    # When True, enables row_concat() to merge multiple incoming rows targeting the same merge_node
+    concat_aware = False  
+    # When True, stores branch-end results in stash; when False, returns rows with None as next caller
+    stash_ends = True
+    initiate = INITIATE_DISTRIBUTED  # INITIATE_DISTRIBUTED (default) or INITIATE_UNIFIED
 
     def __init__(self, graph, rows=None):
         self.graph = graph
         self.run = 1
 
-        self.stash_ends = True
         self.reset_stash()
 
         self.start_nodes = None
@@ -156,12 +235,20 @@ class StepperC(object):
     def reset_stash(self):
         self.stash = defaultdict(tuple) 
 
-    def prepare(self, *funcs, akw):
+    def prepare(self, *funcs, akw, initiate=INITIATE_DISTRIBUTED):
         """Prepare the stepper with the start nodes and the initial argument
         pack. Next iterations will yield steps.
+        
+        Args:
+            *funcs: Start node(s) for execution
+            akw: Initial argument pack
+            initiate: Initial execution mode
+                INITIATE_DISTRIBUTED (default) - Call start node once per connection (edge-centric)
+                INITIATE_UNIFIED - Call start node once, then distribute result to all connections
         """
         self.start_nodes = funcs
         self.start_akw = akw
+        self.initiate = initiate
 
     def __iter__(self):
         """Call upon an iterator to yield the stepper per next() interaction:
@@ -199,7 +286,15 @@ class StepperC(object):
         if st_nodes is None:
             # Start node must be something...
             raise StepperException('start_nodes is None')
-        self.rows = rows or self.rows or expand(st_nodes, self.start_akw,)
+        
+        # Initialize rows if needed - check initiate mode for first step
+        if rows is None and self.rows is None:
+            # First step - use appropriate expansion based on initiate mode
+            func = expand_unified if self.initiate == INITIATE_UNIFIED else expand_distributed
+            # Default INITIATE_DISTRIBUTED mode - standard edge-centric expansion
+            self.rows = func(self, st_nodes, self.start_akw)
+        else:
+            self.rows = rows or self.rows
 
         while c < count:
             c += 1
@@ -256,7 +351,7 @@ class StepperC(object):
                 res += add_rows
             return res
         """
-
+        
         if self.concat_aware:
             rows = self.row_concat(rows)
 
@@ -393,7 +488,7 @@ class StepperC(object):
         call.
         If a function, the _result_ is pushed into the future call stack.
         """
-        a_to_b_conns = get_connections(self.graph, edge)
+        a_to_b_conns = get_connections(self.graph, edge, akw=akw)
         raw_res = edge.stepper_call(akw, stepper=self)
         res_akw = argspack(raw_res)
 
@@ -408,7 +503,7 @@ class StepperC(object):
         call.
         If a function, the _result_ is pushed into the future call stack.
         """
-        a_to_b_conns = get_connections(self.graph, func)
+        a_to_b_conns = get_connections(self.graph, func, akw=akw)
         raw_res = func(*akw.a,**akw.kw)
         res_akw = argspack(raw_res)
 
@@ -422,7 +517,7 @@ class StepperC(object):
         returning the B node raw result.
         """
         wire_raw_res = partial_conn.stepper_call(akw, stepper=self)
-        b_conns = get_connections(self.graph, partial_conn.b)
+        b_conns = get_connections(self.graph, partial_conn.b, akw=akw)
 
         # The raw wire result here, is the wire -> B result (as the
         # Therefore collect the B node connections(.A), for the next calls
@@ -444,7 +539,7 @@ class StepperC(object):
         the connection; [wire] -> B
         """
         # where unit == a
-        a_to_b_conns = get_connections(self.graph, unit)
+        a_to_b_conns = get_connections(self.graph, unit, akw=akw)
 
         if a_to_b_conns is None:
             # This node call has no connection, assume an end;

@@ -167,6 +167,30 @@ class TestArgsPackProperties(unittest.TestCase):
         self.assertEqual(akw.kw, {'x': 5, 'y': 10})
 
 
+class TestArgsPackGet(unittest.TestCase):
+    """Test ArgsPack.get() method for accessing kwargs."""
+    
+    def test_get_existing_key(self):
+        """get() returns value for existing key."""
+        akw = ArgsPack(foo='bar', count=42)
+        
+        self.assertEqual(akw.get('foo'), 'bar')
+        self.assertEqual(akw.get('count'), 42)
+    
+    def test_get_missing_key_returns_none(self):
+        """get() returns None for missing key by default."""
+        akw = ArgsPack(foo='bar')
+        
+        self.assertIsNone(akw.get('missing'))
+    
+    def test_get_with_default(self):
+        """get() returns custom default for missing key."""
+        akw = ArgsPack(foo='bar')
+        
+        self.assertEqual(akw.get('missing', 'default_value'), 'default_value')
+        self.assertEqual(akw.get('missing', 0), 0)
+
+
 class TestArgsPackStringRepresentation(unittest.TestCase):
     """Test string representation methods."""
 
