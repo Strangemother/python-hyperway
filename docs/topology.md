@@ -48,10 +48,6 @@ u.process("Hello", "Hyperway!")
 # prints "Hello Hyperway!"
 ``` 
 
-## Wire function
-
-A wire function exists within a connection between two nodes. It accepts the output of _'node A'_. Its result is sent to _'node B'_ as input.
-
 ## Stepper
 
 Arguably the most important component of hyperway, the stepper is the "machine" running the graph. 
@@ -67,4 +63,16 @@ As it steps to the new node, it may encounter a wire function of which optionall
 A node may have multiple outgoing connections. The stepper will branch, stepping each connection with its own copy stash of data.
 
 The stepper will stop when there are no connections remaining.
+
+
+## Wire function
+
+A wire function exists within a connection between two nodes. It accepts the output of _'node A'_. Its result is sent to _'node B'_ as input.
+
+
+## Knuckles
+
+A knuckle filters which outgoing connections a node will traverse. When a node has multiple connections, override `get_connections(graph, akw)` to return a filtered subset based on runtime data or state.
+
+See [knuckles.md](knuckles.md) for full documentation.
 
