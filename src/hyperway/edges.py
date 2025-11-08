@@ -165,7 +165,7 @@ class Connection(IDFunc):
         """
         return self.get_a().process(*akw.a,**akw.kw)
 
-    def half_call(self, akw, stepper=None, **meta):
+    def half_call(self, akw, stepper=None, **meta): # NOSONAR(S1172)
         """Specifically call A and return its res, and the next caller.
 
         This is called by the stepper when iterating upon a Unit `call_one_unit`.
@@ -274,7 +274,7 @@ class PartialConnection(IDFunc):
     def b(self):
         return self.parent_connection.get_b()
 
-    def get_connections(self, graph, akw=None):
+    def get_connections(self, graph, akw=None): # NOSONAR(S1172)
         """Return the connections from node B, as the next step.
         This is called by the stepper when processing this partial connection."""
         resolve = graph.resolve_node_connections
@@ -286,7 +286,7 @@ class PartialConnection(IDFunc):
         pc = self.parent_connection
         return (pc.through, pc.b)
 
-    def stepper_call(self, akw, stepper=None, **meta):
+    def stepper_call(self, akw, stepper=None, **meta): # NOSONAR(S1172)
         """This function is called explicitly by the stepper to process
         this partial connection [W -> B].
         Call upon self.process with the given argspack. This will call the
