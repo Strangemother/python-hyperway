@@ -65,6 +65,27 @@ class Unit(IDFunc):
         f = self.func
         n = self.name or (f.__name__ if hasattr(f, '__name__') else str(f))
         return n
+    
+    def get_outbound_connections(self, graph):
+        """Return all outbound connections from this node in the given graph."""
+        connections = graph.get(self.id(), None)
+        return connections
+
+    def get_inbound_connections(self, graph):
+        """Return all inbound connections to this node in the given graph.
+        
+        Note: The graph stores each edge twice (once by edge ID, once by node A ID),
+        so we deduplicate by edge ID to return unique connections only.
+        """
+        seen = set()
+        inbound = []
+        for edges in graph.values():
+            for edge in edges:
+                edge_id = edge.id()
+                if edge.b.id() == self.id() and edge_id not in seen:
+                    seen.add(edge_id)
+                    inbound.append(edge)
+        return inbound
 
     def input(self, a, kw):
         """Run the function through the graph, events will propogate into
