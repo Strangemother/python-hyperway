@@ -466,7 +466,7 @@ class StepperC(object):
 
         return self.call_one_fallthrough(func, akw)
 
-    def call_one_fallthrough(self, thing, akw): # pylint: disable=unused-argument
+    def call_one_fallthrough(self, thing, akw): # NOSONAR(S1172)
         """
         The given function is not A Connection, PartialConnection, Unit, or
         function (a callable). The last-stage action should occur.

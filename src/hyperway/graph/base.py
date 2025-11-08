@@ -18,14 +18,14 @@ class GraphBase(defaultdict):
             return self.resolve_node_to_nowhere(other)
         return res
 
-    def resolve_node_to_nowhere(self, other): # py-lint: disable=unused-argument
+    def resolve_node_to_nowhere(self, other): # NOSONAR(S1172)
         """Given a node with no connections, return a connection to nowhere.
         Override in subclasses to provide custom behaviour."""
         return ()
 
 
 def is_graph(u, *others):
-    types = (GraphBase,)+others
+    types = (GraphBase,) + others
     return isinstance(u, types) or (hasattr(u, 'func') and isinstance(u.func, types))
 
 

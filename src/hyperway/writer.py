@@ -68,7 +68,7 @@ def write_graphviz(graph, title, **opts):
     # t.attr('node', shape='circle', fixedsize='true', width='0.9')
     t.attr('node',
             shape=styles.get('node_shape', 'box'),
-            style=styles.get('node_style', "rounded"), # fontsize='12',
+            style=styles.get('node_style', "rounded"),
             arrowsize=styles.get('node_arrowsize', "0.8"),
             fontname=styles.get('node_fontname', "Arial"),
             color=styles.get('node_color', '#2299FF'),
@@ -94,7 +94,7 @@ def write_graphviz(graph, title, **opts):
     r_opts = {}
     directory = opts.get('directory', None)
     if directory is not None:
-        r_opts = dict(directory=directory)
+        r_opts = {'directory':directory}
 
     t.render(**r_opts).replace('\\', '/')
 
