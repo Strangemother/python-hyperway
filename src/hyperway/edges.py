@@ -154,7 +154,7 @@ class Connection(IDFunc):
         """If A is a merge node."""
         return self.get_a().merge_node
 
-    def stepper_call(self, akw, stepper=None, **meta):
+    def stepper_call(self, akw, stepper=None, **meta): # NOSONAR(S1172)
         """This function is called explicitly by the stepper to process
         this connection side A, returning the result for A.
         the extern `get_connections` function should yield the [W -> B] next
