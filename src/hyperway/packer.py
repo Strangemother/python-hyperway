@@ -98,6 +98,43 @@ class ArgsPack(object):
     def get(self, key, default=None):
         return self.kwargs.get(key, default)
 
+    def flat(self):
+        """Extract the most natural representation from this ArgsPack.
+        
+        Returns:
+            - Single positional arg: the value itself
+            - Multiple positional args: tuple of args
+            - Only kwargs: dict
+            - Both args and kwargs: tuple of (args, kwargs)
+            - Nothing: None
+        
+        Example:
+            >>> akw = argspack(42)
+            >>> akw.flat()
+            42
+            >>> akw = argspack(1, 2, 3)
+            >>> akw.flat()
+            (1, 2, 3)
+            >>> akw = argspack(foo='bar')
+            >>> akw.flat()
+            {'foo': 'bar'}
+        """
+        has_args = bool(self.args)
+        has_kw = bool(self.kwargs)
+        
+        if has_args and has_kw:
+            # Both exist - return both as tuple
+            args_val = self.args[0] if len(self.args) == 1 else self.args
+            return (args_val, self.kwargs)
+        
+        if has_args:
+            return self.args[0] if len(self.args) == 1 else self.args
+        
+        if has_kw:
+            return self.kwargs
+        
+        return None
+
     def __str__(self):
         return self.as_str()
 

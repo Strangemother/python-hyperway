@@ -70,14 +70,6 @@ stepper = g.stepper(first_connection.a, 10)
 concurrent_row = stepper.step()
 ```
 
-> [!NOTE]
-> The stepper yields rows of `(Unit, ArgsPack)` tuples representing the next functions to execute.
-> Continue calling `step()` until no rows remain. Final results accumulate in `stepper.stash`.
-
-
-That's it! You're a graph engineer.
-
-
 Render this graph (if [graphviz](https://graphviz.org/) is installed):
 
 ```python
@@ -85,6 +77,16 @@ g.write('intro-example', directory='renders', direction='LR')
 ```
 
 ![connection diagram](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/intro-example.gv.png)
+
+
+That's it! You're a graph engineer.
+
+> [!NOTE]
+> The stepper yields rows of `(Unit, ArgsPack)` tuples representing the next functions to execute.
+> Continue calling `step()` until no rows remain. Access results easily with `stepper.get_result()` or `stepper.get_results()`.
+
+
+
 
 # Getting Started
 
@@ -550,6 +552,75 @@ result = run_stepper(g, connections[0].a, argspack(10))
 The value of the stepper is concurrent. When a path ends, the value is stored in the `stepper.stash`.
 When executing node steps, the result from the call is given to the next connected unit.
 
+## Accessing Results
+
+The stepper provides convenient methods to access results without manually unwrapping the stash:
+
+```python
+g = Graph()
+g.connect(f.add_10, f.add_20, f.add_30)
+
+g.stepper_prepare(start_node, 10)
+s = g.stepper()
+
+while s.step():
+    pass
+
+# Simple access to results
+result = s.get_result()  # 70 (single result)
+results = s.get_results()  # [70] (all results as list)
+
+# Check if results exist
+if s.has_results():
+    print(f"Got {s.result_count()} results")
+```
+
+For graphs with multiple endpoints, organize results by node:
+
+```python
+# Branching graph with multiple handlers
+g.add(source, handler_a)  # handler_a named 'process_a'
+g.add(source, handler_b)  # handler_b named 'process_b'
+
+g.stepper_prepare(source, 10)
+s = g.stepper()
+while s.step():
+    pass
+
+# Organize by node name
+results_dict = s.get_results_dict()
+# {'process_a': [42], 'process_b': [100]}
+
+# Access specific handler results
+process_a_results = results_dict['process_a']
+```
+
+> [!TIP]
+> Use `get_result()` for single-endpoint graphs, `get_results()` for all results as a list, or `get_results_dict()` to organize by node name.
+
+### Advanced: Custom Keys and ArgsPack
+
+You can organize results using custom keys:
+
+```python
+# By node ID
+results_by_id = s.get_results_dict(key=lambda n: n.id())
+
+# By function name
+results_by_func = s.get_results_dict(key=lambda n: n.func.__name__)
+```
+
+For advanced use cases, access raw `ArgsPack` objects and use `.flat()` for custom unwrapping:
+
+```python
+# Get raw ArgsPack objects
+raw_results = s.get_results(unwrap=False)
+
+for akw in raw_results:
+    value = akw.flat()  # Smart unwrapping to natural representation
+    # Or access directly: akw.args, akw.kw
+```
+
 ![stepper classic path movement](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/stepper-classic-path.png)
 
 If two nodes call to the same destination node, this causes _two_ calls of the next node:
@@ -704,6 +775,65 @@ g.write('triple-split', direction='LR')
 
 ![triple split with three exit nodes](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/triple-split-3.gv.png)
 
+
+## Dynamic Edge Selection (Knuckles)
+
+**Knuckles** enable nodes to dynamically choose which outgoing edges to traverse based on runtime data. This allows you to build conditional routing, state machines, and decision trees directly into your graph topology.
+
+By default, when a node has multiple outgoing connections, the stepper traverses all of them (parallel expansion). A knuckle intercepts this behavior and returns a filtered subset of edges.
+
+```python
+from hyperway.graph import Graph
+from hyperway.nodes import Unit, as_unit
+from hyperway.packer import argspack
+
+
+class Router(Unit):
+    """Route based on 'target' key in data."""
+    
+    def get_connections(self, graph, akw=None):
+        # Get all outgoing edges from this node
+        connections = tuple(graph.get(self.id(), ()))
+        
+        if akw is None:
+            return connections  # No data, return all edges
+        
+        # Filter edges by connection name matching 'target' key
+        target = akw.get('target')
+        if target is None:
+            return connections
+        
+        filtered = tuple(c for c in connections if c.name == target)
+        return filtered if filtered else ()
+
+
+# Build a graph with conditional routing
+g = Graph()
+
+router = Router(lambda x: x)
+handler_a = as_unit(lambda x: f"Handler A: {x}")
+handler_b = as_unit(lambda x: f"Handler B: {x}")
+
+g.add(router, handler_a, name='route_a')
+g.add(router, handler_b, name='route_b')
+
+# Execute: only handler_a will be reached
+g.stepper_prepare(router, argspack(10, target='route_a'))
+s = g.stepper()
+while s.step():
+    pass
+
+# Result in s.stash will be "Handler A: 10"
+```
+
+The `get_connections()` method receives the current data (`akw`) and can apply any logic to filter edges—based on values, predicates, state, or even external conditions.
+
+> [!TIP]
+> Use knuckles for: conditional branching, routing based on data attributes, implementing state machines, round-robin scheduling, or circuit breaker patterns.
+
+See [`docs/knuckles.md`](docs/knuckles.md) for advanced patterns including stateful knuckles, predicate-based filtering, and round-robin routing.
+
+---
 
 #### Order of Operation
 
@@ -885,6 +1015,6 @@ I'm slowly updating it to include the more advanced [future features](docs/futur
 ---
 
 + https://pypistats.org/packages/hyperway
-
++ https://sonarcloud.io/summary/overall?id=Strangemother_python-hyperway&branch=main
 
 

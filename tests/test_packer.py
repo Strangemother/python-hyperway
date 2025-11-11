@@ -473,6 +473,54 @@ class TestArgsPackDocumentationExamples(unittest.TestCase):
         self.assertEqual(akw2.args, (10,))
 
 
+class TestArgsPackFlat(unittest.TestCase):
+    """Test ArgsPack.flat() method for extracting natural representations."""
+
+    def test_flat_single_arg(self):
+        """Test flat() returns the value for single argument."""
+        akw = argspack(42)
+        self.assertEqual(akw.flat(), 42)
+
+    def test_flat_multiple_args(self):
+        """Test flat() returns tuple for multiple arguments."""
+        akw = argspack(1, 2, 3)
+        self.assertEqual(akw.flat(), (1, 2, 3))
+
+    def test_flat_kwargs_only(self):
+        """Test flat() returns dict when only kwargs present."""
+        akw = argspack(foo='bar', baz=True)
+        self.assertEqual(akw.flat(), {'foo': 'bar', 'baz': True})
+
+    def test_flat_args_and_kwargs(self):
+        """Test flat() returns tuple of (single_arg, kwargs) when both exist."""
+        akw = argspack(42, foo='bar')
+        result = akw.flat()
+        self.assertEqual(result, (42, {'foo': 'bar'}))
+
+    def test_flat_multiple_args_and_kwargs(self):
+        """Test flat() returns tuple of (args_tuple, kwargs) for multiple args with kwargs."""
+        akw = argspack(1, 2, 3, foo='bar')
+        result = akw.flat()
+        self.assertEqual(result, ((1, 2, 3), {'foo': 'bar'}))
+
+    def test_flat_empty_argspack(self):
+        """Test flat() returns None for empty ArgsPack."""
+        akw = argspack()
+        self.assertIsNone(akw.flat())
+
+    def test_flat_with_none_value(self):
+        """Test flat() handles None value correctly."""
+        akw = argspack(None)
+        self.assertIsNone(akw.flat())
+
+    def test_flat_with_falsy_values(self):
+        """Test flat() handles falsy values like 0, empty string, False."""
+        self.assertEqual(argspack(0).flat(), 0)
+        self.assertEqual(argspack('').flat(), '')
+        self.assertEqual(argspack(False).flat(), False)
+        # Note: empty list triggers special tuple/list handling in argpack, skip it
+
+
 class TestLegacyTestArgpack(unittest.TestCase):
     """Test the legacy test_argpack function in the module."""
 

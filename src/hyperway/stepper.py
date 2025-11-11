@@ -594,3 +594,133 @@ class StepperC(object):
     def peek(self):
         for akw in self.stash.values():
             yield akw
+
+    def get_results(self, unwrap=True):
+        """Get all results as a flat list.
+        
+        This method provides a simple way to access all results from the stash
+        without manually unwrapping ArgsPack objects or iterating through the
+        defaultdict structure.
+        
+        Args:
+            unwrap: If True (default), extract values using ArgsPack.flat().
+                   If False, return ArgsPack objects directly.
+        
+        Returns:
+            List of result values. When unwrap=True, uses ArgsPack.flat() which returns:
+            - Single positional arg: the value itself
+            - Multiple positional args: tuple of args
+            - Only kwargs: dict
+            - Both args and kwargs: tuple of (args, kwargs)
+            - Nothing: None
+        
+        Example:
+            >>> s = g.stepper(node, 10)
+            >>> while s.step(): pass
+            >>> s.get_results()
+            [60, 42, 100]
+        """
+        results = []
+        for akw_tuple in self.stash.values():
+            for akw in akw_tuple:
+                v = akw.flat() if unwrap else akw
+                results.append(v)
+        return results
+
+    def get_result(self, unwrap=True, default=None):
+        """Get the first result (for single-endpoint graphs).
+        
+        Convenience method for the common case where you expect a single result
+        from graph execution. Returns the first available result or a default value.
+        
+        Args:
+            unwrap: If True (default), extract value using ArgsPack.flat().
+            default: Value to return if no results exist (default: None).
+        
+        Returns:
+            The first result value (unwrapped via .flat() if unwrap=True), 
+            or default if no results exist.
+        
+        Example:
+            >>> s = g.stepper(node, 10)
+            >>> while s.step(): pass
+            >>> result = s.get_result()
+            60
+        """
+        results = self.get_results(unwrap=unwrap)
+        return results[0] if results else default
+
+    def get_results_dict(self, key='name', unwrap=True):
+        """Get results organized by node attribute.
+        
+        Useful for graphs with multiple endpoints where you want to distinguish
+        which node produced which results. Results are grouped by a node attribute.
+        
+        Args:
+            key: Node attribute to use as dict key ('name', 'id', or callable).
+                 If callable, will be called with the node to generate the key.
+            unwrap: If True (default), extract values using ArgsPack.flat().
+                   If False, return ArgsPack objects directly.
+        
+        Returns:
+            Dict mapping node key to list of results from that node.
+            When unwrap=True, results are extracted via ArgsPack.flat().
+        
+        Example:
+            >>> s = g.stepper(node, 10)
+            >>> while s.step(): pass
+            >>> s.get_results_dict()
+            {'add_30': [60], 'handler_a': [42], 'handler_b': [100]}
+            
+            >>> s.get_results_dict(key='id')
+            {140234567890: [60], 140234567891: [42]}
+            
+            >>> s.get_results_dict(key=lambda n: n.func.__name__)
+            {'add_30': [60], 'handler': [42, 100]}
+        """
+        results_dict = {}
+        for node, akw_tuple in self.stash.items():
+            # Handle both Unit and PartialConnection objects
+            actual_node = getattr(node, 'b', node)
+            
+            # Get node key
+            node_key = key(actual_node) if callable(key) else getattr(actual_node, key, str(actual_node))
+            
+            # Extract results for this node
+            node_results = [akw.flat() if unwrap else akw for akw in akw_tuple]
+            results_dict[node_key] = node_results
+            
+        return results_dict
+
+    def has_results(self):
+        """Check if any results exist in the stash.
+        
+        Returns:
+            True if stash contains results, False otherwise.
+        
+        Example:
+            >>> s = g.stepper(node, 10)
+            >>> s.has_results()
+            False
+            >>> while s.step(): pass
+            >>> s.has_results()
+            True
+        """
+        return len(self.stash) > 0
+
+    def result_count(self):
+        """Count total number of results across all nodes.
+        
+        Returns:
+            Total number of result values in the stash.
+        
+        Example:
+            >>> s = g.stepper(node, 10)
+            >>> while s.step(): pass
+            >>> s.result_count()
+            3
+        """
+        count = 0
+        for akw_tuple in self.stash.values():
+            count += len(akw_tuple)
+        return count

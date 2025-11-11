@@ -408,3 +408,361 @@ class TestStepperDocumentationExample(unittest.TestCase):
         # Verify stepper has stash (even if empty, should be a defaultdict)
         self.assertIsInstance(stepper.stash, defaultdict)
 
+
+class TestStepperConvenienceMethods(unittest.TestCase):
+    """Test Phase 1 convenience methods for result access.
+    
+    These methods provide easier access to results without manually
+    unwrapping the stash structure.
+    """
+    
+    def setUp(self):
+        """Create a graph for testing."""
+        self.graph = Graph(tuple)
+    
+    def test_get_result_single_endpoint(self):
+        """Test get_result() with a single endpoint graph."""
+        # Create simple chain: 10 -> +10 -> +20 -> +30 = 70
+        node_a = as_unit(add_n(10))
+        self.graph.connect(node_a, add_n(20), add_n(30))
+        
+        self.graph.stepper_prepare(node_a, 10)
+        stepper = self.graph.stepper()
+        
+        # Execute graph
+        while stepper.step():
+            pass
+        
+        # Test get_result()
+        result = stepper.get_result()
+        self.assertEqual(result, 70)
+    
+    def test_get_result_empty_stash(self):
+        """Test get_result() returns default when no results."""
+        node = as_unit(multiply_by_2)
+        self.graph.add(node, multiply_by_2)
+        
+        stepper = self.graph.stepper()
+        
+        # No execution, empty stash
+        result = stepper.get_result()
+        self.assertIsNone(result)
+        
+        # Test custom default
+        result = stepper.get_result(default=42)
+        self.assertEqual(result, 42)
+    
+    def test_get_results_single_endpoint(self):
+        """Test get_results() with a single endpoint."""
+        node_a = as_unit(multiply_by_2)
+        self.graph.connect(node_a, add_n(5))
+        
+        self.graph.stepper_prepare(node_a, 10)
+        stepper = self.graph.stepper()
+        
+        while stepper.step():
+            pass
+        
+        # Should return list with one result: (10 * 2) + 5 = 25
+        results = stepper.get_results()
+        self.assertIsInstance(results, list)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0], 25)
+    
+    def test_get_results_multiple_endpoints(self):
+        """Test get_results() with multiple branch endpoints."""
+        # Create branching graph
+        source = as_unit(multiply_by_2)
+        branch_a = add_n(10)
+        branch_b = add_n(20)
+        
+        self.graph.add(source, branch_a)
+        self.graph.add(source, branch_b)
+        
+        self.graph.stepper_prepare(source, 5)
+        stepper = self.graph.stepper()
+        
+        while stepper.step():
+            pass
+        
+        # Should have 2 results: (5*2)+10=20 and (5*2)+20=30
+        results = stepper.get_results()
+        self.assertEqual(len(results), 2)
+        self.assertIn(20, results)
+        self.assertIn(30, results)
+    
+    def test_get_results_empty_stash(self):
+        """Test get_results() returns empty list when no results."""
+        stepper = self.graph.stepper()
+        
+        results = stepper.get_results()
+        self.assertIsInstance(results, list)
+        self.assertEqual(len(results), 0)
+    
+    def test_get_results_unwrap_false(self):
+        """Test get_results(unwrap=False) returns ArgsPack objects."""
+        node = as_unit(multiply_by_2)
+        self.graph.add(node, multiply_by_2)
+        
+        self.graph.stepper_prepare(node, 10)
+        stepper = self.graph.stepper()
+        
+        while stepper.step():
+            pass
+        
+        # Get unwrapped ArgsPack objects
+        results = stepper.get_results(unwrap=False)
+        self.assertEqual(len(results), 1)
+        # Should be ArgsPack
+        self.assertTrue(hasattr(results[0], 'args'))
+        self.assertTrue(hasattr(results[0], 'kw'))
+    
+    def test_get_results_dict_by_name(self):
+        """Test get_results_dict() organizes results by node name."""
+        source = as_unit(add_n(1))
+        handler_a = as_unit(add_n(10), name='handler_a')
+        handler_b = as_unit(add_n(20), name='handler_b')
+        
+        self.graph.add(source, handler_a)
+        self.graph.add(source, handler_b)
+        
+        self.graph.stepper_prepare(source, 5)
+        stepper = self.graph.stepper()
+        
+        while stepper.step():
+            pass
+        
+        # Get results organized by name
+        results = stepper.get_results_dict(key='name')
+        
+        self.assertIsInstance(results, dict)
+        self.assertIn('handler_a', results)
+        self.assertIn('handler_b', results)
+        self.assertEqual(results['handler_a'][0], 16)  # (5+1)+10
+        self.assertEqual(results['handler_b'][0], 26)  # (5+1)+20
+    
+    def test_get_results_dict_by_id(self):
+        """Test get_results_dict() can use callable to get node id."""
+        source = as_unit(add_n(1))
+        handler = as_unit(add_n(10))
+        
+        self.graph.add(source, handler)
+        
+        self.graph.stepper_prepare(source, 5)
+        stepper = self.graph.stepper()
+        
+        while stepper.step():
+            pass
+        
+        # Get results by id using callable (since id is a method)
+        results = stepper.get_results_dict(key=lambda n: n.id())
+        
+        self.assertIsInstance(results, dict)
+        self.assertEqual(len(results), 1)
+        # Should have the handler's id as key
+        handler_id = handler.id()
+        self.assertIn(handler_id, results)
+        self.assertEqual(results[handler_id][0], 16)  # (5+1)+10
+    
+    def test_get_results_dict_with_callable_key(self):
+        """Test get_results_dict() with callable key function."""
+        source = as_unit(add_n(1))
+        
+        # Create handlers with recognizable function names
+        def handler_alpha(v):
+            return v + 10
+        
+        def handler_beta(v):
+            return v + 20
+        
+        node_a = as_unit(handler_alpha)
+        node_b = as_unit(handler_beta)
+        
+        self.graph.add(source, node_a)
+        self.graph.add(source, node_b)
+        
+        self.graph.stepper_prepare(source, 5)
+        stepper = self.graph.stepper()
+        
+        while stepper.step():
+            pass
+        
+        # Use callable to extract function name
+        results = stepper.get_results_dict(key=lambda n: n.func.__name__)
+        
+        self.assertIsInstance(results, dict)
+        self.assertIn('handler_alpha', results)
+        self.assertIn('handler_beta', results)
+    
+    def test_get_results_dict_multiple_results_per_node(self):
+        """Test get_results_dict() when same node receives multiple results.
+        
+        This test demonstrates that when multiple paths lead to the same endpoint,
+        all results are collected under that endpoint's key.
+        """
+        # Create a simpler scenario: source fans out and reconverges
+        # source -> +10 -> handler
+        #       \-> +20 -> handler
+        # This creates two paths to handler, producing two results
+        source = as_unit(add_n(5))
+        mid_a = as_unit(add_n(10))
+        mid_b = as_unit(add_n(20))
+        handler = as_unit(multiply_by_2, name='handler')
+        
+        self.graph.add(source, mid_a)
+        self.graph.add(source, mid_b)
+        self.graph.add(mid_a, handler)
+        self.graph.add(mid_b, handler)
+        
+        self.graph.stepper_prepare(source, 1)
+        stepper = self.graph.stepper()
+        
+        while stepper.step():
+            pass
+        
+        # Handler should have 2 results
+        results = stepper.get_results_dict(key='name')
+        
+        # Both paths should produce results
+        if 'handler' in results:
+            self.assertEqual(len(results['handler']), 2)
+            # Path 1: (1+5)+10=16, then 16*2=32
+            # Path 2: (1+5)+20=26, then 26*2=52
+            self.assertIn(32, results['handler'])
+            self.assertIn(52, results['handler'])
+    
+    def test_has_results_true(self):
+        """Test has_results() returns True when results exist."""
+        node = as_unit(multiply_by_2)
+        self.graph.add(node, multiply_by_2)
+        
+        self.graph.stepper_prepare(node, 5)
+        stepper = self.graph.stepper()
+        
+        # Before execution
+        self.assertFalse(stepper.has_results())
+        
+        # After execution
+        while stepper.step():
+            pass
+        
+        self.assertTrue(stepper.has_results())
+    
+    def test_has_results_false(self):
+        """Test has_results() returns False when no results."""
+        stepper = self.graph.stepper()
+        self.assertFalse(stepper.has_results())
+    
+    def test_result_count_single(self):
+        """Test result_count() with single result."""
+        node = as_unit(add_n(5))
+        self.graph.add(node, add_n(10))
+        
+        self.graph.stepper_prepare(node, 10)
+        stepper = self.graph.stepper()
+        
+        while stepper.step():
+            pass
+        
+        self.assertEqual(stepper.result_count(), 1)
+    
+    def test_result_count_multiple(self):
+        """Test result_count() with multiple results."""
+        source = as_unit(multiply_by_2)
+        
+        self.graph.add(source, add_n(1))
+        self.graph.add(source, add_n(2))
+        self.graph.add(source, add_n(3))
+        
+        self.graph.stepper_prepare(source, 5)
+        stepper = self.graph.stepper()
+        
+        while stepper.step():
+            pass
+        
+        # Should have 3 results
+        self.assertEqual(stepper.result_count(), 3)
+    
+    def test_result_count_zero(self):
+        """Test result_count() returns 0 when no results."""
+        stepper = self.graph.stepper()
+        self.assertEqual(stepper.result_count(), 0)
+    
+    def test_get_results_with_kwargs(self):
+        """Test get_results() handles kwargs in ArgsPack."""
+        def return_kwargs(**kw):
+            return kw
+        
+        node = as_unit(return_kwargs)
+        
+        self.graph.stepper_prepare(node, foo=42, bar='test')
+        stepper = self.graph.stepper()
+        
+        while stepper.step():
+            pass
+        
+        results = stepper.get_results()
+        self.assertEqual(len(results), 1)
+        self.assertIsInstance(results[0], dict)
+        self.assertEqual(results[0]['foo'], 42)
+        self.assertEqual(results[0]['bar'], 'test')
+    
+    def test_get_results_with_multiple_args(self):
+        """Test get_results() handles multiple positional args."""
+        def return_multiple(v):
+            return v, v*2, v*3
+        
+        node = as_unit(return_multiple)
+        
+        self.graph.stepper_prepare(node, 5)
+        stepper = self.graph.stepper()
+        
+        while stepper.step():
+            pass
+        
+        results = stepper.get_results()
+        self.assertEqual(len(results), 1)
+        # Multiple args should be returned as tuple
+        self.assertIsInstance(results[0], tuple)
+        self.assertEqual(results[0], (5, 10, 15))
+    
+    def test_convenience_methods_integration(self):
+        """Test using convenience methods together in a real scenario."""
+        # Build a realistic branching graph
+        source = as_unit(add_n(5), name='source')
+        transform = as_unit(multiply_by_2, name='transform')
+        handler_a = as_unit(add_n(100), name='handler_a')
+        handler_b = as_unit(add_n(200), name='handler_b')
+        
+        # source -> transform -> handler_a
+        #                    \-> handler_b
+        self.graph.add(source, transform)
+        self.graph.add(transform, handler_a)
+        self.graph.add(transform, handler_b)
+        
+        self.graph.stepper_prepare(source, 10)
+        stepper = self.graph.stepper()
+        
+        # Check before execution
+        self.assertFalse(stepper.has_results())
+        self.assertEqual(stepper.result_count(), 0)
+        
+        # Execute
+        while stepper.step():
+            pass
+        
+        # Check after execution
+        self.assertTrue(stepper.has_results())
+        self.assertEqual(stepper.result_count(), 2)
+        
+        # Get all results
+        all_results = stepper.get_results()
+        self.assertEqual(len(all_results), 2)
+        self.assertIn(130, all_results)  # ((10+5)*2)+100
+        self.assertIn(230, all_results)  # ((10+5)*2)+200
+        
+        # Get organized results
+        results_dict = stepper.get_results_dict()
+        self.assertEqual(results_dict['handler_a'][0], 130)
+        self.assertEqual(results_dict['handler_b'][0], 230)
+
