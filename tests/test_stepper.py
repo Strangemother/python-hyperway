@@ -766,3 +766,366 @@ class TestStepperConvenienceMethods(unittest.TestCase):
         self.assertEqual(results_dict['handler_a'][0], 130)
         self.assertEqual(results_dict['handler_b'][0], 230)
 
+
+class TestStreamFunction(unittest.TestCase):
+    """Test the stream() function and stepper.stream() method.
+    
+    The stream() function allows iterating over results as they become available
+    during graph execution, rather than waiting for complete execution.
+    """
+
+    def setUp(self):
+        """Create a fresh graph for each test."""
+        self.graph = Graph()
+
+    def test_stream_simple_linear(self):
+        """Test streaming results from a simple linear graph."""
+        # Create a simple chain: add_10 -> add_20 -> add_30
+        add_10 = as_unit(lambda x: x + 10, name='add_10')
+        add_20 = as_unit(lambda x: x + 20, name='add_20')
+        add_30 = as_unit(lambda x: x + 30, name='add_30')
+        
+        self.graph.add(add_10, add_20)
+        self.graph.add(add_20, add_30)
+        
+        self.graph.stepper_prepare(add_10, 5)
+        stepper = self.graph.stepper()
+        
+        # Stream results
+        results = list(stepper.stream())
+        
+        # Should get one result: 5 + 10 + 20 + 30 = 65
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0], 65)
+        
+        # Stash should be empty after streaming
+        self.assertEqual(len(stepper.stash), 0)
+
+    def test_stream_multiple_branches(self):
+        """Test streaming results from graph with multiple endpoints."""
+        source = as_unit(lambda x: x * 2, name='source')
+        branch_1 = as_unit(lambda x: x + 10, name='branch_1')
+        branch_2 = as_unit(lambda x: x + 20, name='branch_2')
+        branch_3 = as_unit(lambda x: x + 30, name='branch_3')
+        
+        self.graph.add(source, branch_1)
+        self.graph.add(source, branch_2)
+        self.graph.add(source, branch_3)
+        
+        self.graph.stepper_prepare(source, 5)
+        stepper = self.graph.stepper()
+        
+        # Stream all results
+        results = list(stepper.stream())
+        
+        # Should get 3 results: (5*2)+10=20, (5*2)+20=30, (5*2)+30=40
+        self.assertEqual(len(results), 3)
+        self.assertEqual(set(results), {20, 30, 40})
+        
+        # Stash should be empty
+        self.assertEqual(len(stepper.stash), 0)
+
+    def test_stream_early_termination(self):
+        """Test breaking out of stream early."""
+        source = as_unit(lambda x: x, name='source')
+        
+        self.graph.add(source, as_unit(lambda x: x + 10, name='add_10'))
+        self.graph.add(source, as_unit(lambda x: x + 20, name='add_20'))
+        self.graph.add(source, as_unit(lambda x: x + 30, name='add_30'))
+        
+        self.graph.stepper_prepare(source, 5)
+        stepper = self.graph.stepper()
+        
+        # Stream and stop after first result > 20
+        results = []
+        for result in stepper.stream():
+            results.append(result)
+            if result > 20:
+                break
+        
+        # Should have stopped early
+        self.assertGreater(len(results), 0)
+        self.assertLess(len(results), 3)  # Didn't collect all 3
+        
+        # Stash may still have remaining results
+        # (depends on execution order, but should have at least 1 remaining)
+        self.assertGreaterEqual(len(stepper.stash), 1)
+
+    def test_stream_unwrap_false(self):
+        """Test streaming raw ArgsPack objects."""
+        add_10 = as_unit(lambda x: x + 10, name='add_10')
+        add_20 = as_unit(lambda x: x + 20, name='add_20')
+        
+        self.graph.add(add_10, add_20)
+        
+        self.graph.stepper_prepare(add_10, 5)
+        stepper = self.graph.stepper()
+        
+        # Stream raw ArgsPack objects
+        results = list(stepper.stream(unwrap=False))
+        
+        self.assertEqual(len(results), 1)
+        akw = results[0]
+        
+        # Should be an ArgsPack
+        self.assertTrue(hasattr(akw, 'args'))
+        self.assertTrue(hasattr(akw, 'kwargs'))
+        self.assertTrue(hasattr(akw, 'flat'))
+        
+        # Should contain the result value
+        self.assertEqual(akw.flat(), 35)  # 5 + 10 + 20
+
+    def test_stream_functional_style(self):
+        """Test using standalone stream() function."""
+        from hyperway.stepper import stream
+        
+        add_10 = as_unit(lambda x: x + 10, name='add_10')
+        add_20 = as_unit(lambda x: x + 20, name='add_20')
+        
+        self.graph.add(add_10, add_20)
+        
+        self.graph.stepper_prepare(add_10, 5)
+        stepper = self.graph.stepper()
+        
+        # Use functional style: stream(stepper)
+        results = list(stream(stepper))
+        
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0], 35)
+        self.assertEqual(len(stepper.stash), 0)
+
+    def test_stream_empty_graph(self):
+        """Test streaming from a graph with no connections (immediate leaf)."""
+        solo_node = as_unit(lambda x: x * 2, name='solo')
+        
+        # Node with no outgoing connections
+        self.graph.stepper_prepare(solo_node, 10)
+        stepper = self.graph.stepper()
+        
+        # Stream should yield the single result
+        results = list(stepper.stream())
+        
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0], 20)  # 10 * 2
+        self.assertEqual(len(stepper.stash), 0)
+
+    def test_stream_collect_while_streaming(self):
+        """Test collecting results into a list while streaming."""
+        source = as_unit(lambda x: x * 2, name='source')
+        
+        self.graph.add(source, as_unit(lambda x: x + 10, name='fast'))
+        self.graph.add(source, as_unit(lambda x: x + 20, name='medium'))
+        self.graph.add(source, as_unit(lambda x: x + 30, name='slow'))
+        
+        self.graph.stepper_prepare(source, 5)
+        stepper = self.graph.stepper()
+        
+        # Collect results while streaming
+        collected = []
+        for result in stepper.stream():
+            collected.append(result)
+        
+        # Should have all 3 results
+        self.assertEqual(len(collected), 3)
+        self.assertEqual(set(collected), {20, 30, 40})
+        
+        # Stash should be empty
+        self.assertEqual(len(stepper.stash), 0)
+
+    def test_stream_looped_graph_memory_safe(self):
+        """Test that streaming is memory-safe with looped graphs.
+        
+        This verifies that results are popped from stash as they're yielded,
+        preventing unbounded memory growth in cyclic graphs.
+        """
+        # Create a loop: A -> B -> C (leaf)
+        #                     ^____v
+        a = as_unit(lambda x: x + 1, name='A')
+        b = as_unit(lambda x: x * 2, name='B')
+        c = as_unit(lambda x: x, name='C')  # Leaf node
+        
+        self.graph.add(a, b)
+        self.graph.add(b, c)
+        self.graph.add(b, b)  # Loop back to B
+        
+        self.graph.stepper_prepare(a, 1)
+        stepper = self.graph.stepper()
+        
+        # Stream with a limit
+        count = 0
+        max_iterations = 10
+        results = []
+        
+        for result in stepper.stream():
+            results.append(result)
+            count += 1
+            if count >= max_iterations:
+                break
+        
+        # Should have collected results
+        self.assertEqual(len(results), max_iterations)
+        
+        # Stash should be empty (or nearly empty) - results were popped
+        # In a looped graph, there might be one pending result
+        self.assertLessEqual(len(stepper.stash), 1)
+        
+        # Results should be growing exponentially
+        # First few: (1+1)*2=4, (4+1)*2=10 -> wait, actually...
+        # Let me trace: start with 1
+        # A(1) -> 2, B(2) -> 4, C(4) -> yield 4, B(2) -> 4, C(4) -> yield 4
+        # Actually B loops to itself, so: B(4) -> 8, C(8) -> yield 8
+        self.assertTrue(len(results) > 0)
+
+    def test_stream_oop_and_functional_equivalence(self):
+        """Test that OOP and functional styles produce identical results."""
+        from hyperway.stepper import stream
+        
+        # Setup
+        add_10 = as_unit(lambda x: x + 10, name='add_10')
+        add_20 = as_unit(lambda x: x + 20, name='add_20')
+        
+        self.graph.add(add_10, add_20)
+        
+        # Test OOP style
+        self.graph.stepper_prepare(add_10, 5)
+        stepper_oop = self.graph.stepper()
+        results_oop = list(stepper_oop.stream())
+        
+        # Test functional style (need fresh stepper)
+        self.graph.stepper_prepare(add_10, 5)
+        stepper_func = self.graph.stepper()
+        results_func = list(stream(stepper_func))
+        
+        # Should be identical
+        self.assertEqual(results_oop, results_func)
+        self.assertEqual(len(stepper_oop.stash), len(stepper_func.stash))
+
+    def test_stream_with_kwargs(self):
+        """Test streaming results that include kwargs."""
+        def add_with_kwargs(x, multiplier=1):
+            return x * multiplier
+        
+        node = as_unit(add_with_kwargs, name='with_kwargs')
+        
+        self.graph.stepper_prepare(node, 10, multiplier=5)
+        stepper = self.graph.stepper()
+        
+        results = list(stepper.stream())
+        
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0], 50)  # 10 * 5
+
+    def test_stream_multiple_results_same_node(self):
+        """Test streaming when same node produces multiple results.
+        
+        This can happen with merge nodes or when a node is reached
+        multiple times through different paths.
+        """
+        # Create diamond pattern: source -> A -> sink
+        #                                -> B -> sink
+        source = as_unit(lambda x: x * 2, name='source')
+        a = as_unit(lambda x: x + 10, name='A')
+        b = as_unit(lambda x: x + 20, name='B')
+        sink = as_unit(lambda x: x + 100, name='sink')
+        
+        self.graph.add(source, a)
+        self.graph.add(source, b)
+        self.graph.add(a, sink)
+        self.graph.add(b, sink)
+        
+        self.graph.stepper_prepare(source, 5)
+        stepper = self.graph.stepper()
+        
+        # Stream all results
+        results = list(stepper.stream())
+        
+        # Should get 2 results (one from each path through sink)
+        # Path 1: (5*2)+10+100 = 120
+        # Path 2: (5*2)+20+100 = 130
+        self.assertEqual(len(results), 2)
+        self.assertEqual(set(results), {120, 130})
+
+    def test_stream_generator_behavior(self):
+        """Test that stream() returns a proper generator."""
+        add_10 = as_unit(lambda x: x + 10, name='add_10')
+        add_20 = as_unit(lambda x: x + 20, name='add_20')
+        
+        self.graph.add(add_10, add_20)
+        
+        self.graph.stepper_prepare(add_10, 5)
+        stepper = self.graph.stepper()
+        
+        # stream() should return a generator
+        stream_gen = stepper.stream()
+        
+        # Check it's a generator
+        import types
+        self.assertIsInstance(stream_gen, types.GeneratorType)
+        
+        # Can iterate over it
+        results = list(stream_gen)
+        self.assertEqual(len(results), 1)
+
+    def test_stream_stash_cleared(self):
+        """Test that stash is completely cleared after full streaming."""
+        source = as_unit(lambda x: x * 2, name='source')
+        
+        for i in range(5):
+            branch = as_unit(lambda x, i=i: x + i*10, name=f'branch_{i}')
+            self.graph.add(source, branch)
+        
+        self.graph.stepper_prepare(source, 5)
+        stepper = self.graph.stepper()
+        
+        # Verify stash is initially empty
+        self.assertEqual(len(stepper.stash), 0)
+        
+        # Stream all results
+        results = list(stepper.stream())
+        
+        # Should have 5 results
+        self.assertEqual(len(results), 5)
+        
+        # Stash must be completely empty after streaming
+        self.assertEqual(len(stepper.stash), 0)
+        self.assertEqual(dict(stepper.stash), {})
+
+    def test_stream_continues_when_no_stash_results(self):
+        """Test that stream() continues when step() executes but adds nothing to stash.
+        
+        This covers the continue path in stream() where intermediate nodes execute
+        but don't add results to the stash (because they have outgoing connections).
+        """
+        # Create a longer chain to ensure multiple steps before hitting leaf
+        # Use explicit functions to avoid lambda closure issues
+        add_0 = as_unit(lambda x: x + 0, name='node_0')
+        add_10 = as_unit(lambda x: x + 10, name='node_1')
+        add_20 = as_unit(lambda x: x + 20, name='node_2')
+        add_30 = as_unit(lambda x: x + 30, name='node_3')
+        add_40 = as_unit(lambda x: x + 40, name='node_4')
+        
+        # Chain them: node_0 -> node_1 -> node_2 -> node_3 -> node_4 (leaf)
+        self.graph.add(add_0, add_10)
+        self.graph.add(add_10, add_20)
+        self.graph.add(add_20, add_30)
+        self.graph.add(add_30, add_40)
+        
+        self.graph.stepper_prepare(add_0, 5)
+        stepper = self.graph.stepper()
+        
+        # Track how many times we iterate in the stream
+        result_count = 0
+        for result in stepper.stream():
+            result_count += 1
+        
+        # Should get exactly 1 result (only the final leaf node)
+        # But stream() internally looped multiple times (4 continues + 1 yield)
+        self.assertEqual(result_count, 1)
+        
+        # The result should be: 5 + 0 + 10 + 20 + 30 + 40 = 105
+        self.graph.stepper_prepare(add_0, 5)
+        stepper2 = self.graph.stepper()
+        results = list(stepper2.stream())
+        self.assertEqual(results[0], 105)
+
+

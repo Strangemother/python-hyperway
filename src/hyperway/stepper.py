@@ -170,6 +170,62 @@ def stepper_c(graph, start_node, argspack):
     return stepper, res
 
 
+def stream(stepper, unwrap=True):
+    """Stream results as they become available during stepper execution.
+    
+    Functional-style streaming that yields results immediately as branches
+    complete, without waiting for full graph execution. Results are POPPED
+    from stash as they're yielded, preventing memory buildup in looped graphs.
+    
+    IMPORTANT: Only yields when new results are added to stash (i.e., when
+    execution reaches a leaf node or branch end). Does NOT yield during
+    intermediate node execution.
+    
+    Args:
+        stepper: A StepperC instance to stream from
+        unwrap: If True (default), extract values using ArgsPack.flat().
+    
+    Yields:
+        Result values as they become available. Order depends on
+        execution path and may not be deterministic.
+    
+    Note:
+        Results are removed from stash after yielding. This prevents
+        memory growth in looped/cyclic graphs. After streaming completes,
+        stash will be empty unless execution is interrupted.
+    
+    Example:
+        >>> # Functional style
+        >>> s = g.stepper()
+        >>> for result in stream(s):
+        ...     print(f"Got: {result}")
+        
+        >>> # OOP style (using StepperC.stream())
+        >>> for result in s.stream():
+        ...     print(f"Got: {result}")
+    """
+    ok = 1 
+    while ok:
+        # Execute one step
+        rows = stepper.step()
+    
+        # Check if any new results appeared in stash
+        if len(stepper.stash) == 0:
+            continue
+
+        # Pop all current results from stash (use .pop() for efficiency)
+        # Create snapshot of nodes to avoid dict size change during iteration
+        for node in tuple(stepper.stash.keys()):
+            # Pop the entire tuple of results for this node
+            akw_tuple = stepper.stash.pop(node)  
+            # Yield each result for this node
+            for akw in akw_tuple:
+                value = akw.flat() if unwrap else akw
+                yield value
+        # Stop when no more rows to process
+        ok = len(rows)
+
+
 class StepperIterator(object):
     """Iterator wrapper for StepperC that enables Python iteration protocol.
     
@@ -724,3 +780,33 @@ class StepperC(object):
         for akw_tuple in self.stash.values():
             count += len(akw_tuple)
         return count
+
+    def stream(self, unwrap=True):
+        """Stream results as they become available during execution.
+        
+        This is a convenience method that delegates to the standalone stream()
+        function. Results are yielded immediately as branches complete, without
+        waiting for full graph execution. Results are POPPED from stash as
+        they're yielded, preventing memory buildup in looped graphs.
+        
+        IMPORTANT: Only yields when new results are added to stash (i.e., when
+        execution reaches a leaf node or branch end). Does NOT yield during
+        intermediate node execution.
+        
+        Args:
+            unwrap: If True (default), extract values using ArgsPack.flat().
+        
+        Yields:
+            Result values as they become available. Order depends on
+            execution path and may not be deterministic.
+        
+        Note:
+            Results are removed from stash after yielding. This prevents
+            memory growth in looped/cyclic graphs. After streaming completes,
+            stash will be empty unless execution is interrupted.
+        
+        Example:
+            >>> for result in s.stream():
+            ...     print(f"Got: {result}")
+        """
+        return stream(self, unwrap=unwrap)

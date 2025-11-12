@@ -621,6 +621,46 @@ for akw in raw_results:
     # Or access directly: akw.args, akw.kw
 ```
 
+## Streaming Results
+
+For real-time processing, the streaming API yields results as they become available during graph execution:
+
+```python
+g.stepper_prepare(start_node, 10)
+s = g.stepper()
+
+# Stream results as they arrive (no need to wait for completion)
+for result in s.stream():
+    print(f"Got result: {result}")
+    # Process immediately, update progress, etc.
+
+# After streaming, stash is empty (results were popped)
+assert len(s.stash) == 0
+```
+
+**Key Features:**
+- **Real-time processing** - React to results as branches complete
+- **Memory-safe** - Results are popped from stash as they're yielded
+- **Progress monitoring** - Track long-running graph execution
+- **Early termination** - Break from loop to stop execution
+- **Infinite loop safety** - Memory stays constant even in cyclic graphs
+
+```python
+# Multiple endpoints - results arrive as each branch completes
+for result in s.stream():
+    process(result)  # Handle each result immediately
+
+# Early termination
+for result in s.stream():
+    if result > 50:
+        break  # Stop execution when condition met
+```
+
+> [!TIP]
+> Use `stream()` for long-running graphs, reactive patterns, or when you need progress feedback. For complete graphs where you need all results at once, use the standard `get_results()` approach.
+
+📖 **[Full Streaming Documentation →](docs/stepper-stream.md)**
+
 ![stepper classic path movement](https://raw.githubusercontent.com/Strangemother/python-hyperway/main/docs/images/stepper-classic-path.png)
 
 If two nodes call to the same destination node, this causes _two_ calls of the next node:
