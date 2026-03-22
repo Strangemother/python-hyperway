@@ -339,13 +339,14 @@ class StepperC(object):
         """
         c = 0
         st_nodes = self.start_nodes
-        if st_nodes is None:
-            # Start node must be something...
-            raise StepperException('start_nodes is None')
         
         # Initialize rows if needed - check initiate mode for first step
         if rows is None and self.rows is None:
-            # First step - use appropriate expansion based on initiate mode
+            # First step - need start nodes to initialize
+            if st_nodes is None:
+                # Start node must be something...
+                raise StepperException('start_nodes is None')
+            # Use appropriate expansion based on initiate mode
             func = expand_unified if self.initiate == INITIATE_UNIFIED else expand_distributed
             # Default INITIATE_DISTRIBUTED mode - standard edge-centric expansion
             self.rows = func(self, st_nodes, self.start_akw)
