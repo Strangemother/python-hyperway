@@ -2,6 +2,8 @@
 Circuit Demo: Logic gates combining AND and NOT with OR
 
 Based on the and-gate.py pattern but extended with multiple gates.
+
+Built with AI: Claude Haiku 4.5
 """
 
 from hyperway.graph import Graph
@@ -42,7 +44,7 @@ def store_result(v):
 def run_circuit(a_val, b_val, c_val):
     """
     Build circuit:
-    
+
       A ──→ [AND] ──┐
                     ├──→ [OR] ──→ Output
       B ──→ [NOT] ──┘
